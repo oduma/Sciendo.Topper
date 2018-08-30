@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sciendo.Topper", "Sciendo.Topper\Sciendo.Topper.csproj", "{71571A96-10D0-4216-96C4-717A2EC441BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper", "Sciendo.Topper\Sciendo.Topper.csproj", "{71571A96-10D0-4216-96C4-717A2EC441BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sciendo.Topper.Source", "Sciendo.Topper.Source\Sciendo.Topper.Source.csproj", "{4904FACC-FC48-44CC-B3B4-E15D1A880AFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Source", "Sciendo.Topper.Source\Sciendo.Topper.Source.csproj", "{4904FACC-FC48-44CC-B3B4-E15D1A880AFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sciendo.Topper.Notifier", "Sciendo.Topper.Notifier\Sciendo.Topper.Notifier.csproj", "{A33540E9-9D40-4E6B-867B-2C2DEF9E9018}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Notifier", "Sciendo.Topper.Notifier\Sciendo.Topper.Notifier.csproj", "{A33540E9-9D40-4E6B-867B-2C2DEF9E9018}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sciendo.Topper.Contracts", "Sciendo.Topper.Contracts\Sciendo.Topper.Contracts.csproj", "{1BD9AA1F-9E5D-4F69-863E-85F216902BE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Contracts", "Sciendo.Topper.Contracts\Sciendo.Topper.Contracts.csproj", "{1BD9AA1F-9E5D-4F69-863E-85F216902BE0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Store", "Sciendo.Topper.Store\Sciendo.Topper.Store.csproj", "{0829B920-AF08-4F61-8351-03551A921CBE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Last.Fm", "Sciendo.Last.Fm\Sciendo.Last.Fm.csproj", "{ABEE8E33-1D18-410A-B694-10FFEC34025D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Topper.DataMigration", "Topper.DataMigration\Topper.DataMigration.csproj", "{C523B6A3-9292-475E-A965-2EA658FE7E87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{0829B920-AF08-4F61-8351-03551A921CBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0829B920-AF08-4F61-8351-03551A921CBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0829B920-AF08-4F61-8351-03551A921CBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABEE8E33-1D18-410A-B694-10FFEC34025D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABEE8E33-1D18-410A-B694-10FFEC34025D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABEE8E33-1D18-410A-B694-10FFEC34025D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABEE8E33-1D18-410A-B694-10FFEC34025D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C523B6A3-9292-475E-A965-2EA658FE7E87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C523B6A3-9292-475E-A965-2EA658FE7E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C523B6A3-9292-475E-A965-2EA658FE7E87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C523B6A3-9292-475E-A965-2EA658FE7E87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
