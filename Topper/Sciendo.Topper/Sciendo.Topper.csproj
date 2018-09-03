@@ -5,7 +5,6 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <StartupObject>Sciendo.Topper.Program</StartupObject>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0-preview1-35029" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0-preview1-35029" />
@@ -13,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sciendo.Last.Fm\Sciendo.Last.Fm.csproj" />
+    <ProjectReference Include="..\Sciendo.Topper.Contracts\Sciendo.Topper.Contracts.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Source\Sciendo.Topper.Source.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Store\Sciendo.Topper.Store.csproj" />
   </ItemGroup>
