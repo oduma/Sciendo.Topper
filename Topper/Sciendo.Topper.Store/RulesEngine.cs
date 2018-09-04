@@ -12,7 +12,7 @@ namespace Sciendo.Topper.Store
         {
             var potentialMatch =
                 topItemsRepo.GetItemsAsync(i => i.Name == topItem.Name && i.Date == topItem.Date.AddDays(-1)).Result.FirstOrDefault();
-            if (potentialMatch!= null )
+            if (potentialMatch== null )
                 return new TopItemWithScore
                 {
                     Date = topItem.Date,

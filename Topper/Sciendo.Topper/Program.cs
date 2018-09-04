@@ -22,27 +22,19 @@ namespace Sciendo.Topper
             var topperConfig = config.GetSection("topper").Get<TopperConfig>();
             var lastFmTopArtistSourcer = new LastFmTopArtistSourcer(new ContentProvider<RootObject>( new UrlProvider(topperLastFmConfig.ApiKey),new LastFmProvider()));
             var topItems = lastFmTopArtistSourcer.GetTopItems(topperLastFmConfig.UserName);
+            var storeLogic = new StoreLogic();
+            storeLogic.Progress += StoreLogic_Progress;
             using (var itemsRepo = new Repository<TopItemWithScore>(cosmosDb))
             {
-                foreach (var topItem in topItems)
-                {
-                    Console.WriteLine("{0} has {1} Hits as per:{2}.", topItem.Name, topItem.Hits, topItem.Date);
-                    var existingItem =
-                        itemsRepo.GetItemsAsync(i => i.Name == topItem.Name && i.Date == topItem.Date)
-                            .Result.FirstOrDefault();
-                    if (existingItem == null)
-                    {
-                        Console.WriteLine("Created with id {0}.",
-                            itemsRepo.CreateItemAsync(RulesEngine.CalculateScoreForTopItem(topItem, itemsRepo, topperConfig.Bonus)));
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Item allready exists for {existingItem.Name} and {existingItem.Date}");
-                    }
-                }
-    
+                storeLogic.StoreItems(topItems,itemsRepo,topperConfig.Bonus);
             }
             Console.ReadKey();
+        }
+
+        private static void StoreLogic_Progress(object sender, ProgressEventArgs e)
+        {
+            Console.WriteLine("{0} item {1}; {2}; {3}.", e.Status, e.TopItem.Name, e.TopItem.Date, e.TopItem.Hits);
+
         }
     }
 }
