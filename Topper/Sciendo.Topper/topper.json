@@ -10,6 +10,17 @@
     "UserName": "scentmaster"
   },
   "topper": {
-    "Bonus":  "10" 
+    "Bonus": "10"
+  },
+  "emailOptions": {
+    "DefaultSenderDisplayName": "Music Listening Report",
+    "DefaultSenderEmail": "noreply.music.listening@outlook.com",
+    "Domain": "smtp-mail.outlook.com",
+    "Key": "protected",
+    "Port": "587",
+    "RequiresAuthentication": "true",
+    "UseHtml": "True",
+    "UserName": "protected",
+    "UseSsl": "true"
   } 
 }
