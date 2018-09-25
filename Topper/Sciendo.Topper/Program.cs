@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Sciendo.Topper.Source;
 using Sciendo.Last.Fm;
@@ -14,27 +14,37 @@ namespace Sciendo.Topper
     {
         static void Main(string[] args)
         {
+
             var config =
                 new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("topper.json")
                     .AddCommandLine(args)
                     .Build();
-            var cosmosDb = config.GetSection("cosmosDb").Get<CosmosDb>();
-            var topperLastFmConfig = config.GetSection("topperLastFm").Get<TopperLastFmConfig>();
-            var topperConfig = config.GetSection("topper").Get<TopperConfig>();
-            var topperEmailNotifier = config.GetSection("emailOptions").Get<EmailOptions>();
-            topperEmailNotifier.UserName=config.GetValue<string>("User");
-            topperEmailNotifier.Key= config.GetValue<string>("Key");
+            TopperConfig topperConfig = new ConfigurationManager<TopperConfig>().GetConfiguration(config);
 
-            var lastFmTopArtistSourcer = new LastFmTopArtistSourcer(new ContentProvider<RootObject>( new UrlProvider(topperLastFmConfig.ApiKey),new LastFmProvider()));
-            var topItems = lastFmTopArtistSourcer.GetTopItems(topperLastFmConfig.UserName);
+            var todayTopItems = GetTodayTopItems(topperConfig.TopperLastFmConfig);
+
             var storeLogic = new StoreLogic();
             storeLogic.Progress += StoreLogic_Progress;
-            using (var itemsRepo = new Repository<TopItemWithScore>(cosmosDb))
+            IEnumerable<TopItemWithScore> yearAggregate;
+            IEnumerable<TopItemWithScore> todayTopItemWithScores;
+            using (var itemsRepo = new Repository<TopItemWithScore>(topperConfig.Cosmosdb))
             {
-                storeLogic.StoreItems(topItems,itemsRepo,topperConfig.Bonus);
+                todayTopItemWithScores=storeLogic.StoreItems(todayTopItems, itemsRepo, topperConfig.TopperRulesConfig.Bonus);
+                yearAggregate = storeLogic.GetAggregateHistoryOfScores(itemsRepo, 0);
             }
-            Console.ReadKey();
+
+            var notifier = new NotificationCreator(new EmailSender(topperConfig.EmailOptions));
+            try
+            {
+                notifier.ComposeAndSendMessage(todayTopItemWithScores,yearAggregate,topperConfig.DestinationEmail);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            Console.WriteLine("check your email");            
         }
 
         private static void StoreLogic_Progress(object sender, ProgressEventArgs e)
@@ -42,5 +52,15 @@ namespace Sciendo.Topper
             Console.WriteLine("{0} item {1}; {2}; {3}.", e.Status, e.TopItem.Name, e.TopItem.Date, e.TopItem.Hits);
 
         }
+
+        static TopItem[] GetTodayTopItems(TopperLastFmConfig topperLastFmConfig)
+        {
+            var lastFmTopArtistSourcer = new LastFmTopArtistSourcer(
+                new ContentProvider<RootObject>(new UrlProvider(topperLastFmConfig.ApiKey),
+                    new LastFmProvider()));
+            var todayTopItems = lastFmTopArtistSourcer.GetTopItems(topperLastFmConfig.UserName);
+            return todayTopItems;
+        }
+
     }
 }

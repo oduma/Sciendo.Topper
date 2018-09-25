@@ -3,14 +3,8 @@ using Newtonsoft.Json;
 
 namespace Sciendo.Topper.Contracts
 {
-    public class TopItem
+    public class TopItem:BaseTopItem
     {
-        [JsonProperty("artist")]
-        public string Name { get; set; }
-
-        [JsonProperty("hits")]
-        public int Hits { get; set; }
-
         [JsonProperty("day")]
         public DateTime Date { get; set; }
     }

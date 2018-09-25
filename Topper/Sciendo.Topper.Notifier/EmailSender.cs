@@ -63,14 +63,12 @@ namespace Sciendo.Topper.Notifier
         private static SmtpClient GetSmtpClient(string host, int port, bool requiresAuthentication = true,
             string userName = null, string userKey = null, bool useSsl = false)
         {
-            SmtpClient client = new SmtpClient();
 
             if (string.IsNullOrEmpty(host))
             {
                 throw new ArgumentException("No domain was provided");
             }
-
-            client.Host = host;
+            SmtpClient client = new SmtpClient(host);
 
             if (port > -1)
             {

@@ -17,17 +17,26 @@ namespace Topper.DataMigration
                     .AddCommandLine(args)
                     .Build();
             var cosmoDb = config.GetSection("cosmosDb").Get<CosmosDb>();
+            var topperConfig = config.GetSection("topper").Get<TopperRulesConfig>();
             var inputFile = config.GetValue<string>("InputFile");
             using (var itemsRepository = new Repository<TopItemWithScore>(cosmoDb))
             {
                 int i = 0;
+                var storeLogic = new StoreLogic();
+                storeLogic.Progress += StoreLogic_Progress;
                 foreach (var topItem in ReadFile(inputFile))
                 {
-                    var result = itemsRepository.CreateItemAsync(topItem);
-                    Console.WriteLine($"Saved {i++} documents.");
+                    var result = storeLogic.StoreItem(topItem, itemsRepository, topperConfig.Bonus);
+                    if(result!=null)
+                        Console.WriteLine($"Saved {i++} documents {result.Name}.");
                 }
             }
                 Console.ReadKey();
+        }
+
+        private static void StoreLogic_Progress(object sender, ProgressEventArgs e)
+        {
+            Console.WriteLine("{0} - {1}.",e.Status,e.TopItem.Name);
         }
 
         private static IEnumerable<TopItemWithScore> ReadFile(string inputFile)

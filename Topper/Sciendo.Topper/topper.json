@@ -9,7 +9,7 @@
     "ApiKey": "67b6145c521d4ca0e31ef35c3032d320",
     "UserName": "scentmaster"
   },
-  "topper": {
+  "topperRules": {
     "Bonus": "10"
   },
   "emailOptions": {
@@ -17,7 +17,7 @@
     "DefaultSenderEmail": "noreply.music.listening@outlook.com",
     "Domain": "smtp-mail.outlook.com",
     "Key": "protected",
-    "Port": "587",
+    "Port": "25",
     "RequiresAuthentication": "true",
     "UseHtml": "True",
     "UserName": "protected",

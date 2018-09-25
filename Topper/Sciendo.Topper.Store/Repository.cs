@@ -19,6 +19,7 @@ namespace Sciendo.Topper.Store
             _cosmosDb = cosmosDb;
             _documentClient = new DocumentClient(new Uri(_cosmosDb.Endpoint), _cosmosDb.Key,
                 new ConnectionPolicy {EnableEndpointDiscovery = false});
+            _documentClient.OpenAsync();
             CreateDatabaseIfNotExistsAsync().Wait();
             CreateCollectionIfNotExistsAsync().Wait();
 
@@ -72,6 +73,7 @@ namespace Sciendo.Topper.Store
 
         public async Task<Document> CreateItemAsync(T item)
         {
+            
             return
                 await _documentClient.CreateDocumentAsync(
                     UriFactory.CreateDocumentCollectionUri(_cosmosDb.DatabaseId, _cosmosDb.CollectionId), item);
@@ -83,6 +85,22 @@ namespace Sciendo.Topper.Store
                 UriFactory.CreateDocumentCollectionUri(_cosmosDb.DatabaseId, _cosmosDb.CollectionId),
                 new FeedOptions { MaxItemCount = -1 })
                 .Where(predicate)
+                .AsDocumentQuery();
+
+            List<T> results = new List<T>();
+            while (query.HasMoreResults)
+            {
+                results.AddRange(await query.ExecuteNextAsync<T>());
+            }
+
+            return results;
+        }
+
+        public async Task<IEnumerable<T>> GetAllItemsAsync()
+        {
+            IDocumentQuery<T> query = _documentClient.CreateDocumentQuery<T>(
+                    UriFactory.CreateDocumentCollectionUri(_cosmosDb.DatabaseId, _cosmosDb.CollectionId),
+                    new FeedOptions { MaxItemCount = -1 })
                 .AsDocumentQuery();
 
             List<T> results = new List<T>();

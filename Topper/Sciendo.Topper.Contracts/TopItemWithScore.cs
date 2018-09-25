@@ -9,5 +9,8 @@ namespace Sciendo.Topper.Contracts
     {
         [JsonProperty("score")]
         public int Score { get; set; }
+
+        [JsonProperty("year")]
+        public string Year { get; set; }
     }
 }

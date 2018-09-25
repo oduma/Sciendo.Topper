@@ -9,29 +9,46 @@ namespace Sciendo.Topper.Store
     public class StoreLogic
     {
         public event EventHandler<ProgressEventArgs> Progress;
-        public void StoreItems(TopItem[] topItems, Repository<TopItemWithScore> itemsRepo, int bonus)
+        public List<TopItemWithScore> StoreItems(TopItem[] topItems, Repository<TopItemWithScore> itemsRepo, int bonus)
         {
+            var result = new List<TopItemWithScore>();
             foreach (var topItem in topItems)
             {
-                topItem.Date = new DateTime(topItem.Date.Year, topItem.Date.Month, topItem.Date.Day);
-                if(Progress!=null)
-                    Progress(this,new ProgressEventArgs(topItem,Status.Pending));
-                var existingItem =
-                    itemsRepo.GetItemsAsync(i => i.Name == topItem.Name && i.Date == topItem.Date)
-                        .Result.FirstOrDefault();
-                if (existingItem == null)
-                {
-                    var result = itemsRepo.CreateItemAsync(RulesEngine.CalculateScoreForTopItem(topItem, itemsRepo, bonus));
-                    if(Progress!=null)
-                        Progress(this,new ProgressEventArgs(topItem,Status.Created));
-                }
-                else
-                {
-                    if(Progress!=null)
-                        Progress(this,new ProgressEventArgs(existingItem,Status.Existing));
-                }
+                result.Add(StoreItem(topItem, itemsRepo, bonus));
             }
 
+            return result;
+        }
+
+        public TopItemWithScore StoreItem(TopItem topItem,Repository<TopItemWithScore> itemsRepo, int bonus)
+        {
+            topItem.Date = new DateTime(topItem.Date.Year, topItem.Date.Month, topItem.Date.Day);
+            Progress?.Invoke(this, new ProgressEventArgs(topItem, Status.Pending));
+
+            var existingItem =
+                itemsRepo.GetItemsAsync(i => i.Name == topItem.Name && i.Date == topItem.Date)
+                    .Result.FirstOrDefault();
+            if (existingItem == null)
+            {
+                var topItemWithScore = RulesEngine.CalculateScoreForTopItem(topItem, itemsRepo, bonus);
+                topItemWithScore.Year = topItemWithScore.Date.Year.ToString();
+                itemsRepo.CreateItemAsync(topItemWithScore);
+                Progress?.Invoke(this, new ProgressEventArgs(topItem, Status.Created));
+                return topItemWithScore;
+            }
+            else
+            {
+                Progress?.Invoke(this, new ProgressEventArgs(existingItem, Status.Existing));
+                return existingItem;
+            }
+
+        }
+        public IEnumerable<TopItemWithScore> GetAggregateHistoryOfScores(Repository<TopItemWithScore> itemsRepo,int limitNumber)
+        {
+            var result= itemsRepo.GetItemsAsync((i) => i.Year == DateTime.Today.Year.ToString());
+            return result.Result.GroupBy((i) => i.Name)
+                .Select((t) => new TopItemWithScore { Name = t.Key, Score = t.Sum((v) => v.Score) })
+                .OrderByDescending((t) => t.Score);
         }
     }
 }
