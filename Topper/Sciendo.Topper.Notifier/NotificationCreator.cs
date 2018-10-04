@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using Sciendo.Topper.Contracts;
 
 namespace Sciendo.Topper.Notifier
@@ -9,17 +11,40 @@ namespace Sciendo.Topper.Notifier
     public class NotificationCreator
     {
         private readonly IEmailSender _mailSender;
+        private readonly string _notSendFileExtension;
 
         private const string subject = "Your Daily Music Report";
 
-        public NotificationCreator(IEmailSender mailSender)
+        public NotificationCreator(IEmailSender mailSender, string notSendFileExtension)
         {
             _mailSender = mailSender;
+            _notSendFileExtension = notSendFileExtension;
         }
 
-        public void ComposeAndSendMessage(IEnumerable<TopItemWithScore> todayItems,IEnumerable<TopItemWithScore> yearAggregateItems,string sendTo)
+        public bool ComposeAndSendMessage(IEnumerable<TopItemWithScore> todayItems,IEnumerable<TopItemWithScore> yearAggregateItems,string sendTo)
         {
-            _mailSender.SendEmail(sendTo,subject,ComposeMessage(todayItems,yearAggregateItems));
+            var mailToBeSent = new Mail
+                {To = sendTo, Subject = subject, Content = ComposeMessage(todayItems, yearAggregateItems)};
+            try
+            {
+                _mailSender.SendEmail(mailToBeSent.To, mailToBeSent.Subject, mailToBeSent.Content);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                PersistLocallyFile(mailToBeSent);
+                return false;
+            }
+        }
+
+        private void PersistLocallyFile(Mail mailToBeSent)
+        {
+            var fileName = $"{DateTime.Now.Ticks}{mailToBeSent.To}.{_notSendFileExtension}";
+            using (var fs = File.CreateText(fileName))
+            {
+                fs.Write(JsonConvert.SerializeObject(mailToBeSent));
+            }
         }
 
         private string ComposeMessage(IEnumerable<TopItemWithScore> todayItems, IEnumerable<TopItemWithScore> yearAggregateItems)
@@ -82,6 +107,26 @@ namespace Sciendo.Topper.Notifier
 
             return message.ToString();
 
+        }
+
+        public void SendPreviousFailedEmails()
+        {
+            foreach (var file in Directory.EnumerateFiles(".", $"*.{_notSendFileExtension}"))
+            {
+                Mail mailToBeSend;
+                using (var fs=File.OpenText(file))
+                {
+                    mailToBeSend = JsonConvert.DeserializeObject<Mail>(fs.ReadToEnd());
+                }
+
+                try
+                {
+                    _mailSender.SendEmail(mailToBeSend.To, mailToBeSend.Subject, mailToBeSend.Content);
+                    File.Delete(file);
+                }
+                catch {}
+
+            }
         }
     }
 }

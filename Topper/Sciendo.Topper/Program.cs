@@ -12,7 +12,7 @@ namespace Sciendo.Topper
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
 
             var config =
@@ -24,6 +24,11 @@ namespace Sciendo.Topper
 
             var todayTopItems = GetTodayTopItems(topperConfig.TopperLastFmConfig);
 
+            EmailSender emailSender= new EmailSender(topperConfig.EmailOptions);
+
+            var notifier = new NotificationCreator(emailSender,topperConfig.EmailOptions.NotSendFileExtension);
+
+            notifier.SendPreviousFailedEmails();
             var storeLogic = new StoreLogic();
             storeLogic.Progress += StoreLogic_Progress;
             IEnumerable<TopItemWithScore> yearAggregate;
@@ -34,17 +39,15 @@ namespace Sciendo.Topper
                 yearAggregate = storeLogic.GetAggregateHistoryOfScores(itemsRepo, 0);
             }
 
-            var notifier = new NotificationCreator(new EmailSender(topperConfig.EmailOptions));
-            try
+            if (notifier.ComposeAndSendMessage(todayTopItemWithScores, yearAggregate, topperConfig.DestinationEmail))
             {
-                notifier.ComposeAndSendMessage(todayTopItemWithScores,yearAggregate,topperConfig.DestinationEmail);
+                Console.WriteLine("check your email");
+                return 0;
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e);
-                throw;
+                return -1;
             }
-            Console.WriteLine("check your email");            
         }
 
         private static void StoreLogic_Progress(object sender, ProgressEventArgs e)

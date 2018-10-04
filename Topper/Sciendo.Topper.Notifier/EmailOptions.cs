@@ -11,5 +11,6 @@
         public string DefaultSenderEmail { get; set; }
         public string DefaultSenderDisplayName { get; set; }
         public bool UseHtml { get; set; }
+        public string NotSendFileExtension { get; set; }
     }
 }

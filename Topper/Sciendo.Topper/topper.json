@@ -21,6 +21,7 @@
     "RequiresAuthentication": "true",
     "UseHtml": "True",
     "UserName": "protected",
-    "UseSsl": "true"
+    "UseSsl": "true",
+    "NotSendFileExtension": "mail" 
   } 
 }
