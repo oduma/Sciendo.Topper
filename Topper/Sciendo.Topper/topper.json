@@ -10,7 +10,8 @@
     "UserName": "scentmaster"
   },
   "topperRules": {
-    "Bonus": "10"
+    "RankingBonus": "10",
+    "LovedBonus": "20" 
   },
   "emailOptions": {
     "DefaultSenderDisplayName": "Music Listening Report",

@@ -34,7 +34,6 @@ namespace Topper.DataMigration
                         Console.WriteLine($"Saved {i++} documents {result.Name}.");
                 }
             }
-                Console.ReadKey();
         }
 
         private static void StoreLogic_Progress(object sender, ProgressEventArgs e)
@@ -52,16 +51,17 @@ namespace Topper.DataMigration
                     continue;
                 else
                 {
-                    var fileLineParts = fileLine.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
-                    yield return
-                        new TopItemWithScore
-                        {
-                            Name = fileLineParts[0],
-                            Date = Convert.ToDateTime(fileLineParts[1]),
-                            Hits = Convert.ToInt32(fileLineParts[2]),
-                            Score = Convert.ToInt32(fileLineParts[5]),
-                            Loved=Convert.ToInt32(fileLineParts[4])
-                        };
+                    var fileLineParts = fileLine.Split(new char[] {','}, StringSplitOptions.None);
+                    if(!string.IsNullOrEmpty(fileLineParts[0]))
+                        yield return
+                            new TopItemWithScore
+                            {
+                                Name = fileLineParts[0],
+                                Date = Convert.ToDateTime(fileLineParts[1]),
+                                Hits = Convert.ToInt32(fileLineParts[2]),
+                                Score = Convert.ToInt32(fileLineParts[5]),
+                                Loved=(string.IsNullOrEmpty(fileLineParts[4]))?0:Convert.ToInt32(fileLineParts[4])
+                            };
                 }
             }
         }

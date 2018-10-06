@@ -22,7 +22,8 @@ namespace Sciendo.Topper.Store
             return result;
         }
 
-        public TopItemWithScore StoreItem(TopItem topItem,Repository<TopItemWithScore> itemsRepo, int rankingBonus, int lovedBonus)
+        public TopItemWithScore StoreItem(TopItem topItem, Repository<TopItemWithScore> itemsRepo, int rankingBonus,
+            int lovedBonus)
         {
             topItem.Date = new DateTime(topItem.Date.Year, topItem.Date.Month, topItem.Date.Day);
             Progress?.Invoke(this, new ProgressEventArgs(topItem, Status.Pending));
@@ -32,7 +33,16 @@ namespace Sciendo.Topper.Store
                     .Result.FirstOrDefault();
             if (existingItem == null)
             {
-                var topItemWithScore = RulesEngine.CalculateScoreForTopItem(topItem, itemsRepo, rankingBonus,lovedBonus);
+                TopItemWithScore topItemWithScore= new TopItemWithScore();
+                if(!(topItem is TopItemWithScore))
+                {
+                    topItemWithScore =
+                    RulesEngine.CalculateScoreForTopItem(topItem, itemsRepo, rankingBonus, lovedBonus);
+                }
+                else
+                {
+                    topItemWithScore = topItem as TopItemWithScore;
+                }
                 topItemWithScore.Year = topItemWithScore.Date.Year.ToString();
                 itemsRepo.CreateItemAsync(topItemWithScore);
                 Progress?.Invoke(this, new ProgressEventArgs(topItem, Status.Created));
@@ -45,6 +55,7 @@ namespace Sciendo.Topper.Store
             }
 
         }
+
         public IEnumerable<TopItemWithScore> GetAggregateHistoryOfScores(Repository<TopItemWithScore> itemsRepo,int limitNumber)
         {
             var result= itemsRepo.GetItemsAsync((i) => i.Year == DateTime.Today.Year.ToString());

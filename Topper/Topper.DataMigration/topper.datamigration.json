@@ -1,6 +1,7 @@
 {
-  "topper": {
-    "Bonus": "10"
+  "topperRules": {
+    "RankingBonus": "10",
+    "LovedBonus": "20"
   },
   "cosmosDb": {
     "Endpoint": "https://localhost:8081",

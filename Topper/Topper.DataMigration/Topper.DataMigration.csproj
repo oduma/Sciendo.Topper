@@ -25,10 +25,7 @@
 
   <ItemGroup>
     <None Update="Music listening.csv">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="scentmaster.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="topper.datamigration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
