@@ -9,18 +9,20 @@ namespace Sciendo.Topper.Store
     public class StoreLogic
     {
         public event EventHandler<ProgressEventArgs> Progress;
-        public List<TopItemWithScore> StoreItems(TopItem[] topItems, Repository<TopItemWithScore> itemsRepo, int bonus)
+
+        public List<TopItemWithScore> StoreItems(List<TopItem> topItems, Repository<TopItemWithScore> itemsRepo,
+            int rankingBonus, int lovedBonus)
         {
             var result = new List<TopItemWithScore>();
             foreach (var topItem in topItems)
             {
-                result.Add(StoreItem(topItem, itemsRepo, bonus));
+                result.Add(StoreItem(topItem, itemsRepo, rankingBonus, lovedBonus));
             }
 
             return result;
         }
 
-        public TopItemWithScore StoreItem(TopItem topItem,Repository<TopItemWithScore> itemsRepo, int bonus)
+        public TopItemWithScore StoreItem(TopItem topItem,Repository<TopItemWithScore> itemsRepo, int rankingBonus, int lovedBonus)
         {
             topItem.Date = new DateTime(topItem.Date.Year, topItem.Date.Month, topItem.Date.Day);
             Progress?.Invoke(this, new ProgressEventArgs(topItem, Status.Pending));
@@ -30,7 +32,7 @@ namespace Sciendo.Topper.Store
                     .Result.FirstOrDefault();
             if (existingItem == null)
             {
-                var topItemWithScore = RulesEngine.CalculateScoreForTopItem(topItem, itemsRepo, bonus);
+                var topItemWithScore = RulesEngine.CalculateScoreForTopItem(topItem, itemsRepo, rankingBonus,lovedBonus);
                 topItemWithScore.Year = topItemWithScore.Date.Year.ToString();
                 itemsRepo.CreateItemAsync(topItemWithScore);
                 Progress?.Invoke(this, new ProgressEventArgs(topItem, Status.Created));

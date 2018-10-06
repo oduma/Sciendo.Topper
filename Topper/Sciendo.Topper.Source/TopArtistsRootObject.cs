@@ -2,7 +2,7 @@
 
 namespace Sciendo.Topper.Source
 {
-    public class RootObject
+    public class TopArtistsRootObject
     {
         [JsonProperty("topartists")]
         public TopArtistsPage TopArtistsPage { get; set; }

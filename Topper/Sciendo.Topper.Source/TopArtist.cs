@@ -5,19 +5,20 @@ using Sciendo.Last.Fm.DataTypes;
 
 namespace Sciendo.Topper.Source
 {
-    public class TopArtist:Artist
+    public class TopArtist:Item
     {
-        [JsonProperty("streamable")]
-        public string Streamable { get; set; }
-
-        [JsonProperty("image")]
-        public IEnumerable<Image> Images { get; set; }
-
         [JsonProperty("playcount")]
         public int PlayCount { get; set; }
 
         [JsonProperty("@attr")]
-        public ItemAdditionalAttribute AdditionalAttribute { get; set; }
+        public TopArtistAdditionalAttribute AdditionalAttribute { get; set; }
+
+        [JsonProperty("image")]
+        public IEnumerable<Image> Images { get; set; }
+
+        [JsonProperty("streamable")]
+        public string Streamable { get; set; }
+
 
 
     }

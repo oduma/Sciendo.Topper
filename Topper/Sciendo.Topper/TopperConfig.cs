@@ -1,4 +1,6 @@
-﻿using Sciendo.Topper.Contracts;
+﻿using Sciendo.Config;
+using Sciendo.Last.Fm;
+using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Notifier;
 using Sciendo.Topper.Store;
 

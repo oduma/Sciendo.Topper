@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Sciendo.Topper
+namespace Sciendo.Config
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class ConfigProperty: Attribute

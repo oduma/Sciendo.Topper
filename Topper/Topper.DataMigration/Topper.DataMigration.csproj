@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sciendo.Config\Sciendo.Config.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Contracts\Sciendo.Topper.Contracts.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Store\Sciendo.Topper.Store.csproj" />
   </ItemGroup>

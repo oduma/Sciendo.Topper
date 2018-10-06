@@ -2,7 +2,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 
-namespace Sciendo.Topper
+namespace Sciendo.Config
 {
     public class ConfigurationManager<T> where T:class, new()
     {
