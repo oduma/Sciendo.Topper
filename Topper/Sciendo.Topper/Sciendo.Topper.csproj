@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sciendo.Config\Sciendo.Config.csproj" />
     <ProjectReference Include="..\Sciendo.Last.Fm\Sciendo.Last.Fm.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Contracts\Sciendo.Topper.Contracts.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Notifier\Sciendo.Topper.Notifier.csproj" />

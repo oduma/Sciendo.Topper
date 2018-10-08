@@ -18,16 +18,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sciendo.Config\Sciendo.Config.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Contracts\Sciendo.Topper.Contracts.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Store\Sciendo.Topper.Store.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Music listening.csv">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="scentmaster.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="topper.datamigration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

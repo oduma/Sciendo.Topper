@@ -1,4 +1,4 @@
-﻿namespace Sciendo.Topper
+﻿namespace Sciendo.Last.Fm
 {
     public class TopperLastFmConfig
     {

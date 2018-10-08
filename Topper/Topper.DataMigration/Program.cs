@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Sciendo.Config;
 using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Store;
 
@@ -16,22 +17,23 @@ namespace Topper.DataMigration
                     .AddJsonFile("topper.datamigration.json")
                     .AddCommandLine(args)
                     .Build();
-            var cosmoDb = config.GetSection("cosmosDb").Get<CosmosDb>();
-            var topperConfig = config.GetSection("topper").Get<TopperRulesConfig>();
-            var inputFile = config.GetValue<string>("InputFile");
-            using (var itemsRepository = new Repository<TopItemWithScore>(cosmoDb))
+
+            TopperDataMigrationConfig topperDataMigrationConfig =
+                new ConfigurationManager<TopperDataMigrationConfig>().GetConfiguration(config);
+            using (var itemsRepository = new Repository<TopItemWithScore>(topperDataMigrationConfig.CosmosDb))
             {
                 int i = 0;
                 var storeLogic = new StoreLogic();
                 storeLogic.Progress += StoreLogic_Progress;
-                foreach (var topItem in ReadFile(inputFile))
+                foreach (var topItem in ReadFile(topperDataMigrationConfig.InoutFile))
                 {
-                    var result = storeLogic.StoreItem(topItem, itemsRepository, topperConfig.Bonus);
+                    var result = storeLogic.StoreItem(topItem, itemsRepository,
+                        topperDataMigrationConfig.TopperRulesConfig.RankingBonus,
+                        topperDataMigrationConfig.TopperRulesConfig.LovedBonus);
                     if(result!=null)
                         Console.WriteLine($"Saved {i++} documents {result.Name}.");
                 }
             }
-                Console.ReadKey();
         }
 
         private static void StoreLogic_Progress(object sender, ProgressEventArgs e)
@@ -45,19 +47,21 @@ namespace Topper.DataMigration
                 throw new IOException($"{inputFile} does not exist.");
             foreach (var fileLine in File.ReadLines(inputFile))
             {
-                if(fileLine.StartsWith("Artist,Day,Hits,"))
+                if(fileLine.StartsWith("Artist,Day,Hits,TempScore,NoOfLoved,Score"))
                     continue;
                 else
                 {
-                    var fileLineParts = fileLine.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
-                    yield return
-                        new TopItemWithScore
-                        {
-                            Name = fileLineParts[0],
-                            Date = Convert.ToDateTime(fileLineParts[1]),
-                            Hits = Convert.ToInt32(fileLineParts[2]),
-                            Score = Convert.ToInt32(fileLineParts[3])
-                        };
+                    var fileLineParts = fileLine.Split(new char[] {','}, StringSplitOptions.None);
+                    if(!string.IsNullOrEmpty(fileLineParts[0]))
+                        yield return
+                            new TopItemWithScore
+                            {
+                                Name = fileLineParts[0],
+                                Date = Convert.ToDateTime(fileLineParts[1]),
+                                Hits = Convert.ToInt32(fileLineParts[2]),
+                                Score = Convert.ToInt32(fileLineParts[5]),
+                                Loved=(string.IsNullOrEmpty(fileLineParts[4]))?0:Convert.ToInt32(fileLineParts[4])
+                            };
                 }
             }
         }

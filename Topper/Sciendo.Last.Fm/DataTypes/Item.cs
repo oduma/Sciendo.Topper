@@ -1,8 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace Sciendo.Last.Fm.DataTypes
 {
-    public class Artist
+    public class Item
     {
         [JsonProperty("name")]
         public string Name { get; set; }
