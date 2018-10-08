@@ -50,28 +50,26 @@ namespace Sciendo.Topper.Notifier
         private string ComposeMessage(IEnumerable<TopItemWithScore> todayItems, IEnumerable<TopItemWithScore> yearAggregateItems)
         {
             DateTime date = DateTime.Today;
-            StringBuilder message =  new StringBuilder($"{Style.Definition}<h1>Today, {date.Day}/{date.Month}/{date.Year}, situation is:</h1>");
+            var title = string.Format(Template.Html.TodayItemsTitle, date.Day, date.Month, date.Year);
+            StringBuilder message =  new StringBuilder($"{Style.Definition}{title}");
             
             if (todayItems!=null && todayItems.Any())
             {
-                var todaysItemsFormatted = "<table class='{0}'><tr><th>Artist</th><th>Hits</th><th>Score</th></tr>{1}</table>";
                 var rows = new StringBuilder("");
                 foreach (var todayItem in todayItems)
                 {
-                    var row = $"<tr><td>{todayItem.Name}</td><td>{todayItem.Hits}</td><td>{todayItem.Score}</td></tr>";
-                    rows.Append(row);
+                    rows.Append(string.Format(Template.Html.TodayItemRow, todayItem.Name, todayItem.Hits, todayItem.Score));
                 }
 
-                message.Append(string.Format(todaysItemsFormatted,Style.Today,rows.ToString()));
+                message.Append(string.Format(Template.Html.TodayItemsTable,Style.Today,rows.ToString()));
 
             }
             else
-                message.Append("No items listened at all in the last 7 days.</br>");
+                message.Append(Template.Html.NoItemsFor7Days);
 
             if (yearAggregateItems!= null && yearAggregateItems.Any())
             {
-                message.Append("<h2>Since the beginning of the year:</h2>");
-                var yearAggregateItemsFromatted = "<table><tr><th>Position</th><th>Artist</th><th>Score</th><th>Loved</td></tr>{0}</table>";
+                message.Append(Template.Html.YearItemsTitle);
                 var rows = new StringBuilder("");
                 int position = 1;
                 foreach (var yearAggregatedItem in yearAggregateItems)
@@ -94,16 +92,13 @@ namespace Sciendo.Topper.Notifier
 
                     if (!string.IsNullOrEmpty(calculatedStyle))
                         calculatedStyle = $" class='{calculatedStyle}'";
-                    var row =
-                        $"<tr{calculatedStyle}><td>{position++}</td><td>{yearAggregatedItem.Name}</td><td>{yearAggregatedItem.Score}</td><td>{yearAggregatedItem.Loved}</td></tr>";
-
-                    rows.Append(row);
+                    rows.Append(string.Format(Template.Html.YearItemRow, calculatedStyle,position++,yearAggregatedItem.Name,yearAggregatedItem.Score,yearAggregatedItem.Loved));
                 }
 
-                message.Append(string.Format(yearAggregateItemsFromatted, rows.ToString()));
+                message.Append(string.Format(Template.Html.YearItemsTable, rows.ToString()));
             }
             else
-                message.Append("Happy New Year to you.</br>");
+                message.Append(Template.Html.NoItemsForYear);
 
             return message.ToString();
 
