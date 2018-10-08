@@ -32,13 +32,13 @@ background-color:#f2dcea;
 font-size:1.25em;
 }
 .first{
-background-color:#ed7c71;
+background-color:#eef442;
 }
 .second{
-background-color:#f2f28c;
+background-color:#96968e;
 }
 .third{
-background-color:#9df28c;
+background-color:#f48f42;
 }
 .current{
 font-weight:bold;

@@ -60,7 +60,7 @@ namespace Sciendo.Topper.Store
         {
             var result= itemsRepo.GetItemsAsync((i) => i.Year == DateTime.Today.Year.ToString());
             return result.Result.GroupBy((i) => i.Name)
-                .Select((t) => new TopItemWithScore { Name = t.Key, Score = t.Sum((v) => v.Score) })
+                .Select((t) => new TopItemWithScore { Name = t.Key, Score = t.Sum((v) => v.Score),Loved = t.Sum((l)=>l.Loved) })
                 .OrderByDescending((t) => t.Score);
         }
     }

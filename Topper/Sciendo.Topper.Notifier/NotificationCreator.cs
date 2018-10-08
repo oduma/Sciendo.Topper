@@ -71,7 +71,7 @@ namespace Sciendo.Topper.Notifier
             if (yearAggregateItems!= null && yearAggregateItems.Any())
             {
                 message.Append("<h2>Since the beginning of the year:</h2>");
-                var yearAggregateItemsFromatted = "<table><tr><th>Position</th><th>Artist</th><th>Score</th></tr>{0}</table>";
+                var yearAggregateItemsFromatted = "<table><tr><th>Position</th><th>Artist</th><th>Score</th><th>Loved</td></tr>{0}</table>";
                 var rows = new StringBuilder("");
                 int position = 1;
                 foreach (var yearAggregatedItem in yearAggregateItems)
@@ -95,7 +95,7 @@ namespace Sciendo.Topper.Notifier
                     if (!string.IsNullOrEmpty(calculatedStyle))
                         calculatedStyle = $" class='{calculatedStyle}'";
                     var row =
-                        $"<tr{calculatedStyle}><td>{position++}</td><td>{yearAggregatedItem.Name}</td><td>{yearAggregatedItem.Score}</td></tr>";
+                        $"<tr{calculatedStyle}><td>{position++}</td><td>{yearAggregatedItem.Name}</td><td>{yearAggregatedItem.Score}</td><td>{yearAggregatedItem.Loved}</td></tr>";
 
                     rows.Append(row);
                 }
