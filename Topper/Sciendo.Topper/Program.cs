@@ -22,7 +22,7 @@ namespace Sciendo.Topper
                     .AddCommandLine(args)
                     .Build();
             TopperConfig topperConfig = new ConfigurationManager<TopperConfig>().GetConfiguration(config);
-
+            Console.WriteLine("Config Loaded Ok!");
             var todayTopItems = TopItemsSourcer.GetTodayTopItems(topperConfig.TopperLastFmConfig);
 
             EmailSender emailSender= new EmailSender(topperConfig.EmailOptions);

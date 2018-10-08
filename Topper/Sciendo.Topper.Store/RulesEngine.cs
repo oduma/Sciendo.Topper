@@ -21,7 +21,7 @@ namespace Sciendo.Topper.Store
                     Hits = topItem.Hits,
                     Name = topItem.Name,
                     Loved = topItem.Loved,
-                    Score = (topItem.Hits==0)?0:(topItem.Hits + rankingBonus) +(topItem.Loved*lovedBonus)
+                    Score = ((topItem.Hits==0)?0:(topItem.Hits + rankingBonus)) +(topItem.Loved*lovedBonus)
 
                 };
             if (topItem.Hits > potentialMatch.Hits)
@@ -32,7 +32,7 @@ namespace Sciendo.Topper.Store
                     Hits = topItem.Hits,
                     Name = topItem.Name,
                     Loved = topItem.Loved,
-                    Score = (topItem.Hits == 0) ? 0 : (topItem.Hits + rankingBonus) + (topItem.Loved*lovedBonus)
+                    Score = ((topItem.Hits == 0) ? 0 : (topItem.Hits + rankingBonus)) + (topItem.Loved*lovedBonus)
 
                 };
             }
