@@ -20,18 +20,22 @@ namespace Topper.DataMigration
 
             TopperDataMigrationConfig topperDataMigrationConfig =
                 new ConfigurationManager<TopperDataMigrationConfig>().GetConfiguration(config);
-            using (var itemsRepository = new Repository<TopItemWithScore>(topperDataMigrationConfig.CosmosDb))
+            using (var itemsRepository = new Repository<TopItem>(topperDataMigrationConfig.CosmosDb))
             {
                 int i = 0;
                 var storeLogic = new StoreLogic();
                 storeLogic.Progress += StoreLogic_Progress;
                 foreach (var topItem in ReadFile(topperDataMigrationConfig.InoutFile))
                 {
-                    var result = storeLogic.StoreItem(topItem, itemsRepository,
-                        topperDataMigrationConfig.TopperRulesConfig.RankingBonus,
-                        topperDataMigrationConfig.TopperRulesConfig.LovedBonus);
-                    if(result!=null)
-                        Console.WriteLine($"Saved {i++} documents {result.Name}.");
+                    try
+                    {
+                        storeLogic.StoreItem(topItem, itemsRepository);
+                        Console.WriteLine($"Saved {i++} documents {topItem.Name}.");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
                 }
             }
         }
@@ -41,7 +45,7 @@ namespace Topper.DataMigration
             Console.WriteLine("{0} - {1}.",e.Status,e.TopItem.Name);
         }
 
-        private static IEnumerable<TopItemWithScore> ReadFile(string inputFile)
+        private static IEnumerable<TopItem> ReadFile(string inputFile)
         {
             if(!File.Exists(inputFile))
                 throw new IOException($"{inputFile} does not exist.");
@@ -54,7 +58,7 @@ namespace Topper.DataMigration
                     var fileLineParts = fileLine.Split(new char[] {','}, StringSplitOptions.None);
                     if(!string.IsNullOrEmpty(fileLineParts[0]))
                         yield return
-                            new TopItemWithScore
+                            new TopItem
                             {
                                 Name = fileLineParts[0],
                                 Date = Convert.ToDateTime(fileLineParts[1]),

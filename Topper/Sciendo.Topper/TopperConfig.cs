@@ -1,6 +1,5 @@
 ﻿using Sciendo.Config;
 using Sciendo.Last.Fm;
-using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Notifier;
 using Sciendo.Topper.Store;
 
@@ -9,10 +8,10 @@ namespace Sciendo.Topper
     public class TopperConfig
     {
         [ConfigProperty("cosmosDb")]
-        public CosmosDb Cosmosdb { get; set; }
+        public CosmosDb CosmosDb { get; set; }
 
         [ConfigProperty("topperLastFM")]
-        public TopperLastFmConfig TopperLastFmConfig { get; set; }
+        public LastFmConfig TopperLastFmConfig { get; set; }
 
         [ConfigProperty("topperRules")]
         public TopperRulesConfig TopperRulesConfig { get; set; }
@@ -26,14 +25,14 @@ namespace Sciendo.Topper
             set { EmailOptions.UserName = value;
                 EmailOptions.DefaultSenderEmail = value;
             }
-            get { return EmailOptions.UserName; }
+            get => EmailOptions.UserName;
         }
 
         [ConfigProperty("Key")]
         public string Key
         {
-            set { EmailOptions.Key = value; }
-            get { return EmailOptions.Key; }
+            set => EmailOptions.Key = value;
+            get => EmailOptions.Key;
         }
 
         [ConfigProperty("To")]

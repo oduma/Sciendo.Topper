@@ -9,7 +9,7 @@ namespace Sciendo.Topper.Source
 {
     public static class TopItemsSourcer
     {
-        public static List<TopItem> GetTodayTopItems(TopperLastFmConfig topperLastFmConfig)
+        public static List<TopItem> GetTodayTopItems(LastFmConfig topperLastFmConfig)
         {
             var lastFmTopArtistSourcer = new LastFmTopArtistSourcer(
                 new ContentProvider<TopArtistsRootObject>(new UrlProvider(topperLastFmConfig.ApiKey),

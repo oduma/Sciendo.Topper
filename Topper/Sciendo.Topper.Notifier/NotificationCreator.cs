@@ -21,7 +21,7 @@ namespace Sciendo.Topper.Notifier
             _notSendFileExtension = notSendFileExtension;
         }
 
-        public bool ComposeAndSendMessage(IEnumerable<TopItemWithScore> todayItems,IEnumerable<TopItemWithScore> yearAggregateItems,string sendTo)
+        public bool ComposeAndSendMessage(IEnumerable<TopItem> todayItems,IEnumerable<TopItem> yearAggregateItems,string sendTo)
         {
             var mailToBeSent = new Mail
                 {To = sendTo, Subject = subject, Content = ComposeMessage(todayItems, yearAggregateItems)};
@@ -47,7 +47,7 @@ namespace Sciendo.Topper.Notifier
             }
         }
 
-        private string ComposeMessage(IEnumerable<TopItemWithScore> todayItems, IEnumerable<TopItemWithScore> yearAggregateItems)
+        private string ComposeMessage(IEnumerable<TopItem> todayItems, IEnumerable<TopItem> yearAggregateItems)
         {
             DateTime date = DateTime.Today;
             var title = string.Format(Template.Html.TodayItemsTitle, date.Day, date.Month, date.Year);

@@ -16,5 +16,11 @@ namespace Sciendo.Topper.Contracts
 
         [JsonProperty("noOfLovedTracks")]
         public int Loved { get; set; }
+
+        [JsonProperty("score")]
+        public int Score { get; set; }
+
+        [JsonProperty("year")]
+        public string Year { get; set; }
     }
 }

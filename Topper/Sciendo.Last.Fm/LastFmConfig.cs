@@ -1,6 +1,6 @@
 ﻿namespace Sciendo.Last.Fm
 {
-    public class TopperLastFmConfig
+    public class LastFmConfig
     {
         public string ApiKey { get; set; }
 

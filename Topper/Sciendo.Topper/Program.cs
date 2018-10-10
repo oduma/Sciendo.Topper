@@ -4,7 +4,6 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Sciendo.Config;
 using Sciendo.Topper.Source;
-using Sciendo.Last.Fm;
 using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Notifier;
 using Sciendo.Topper.Store;
@@ -22,26 +21,31 @@ namespace Sciendo.Topper
                     .AddCommandLine(args)
                     .Build();
             TopperConfig topperConfig = new ConfigurationManager<TopperConfig>().GetConfiguration(config);
-            Console.WriteLine("Config Loaded Ok!");
+
             var todayTopItems = TopItemsSourcer.GetTodayTopItems(topperConfig.TopperLastFmConfig);
 
-            EmailSender emailSender= new EmailSender(topperConfig.EmailOptions);
-
-            var notifier = new NotificationCreator(emailSender,topperConfig.EmailOptions.NotSendFileExtension);
+            var notifier = new NotificationCreator(new EmailSender(topperConfig.EmailOptions),
+                topperConfig.EmailOptions.NotSendFileExtension);
 
             notifier.SendPreviousFailedEmails();
             var storeLogic = new StoreLogic();
             storeLogic.Progress += StoreLogic_Progress;
-            IEnumerable<TopItemWithScore> yearAggregate;
-            IEnumerable<TopItemWithScore> todayTopItemWithScores;
-            using (var itemsRepo = new Repository<TopItemWithScore>(topperConfig.Cosmosdb))
+            IEnumerable<TopItem> yearAggregate;
+
+            using (var itemsRepo = new Repository<TopItem>(topperConfig.CosmosDb))
             {
-                todayTopItemWithScores = storeLogic.StoreItems(todayTopItems, itemsRepo,
-                    topperConfig.TopperRulesConfig.RankingBonus, topperConfig.TopperRulesConfig.LovedBonus);
+                var rulesEngine = new RulesEngine();
+                rulesEngine.AddRule(new ArtistScoreRule(itemsRepo,topperConfig.TopperRulesConfig.RankingBonus));
+                rulesEngine.AddRule(new LovedRule(itemsRepo,topperConfig.TopperRulesConfig.LovedBonus));
+                foreach (var todayTopItem in todayTopItems)
+                {
+                    rulesEngine.ApplyAllRules(todayTopItem);
+                    storeLogic.StoreItem(todayTopItem,itemsRepo);
+                }
                 yearAggregate = storeLogic.GetAggregateHistoryOfScores(itemsRepo, 0);
             }
 
-            if (notifier.ComposeAndSendMessage(todayTopItemWithScores, yearAggregate, topperConfig.DestinationEmail))
+            if (notifier.ComposeAndSendMessage(todayTopItems, yearAggregate, topperConfig.DestinationEmail))
             {
                 Console.WriteLine("check your email");
                 return 0;

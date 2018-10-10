@@ -1,51 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Sciendo.Topper.Contracts;
 
 namespace Sciendo.Topper.Store
 {
-    public static class RulesEngine
+    public class RulesEngine
     {
-        public static TopItemWithScore CalculateScoreForTopItem(TopItem topItem,
-            Repository<TopItemWithScore> topItemsRepo, int rankingBonus, int lovedBonus)
+        private List<RuleBase> _rules;
+
+        public RulesEngine()
         {
-            var potentialMatch =
-                topItemsRepo.GetItemsAsync(i => i.Name == topItem.Name && i.Date == topItem.Date.AddDays(-1)).Result
-                    .FirstOrDefault();
-            if (potentialMatch == null)
-                return new TopItemWithScore
-                {
-                    Date = topItem.Date,
-                    Hits = topItem.Hits,
-                    Name = topItem.Name,
-                    Loved = topItem.Loved,
-                    Score = ((topItem.Hits==0)?0:(topItem.Hits + rankingBonus)) +(topItem.Loved*lovedBonus)
+            _rules = new List<RuleBase>();
+        }
+        public void AddRule(RuleBase rule)
+        {
+            _rules.Add(rule);
+        }
 
-                };
-            if (topItem.Hits > potentialMatch.Hits)
+        public void AddRules(IEnumerable<RuleBase> rules)
+        {
+            _rules.AddRange(rules);
+        }
+        public void ApplyAllRules(TopItem item)
+        {
+            foreach (var rule in _rules)
             {
-                return new TopItemWithScore
-                {
-                    Date = topItem.Date,
-                    Hits = topItem.Hits,
-                    Name = topItem.Name,
-                    Loved = topItem.Loved,
-                    Score = ((topItem.Hits == 0) ? 0 : (topItem.Hits + rankingBonus)) + (topItem.Loved*lovedBonus)
-
-                };
+                rule.ApplyRule(item);
             }
-
-            return new TopItemWithScore
-            {
-                Date = topItem.Date,
-                Hits = topItem.Hits,
-                Name = topItem.Name,
-                Loved = topItem.Loved,
-                Score = topItem.Hits + (topItem.Loved*lovedBonus)
-            };
-
         }
     }
 }

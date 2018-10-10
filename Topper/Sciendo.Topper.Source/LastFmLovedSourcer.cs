@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Sciendo.Last.Fm;
 using Sciendo.Last.Fm.DataTypes;
 using Sciendo.Topper.Contracts;
@@ -19,7 +18,7 @@ namespace Sciendo.Topper.Source
         public List<TopItem> GetTopItems(string userName)
         {
             var lovedTracks = _contentProvider.GetContent("user.getlovedtracks", userName).LovedTracksPage.LovedTracks
-                .Where(l => IsToday(l.Date));
+                .Where(l => IsToday(l.Date)).ToList();
             if(!lovedTracks.Any())
                 return new List<TopItem>();
 

@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Last.Fm", "Sciendo.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Topper.DataMigration", "Topper.DataMigration\Topper.DataMigration.csproj", "{C523B6A3-9292-475E-A965-2EA658FE7E87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sciendo.Config", "Sciendo.Config\Sciendo.Config.csproj", "{3D61EE25-D8BD-4B24-9AC1-6460AF2F08BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Config", "Sciendo.Config\Sciendo.Config.csproj", "{3D61EE25-D8BD-4B24-9AC1-6460AF2F08BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sciendo.Topper.Tests.Unit", "Sciendo.Topper.Tests.Unit\Sciendo.Topper.Tests.Unit.csproj", "{F7F2B488-D6EC-44A6-91E6-84A404ED3626}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{3D61EE25-D8BD-4B24-9AC1-6460AF2F08BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D61EE25-D8BD-4B24-9AC1-6460AF2F08BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D61EE25-D8BD-4B24-9AC1-6460AF2F08BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7F2B488-D6EC-44A6-91E6-84A404ED3626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7F2B488-D6EC-44A6-91E6-84A404ED3626}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7F2B488-D6EC-44A6-91E6-84A404ED3626}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7F2B488-D6EC-44A6-91E6-84A404ED3626}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
