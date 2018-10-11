@@ -6,22 +6,43 @@ using Sciendo.Topper.Contracts;
 
 namespace Sciendo.Topper.Source
 {
-    public class LastFmTopArtistSourcer
+    public class LastFmTopArtistSourcer:LastFmSourcerBase<TopArtistsRootObject>
     {
-        private readonly IContentProvider<TopArtistsRootObject> _contentProvider;
 
-        public LastFmTopArtistSourcer(IContentProvider<TopArtistsRootObject> contentProvider )
+        protected override string LastFmMethod { get=> "user.gettopartists"; }
+        protected override string AdditionalParameters
         {
-            _contentProvider = contentProvider;
+            get => "period=7day";
         }
-        public List<TopItem> GetTopItems(string userName)
+
+        public override List<TopItem> GetItems(string userName)
         {
-            var topArtists = _contentProvider.GetContent("user.gettopartists", userName, 1, "period=7day").TopArtistsPage.TopArtists;
+            if(string.IsNullOrEmpty(userName))
+                throw new ArgumentNullException(nameof(userName));
+            var topArtistsRoot = ContentProvider.GetContent(LastFmMethod, userName, 1, AdditionalParameters);
+            if(topArtistsRoot==null)
+                return new List<TopItem>();
+            if(topArtistsRoot.TopArtistsPage==null)
+                return new List<TopItem>();
+            if(topArtistsRoot.TopArtistsPage.TopArtists==null)
+                return new List<TopItem>();
+            var topArtists = topArtistsRoot
+                .TopArtistsPage
+                .TopArtists;
             var maxPlayCount = topArtists.First().PlayCount;
             return
                 topArtists.Where(ta => ta.PlayCount == maxPlayCount)
-                    .Select(ta => new TopItem {Hits = ta.PlayCount, Name = ta.Name, Date = DateTime.Now})
+                    .Select(ta => new TopItem { Hits = ta.PlayCount, Name = ta.Name, Date = DateTime.Now })
                     .ToList();
+        }
+
+        public override void MergeSourceProperties(TopItem fromItem, TopItem toItem)
+        {
+            toItem.Hits = fromItem.Hits;
+        }
+
+        public LastFmTopArtistSourcer(IContentProvider<TopArtistsRootObject> contentProvider) : base(contentProvider)
+        {
         }
     }
 }

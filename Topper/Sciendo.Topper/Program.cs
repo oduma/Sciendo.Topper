@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Sciendo.Config;
+using Sciendo.Last.Fm;
 using Sciendo.Topper.Source;
 using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Notifier;
@@ -22,7 +23,15 @@ namespace Sciendo.Topper
                     .Build();
             TopperConfig topperConfig = new ConfigurationManager<TopperConfig>().GetConfiguration(config);
 
-            var todayTopItems = TopItemsSourcer.GetTodayTopItems(topperConfig.TopperLastFmConfig);
+            var topItemsSourcer=new TopItemsSourcer();
+            topItemsSourcer.RegisterSourcer(new LastFmTopArtistSourcer(
+                new ContentProvider<TopArtistsRootObject>(new UrlProvider(topperConfig.TopperLastFmConfig.ApiKey),
+                    new LastFmProvider())));
+            topItemsSourcer.RegisterSourcer(new LastFmLovedSourcer(
+                new ContentProvider<LovedTracksRootObject>(new UrlProvider(topperConfig.TopperLastFmConfig.ApiKey),
+                    new LastFmProvider())));
+
+            var todayTopItems = topItemsSourcer.GetItems(topperConfig.TopperLastFmConfig.UserName);
 
             var notifier = new NotificationCreator(new EmailSender(topperConfig.EmailOptions),
                 topperConfig.EmailOptions.NotSendFileExtension);
