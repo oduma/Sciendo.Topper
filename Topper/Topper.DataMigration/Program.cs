@@ -12,24 +12,46 @@ namespace Topper.DataMigration
     {
         static void Main(string[] args)
         {
-            var config =
-                new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("topper.datamigration.json")
-                    .AddCommandLine(args)
-                    .Build();
+            TopperDataMigrationConfig topperDataMigrationConfig;
+            try
+            {
+                topperDataMigrationConfig =
+                    new ConfigurationManager<TopperDataMigrationConfig>().GetConfiguration(new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("topper.dataMigration.json")
+                        .AddCommandLine(args)
+                        .Build());
+            }
+            catch (Exception e)
+            {
+                    Console.WriteLine(e);
+                    throw;
+            }
+            MigrateData(topperDataMigrationConfig);
+        }
 
-            TopperDataMigrationConfig topperDataMigrationConfig =
-                new ConfigurationManager<TopperDataMigrationConfig>().GetConfiguration(config);
-            using (var itemsRepository = new Repository<TopItem>(topperDataMigrationConfig.CosmosDb))
+        private static void MigrateData(TopperDataMigrationConfig topperDataMigrationConfig)
+        {
+            using (var itemsRepository = new Repository<TopItem>(topperDataMigrationConfig.CosmosDbConfig))
             {
                 int i = 0;
-                var storeLogic = new StoreLogic();
+                var storeLogic = new StoreManager(itemsRepository);
                 storeLogic.Progress += StoreLogic_Progress;
-                foreach (var topItem in ReadFile(topperDataMigrationConfig.InoutFile))
+                IEnumerable<TopItem> dataToMigrate;
+                try
+                {
+                    dataToMigrate = ReadFile(topperDataMigrationConfig.InoutFile);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    return;
+                }
+                foreach (var topItem in dataToMigrate)
                 {
                     try
                     {
-                        storeLogic.StoreItem(topItem, itemsRepository);
+                        storeLogic.StoreItem(topItem);
                         Console.WriteLine($"Saved {i++} documents {topItem.Name}.");
                     }
                     catch (Exception e)
@@ -38,8 +60,8 @@ namespace Topper.DataMigration
                     }
                 }
             }
-        }
 
+        }
         private static void StoreLogic_Progress(object sender, ProgressEventArgs e)
         {
             Console.WriteLine("{0} - {1}.",e.Status,e.TopItem.Name);

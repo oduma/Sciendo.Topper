@@ -1,42 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Sciendo.Topper.Contracts;
 
 namespace Sciendo.Topper.Source
 {
-    public class TopItemsSourcer
+    public class TopItemsAggregator
     {
-        public TopItemsSourcer()
+        public TopItemsAggregator()
         {
-            _sourcersWithResults=new List<ILastFmSourcer>();
+            _providers=new List<ITopItemsProvider>();
         }
-        private List<ILastFmSourcer> _sourcersWithResults;
-        public void RegisterSourcer(ILastFmSourcer sourcer)
+        private List<ITopItemsProvider> _providers;
+        public void RegisterProvider(ITopItemsProvider provider)
         {
-            _sourcersWithResults.Add(sourcer);
+            if(provider == null)
+                throw new ArgumentNullException(nameof(provider));
+            _providers.Add(provider);
         }
         public List<TopItem> GetItems(string userName)
         {
+            if(string.IsNullOrEmpty(userName))
+                throw new ArgumentNullException(nameof(userName));
             List<TopItem> result = new List<TopItem>();
-            foreach (var sourcer in _sourcersWithResults)
+            foreach (var provider in _providers)
             {
-                var sourcerTopItems= sourcer.GetItems(userName);
+                var topItems= provider.GetItems(userName);
                 if (!result.Any())
                 {
-                    result.AddRange(sourcerTopItems);
+                    result.AddRange(topItems);
                 }
                 else
                 {
-                    MergeItems(sourcerTopItems, result, sourcer.MergeSourceProperties);
+                    MergeItems(topItems, result, provider.MergeSourceProperties);
                 }
             }
             return result;
         }
 
         private void MergeItems(List<TopItem> fromList, List<TopItem> toList, 
-            Action<TopItem,TopItem> mergeSourcerProperties)
+            Action<TopItem,TopItem> mergeSourceProperties)
         {
             foreach (var fromTopItem in fromList)
             {
@@ -44,7 +47,7 @@ namespace Sciendo.Topper.Source
 
                 if (toTopItem != null)
                 {
-                    mergeSourcerProperties(fromTopItem, toTopItem);
+                    mergeSourceProperties(fromTopItem, toTopItem);
                 }
                 else
                 {

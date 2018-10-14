@@ -8,7 +8,7 @@ namespace Sciendo.Topper
     public class TopperConfig
     {
         [ConfigProperty("cosmosDb")]
-        public CosmosDb CosmosDb { get; set; }
+        public CosmosDbConfig CosmosDbConfig { get; set; }
 
         [ConfigProperty("topperLastFM")]
         public LastFmConfig TopperLastFmConfig { get; set; }
@@ -17,7 +17,7 @@ namespace Sciendo.Topper
         public TopperRulesConfig TopperRulesConfig { get; set; }
 
         [ConfigProperty("emailOptions")]
-        public EmailOptions EmailOptions { get; set; }
+        public EmailConfig EmailOptions { get; set; }
 
         [ConfigProperty("User")]
         public string User

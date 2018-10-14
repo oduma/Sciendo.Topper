@@ -8,6 +8,8 @@ namespace Sciendo.Config
     {
         public T GetConfiguration(IConfigurationRoot config)
         {
+            if(config==null)
+                throw new ArgumentNullException(nameof(config));
             T configClass = new T();
             foreach (PropertyInfo property in typeof(T).GetProperties())
             {

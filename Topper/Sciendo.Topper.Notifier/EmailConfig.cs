@@ -1,6 +1,6 @@
 ﻿namespace Sciendo.Topper.Notifier
 {
-    public class EmailOptions
+    public class EmailConfig
     {
         public string Domain { get; set; }
         public int Port { get; set; }

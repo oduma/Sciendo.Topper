@@ -7,29 +7,37 @@ namespace Sciendo.Topper.Notifier
 {
     public class EmailSender : IEmailSender
     {
-        public EmailOptions Options { get; }
+        private readonly EmailConfig _senderConfig;
 
-        public EmailSender(EmailOptions senderOptions)
+        public EmailSender(EmailConfig senderConfig)
         {
-            Options = senderOptions;
+            if(senderConfig==null || string.IsNullOrEmpty(senderConfig.Domain))
+                throw new ArgumentNullException(nameof(senderConfig));
+            _senderConfig = senderConfig;
         }
 
         public Task SendEmailAsync(string toEmail, string subject, string message)
         {
+            if(string.IsNullOrEmpty(toEmail))
+                throw new ArgumentNullException(nameof(toEmail));
+
             MailMessage mail = GetMailMessage(toEmail, subject, message,
-                Options.DefaultSenderEmail, Options.DefaultSenderDisplayName, Options.UseHtml);
-            SmtpClient client = GetSmtpClient(Options.Domain, Options.Port, Options.RequiresAuthentication,
-                Options.UserName, Options.Key, Options.UseSsl);
+                _senderConfig.DefaultSenderEmail, _senderConfig.DefaultSenderDisplayName, _senderConfig.UseHtml);
+            SmtpClient client = GetSmtpClient(_senderConfig.Domain, _senderConfig.Port, _senderConfig.RequiresAuthentication,
+                _senderConfig.UserName, _senderConfig.Key, _senderConfig.UseSsl);
 
             return client.SendMailAsync(mail);
         }
 
         public void SendEmail(string toEmail, string subject, string message)
         {
+            if(string.IsNullOrEmpty(toEmail))
+                throw new ArgumentNullException(nameof(toEmail));
+
             MailMessage mail = GetMailMessage(toEmail, subject, message,
-                Options.DefaultSenderEmail, Options.DefaultSenderDisplayName, Options.UseHtml);
-            SmtpClient client = GetSmtpClient(Options.Domain, Options.Port, Options.RequiresAuthentication,
-                Options.UserName, Options.Key, Options.UseSsl);
+                _senderConfig.DefaultSenderEmail, _senderConfig.DefaultSenderDisplayName, _senderConfig.UseHtml);
+            SmtpClient client = GetSmtpClient(_senderConfig.Domain, _senderConfig.Port, _senderConfig.RequiresAuthentication,
+                _senderConfig.UserName, _senderConfig.Key, _senderConfig.UseSsl);
 
             client.Send(mail);
         }

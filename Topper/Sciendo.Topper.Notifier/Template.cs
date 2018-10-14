@@ -23,6 +23,8 @@ namespace Sciendo.Topper.Notifier
             public static string YearItemRow => "<tr{0}><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>";
             public static string NoItemsForYear => "Happy New Year to you.</br>";
         }
+
+        public static string Subject => "Your Daily Music Report";
     }
 
 }

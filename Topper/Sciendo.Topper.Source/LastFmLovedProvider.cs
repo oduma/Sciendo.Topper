@@ -4,10 +4,11 @@ using System.Linq;
 using Sciendo.Last.Fm;
 using Sciendo.Last.Fm.DataTypes;
 using Sciendo.Topper.Contracts;
+using Sciendo.Topper.Source.DataTypes;
 
 namespace Sciendo.Topper.Source
 {
-    public class LastFmLovedSourcer:LastFmSourcerBase<LovedTracksRootObject>
+    public class LastFmLovedProvider:LastFmProviderBase<LovedTracksRootObject>
     {
         private bool IsToday(LastFmDate date)
         {
@@ -17,7 +18,7 @@ namespace Sciendo.Topper.Source
             return false;
         }
 
-        public LastFmLovedSourcer(IContentProvider<LovedTracksRootObject> contentProvider) : base(contentProvider)
+        public LastFmLovedProvider(IContentProvider<LovedTracksRootObject> contentProvider) : base(contentProvider)
         {
         }
 
@@ -53,6 +54,11 @@ namespace Sciendo.Topper.Source
 
         public override void MergeSourceProperties(TopItem fromItem, TopItem toItem)
         {
+            if (fromItem == null)
+                throw new ArgumentNullException(nameof(fromItem));
+            if (toItem == null)
+                throw new ArgumentNullException(nameof(toItem));
+
             toItem.Loved = fromItem.Loved;
         }
     }

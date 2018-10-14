@@ -7,7 +7,7 @@ namespace Sciendo.Topper.Store
 {
     public class RulesEngine
     {
-        private List<RuleBase> _rules;
+        private readonly List<RuleBase> _rules;
 
         public RulesEngine()
         {
@@ -15,7 +15,8 @@ namespace Sciendo.Topper.Store
         }
         public void AddRule(RuleBase rule)
         {
-            _rules.Add(rule);
+            if(rule!=null)
+                _rules.Add(rule);
         }
 
         public void AddRules(IEnumerable<RuleBase> rules)
@@ -25,9 +26,7 @@ namespace Sciendo.Topper.Store
         public void ApplyAllRules(TopItem item)
         {
             foreach (var rule in _rules)
-            {
                 rule.ApplyRule(item);
-            }
         }
     }
 }

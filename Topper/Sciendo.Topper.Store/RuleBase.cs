@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Sciendo.Topper.Contracts;
 
 namespace Sciendo.Topper.Store
@@ -9,6 +7,8 @@ namespace Sciendo.Topper.Store
     {
         protected RuleBase(Repository<TopItem> topItemsRepo)
         {
+            if(topItemsRepo==null)
+                throw new ArgumentNullException(nameof(topItemsRepo));
             TopItemsRepo = topItemsRepo;
         }
 

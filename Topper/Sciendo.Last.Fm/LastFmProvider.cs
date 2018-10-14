@@ -8,6 +8,8 @@ namespace Sciendo.Last.Fm
     {
         public string GetLastFmContent(Uri lastFmUri)
         {
+            if(lastFmUri==null)
+                throw new ArgumentNullException(nameof(lastFmUri));
             var httpClient = new HttpClient();
             try
             {
@@ -20,7 +22,6 @@ namespace Sciendo.Last.Fm
                     }
                     return string.Empty;
                 }
-
             }
             catch
             {

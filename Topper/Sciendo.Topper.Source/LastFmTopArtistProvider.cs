@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Sciendo.Last.Fm;
 using Sciendo.Topper.Contracts;
+using Sciendo.Topper.Source.DataTypes;
 
 namespace Sciendo.Topper.Source
 {
-    public class LastFmTopArtistSourcer:LastFmSourcerBase<TopArtistsRootObject>
+    public class LastFmTopArtistProvider:LastFmProviderBase<TopArtistsRootObject>
     {
 
         protected override string LastFmMethod { get=> "user.gettopartists"; }
@@ -38,10 +39,14 @@ namespace Sciendo.Topper.Source
 
         public override void MergeSourceProperties(TopItem fromItem, TopItem toItem)
         {
+            if(fromItem==null)
+                throw new ArgumentNullException(nameof(fromItem));
+            if(toItem==null)
+                throw new ArgumentNullException(nameof(toItem));
             toItem.Hits = fromItem.Hits;
         }
 
-        public LastFmTopArtistSourcer(IContentProvider<TopArtistsRootObject> contentProvider) : base(contentProvider)
+        public LastFmTopArtistProvider(IContentProvider<TopArtistsRootObject> contentProvider) : base(contentProvider)
         {
         }
     }

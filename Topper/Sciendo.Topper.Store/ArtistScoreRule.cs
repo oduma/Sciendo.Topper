@@ -9,6 +9,8 @@ namespace Sciendo.Topper.Store
 
         public override void ApplyRule(TopItem item)
         {
+            if (item == null)
+                return;
             var potentialMatch =
                 TopItemsRepo.GetItemsAsync(i => i.Name == item.Name && i.Date == item.Date.AddDays(-1)).Result
                     .FirstOrDefault();
@@ -16,8 +18,6 @@ namespace Sciendo.Topper.Store
                 AddHitsAndRankingBonus(item);
             else
                 AddHits(item);
-
-
         }
 
         private void AddHits(TopItem item)

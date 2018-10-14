@@ -27,7 +27,7 @@
     <None Update="Music listening.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="topper.datamigration.json">
+    <None Update="topper.dataMigration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

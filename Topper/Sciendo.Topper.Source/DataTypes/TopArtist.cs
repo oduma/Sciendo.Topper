@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Net.Mime;
 using Newtonsoft.Json;
 using Sciendo.Last.Fm.DataTypes;
 
-namespace Sciendo.Topper.Source
+namespace Sciendo.Topper.Source.DataTypes
 {
     public class TopArtist:Item
     {

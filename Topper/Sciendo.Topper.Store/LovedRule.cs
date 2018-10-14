@@ -8,6 +8,8 @@ namespace Sciendo.Topper.Store
 
         public override void ApplyRule(TopItem item)
         {
+            if (item == null)
+                return;
             item.Score += (item.Loved * _lovedBonus);
         }
 

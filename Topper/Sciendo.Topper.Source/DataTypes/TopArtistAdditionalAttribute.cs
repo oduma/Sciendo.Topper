@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Sciendo.Topper.Source
+namespace Sciendo.Topper.Source.DataTypes
 {
     public class TopArtistAdditionalAttribute
     {

@@ -9,15 +9,15 @@ using Microsoft.Azure.Documents.Linq;
 
 namespace Sciendo.Topper.Store
 {
-    public class Repository<T>: IDisposable
+    public class Repository<T>: IRepository<T>
     {
-        private readonly CosmosDb _cosmosDb;
+        private readonly CosmosDbConfig _cosmosDbConfig;
         private readonly DocumentClient _documentClient;
 
-        public Repository (CosmosDb cosmosDb)
+        public Repository (CosmosDbConfig cosmosDbConfig)
         {
-            _cosmosDb = cosmosDb;
-            _documentClient = new DocumentClient(new Uri(_cosmosDb.Endpoint), _cosmosDb.Key,
+            _cosmosDbConfig = cosmosDbConfig;
+            _documentClient = new DocumentClient(new Uri(_cosmosDbConfig.Endpoint), _cosmosDbConfig.Key,
                 new ConnectionPolicy {EnableEndpointDiscovery = false});
             _documentClient.OpenAsync();
             CreateDatabaseIfNotExistsAsync().Wait();
@@ -34,15 +34,15 @@ namespace Sciendo.Topper.Store
             try
             {
                 await _documentClient.ReadDocumentCollectionAsync(
-                    UriFactory.CreateDocumentCollectionUri(_cosmosDb.DatabaseId, _cosmosDb.CollectionId));
+                    UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, _cosmosDbConfig.CollectionId));
             }
             catch (DocumentClientException e)
             {
                 if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
                     await _documentClient.CreateDocumentCollectionAsync(
-                        UriFactory.CreateDatabaseUri(_cosmosDb.DatabaseId),
-                        new DocumentCollection { Id = _cosmosDb.CollectionId },
+                        UriFactory.CreateDatabaseUri(_cosmosDbConfig.DatabaseId),
+                        new DocumentCollection { Id = _cosmosDbConfig.CollectionId },
                         new RequestOptions { OfferThroughput = 1000 });
                 }
                 else
@@ -56,13 +56,13 @@ namespace Sciendo.Topper.Store
         {
             try
             {
-                await _documentClient.ReadDatabaseAsync(UriFactory.CreateDatabaseUri(_cosmosDb.DatabaseId));
+                await _documentClient.ReadDatabaseAsync(UriFactory.CreateDatabaseUri(_cosmosDbConfig.DatabaseId));
             }
             catch (DocumentClientException e)
             {
                 if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    await _documentClient.CreateDatabaseAsync(new Database { Id = _cosmosDb.DatabaseId });
+                    await _documentClient.CreateDatabaseAsync(new Database { Id = _cosmosDbConfig.DatabaseId });
                 }
                 else
                 {
@@ -76,13 +76,13 @@ namespace Sciendo.Topper.Store
             
             return
                 await _documentClient.CreateDocumentAsync(
-                    UriFactory.CreateDocumentCollectionUri(_cosmosDb.DatabaseId, _cosmosDb.CollectionId), item);
+                    UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, _cosmosDbConfig.CollectionId), item);
         }
 
         public async Task<IEnumerable<T>> GetItemsAsync(Expression<Func<T, bool>> predicate)
         {
             IDocumentQuery<T> query = _documentClient.CreateDocumentQuery<T>(
-                UriFactory.CreateDocumentCollectionUri(_cosmosDb.DatabaseId, _cosmosDb.CollectionId),
+                UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, _cosmosDbConfig.CollectionId),
                 new FeedOptions { MaxItemCount = -1 })
                 .Where(predicate)
                 .AsDocumentQuery();
@@ -99,7 +99,7 @@ namespace Sciendo.Topper.Store
         public async Task<IEnumerable<T>> GetAllItemsAsync()
         {
             IDocumentQuery<T> query = _documentClient.CreateDocumentQuery<T>(
-                    UriFactory.CreateDocumentCollectionUri(_cosmosDb.DatabaseId, _cosmosDb.CollectionId),
+                    UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, _cosmosDbConfig.CollectionId),
                     new FeedOptions { MaxItemCount = -1 })
                 .AsDocumentQuery();
 

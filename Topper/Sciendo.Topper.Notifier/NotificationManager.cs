@@ -8,23 +8,26 @@ using Sciendo.Topper.Contracts;
 
 namespace Sciendo.Topper.Notifier
 {
-    public class NotificationCreator
+    public class NotificationManager
     {
         private readonly IEmailSender _mailSender;
         private readonly string _notSendFileExtension;
 
-        private const string subject = "Your Daily Music Report";
-
-        public NotificationCreator(IEmailSender mailSender, string notSendFileExtension)
+        public NotificationManager(IEmailSender mailSender, string notSendFileExtension="mail")
         {
-            _mailSender = mailSender;
+            _mailSender = mailSender ?? throw new ArgumentNullException(nameof(mailSender));
             _notSendFileExtension = notSendFileExtension;
         }
 
-        public bool ComposeAndSendMessage(IEnumerable<TopItem> todayItems,IEnumerable<TopItem> yearAggregateItems,string sendTo)
+        public bool ComposeAndSendMessage(List<TopItem> todayItems,
+            List<TopItem> yearAggregateItems,
+            string sendTo)
         {
+            if(string.IsNullOrEmpty(sendTo))
+                return false;
+
             var mailToBeSent = new Mail
-                {To = sendTo, Subject = subject, Content = ComposeMessage(todayItems, yearAggregateItems)};
+                {To = sendTo, Subject = Template.Subject, Content = ComposeMessage(todayItems, yearAggregateItems)};
             try
             {
                 _mailSender.SendEmail(mailToBeSent.To, mailToBeSent.Subject, mailToBeSent.Content);
@@ -47,10 +50,11 @@ namespace Sciendo.Topper.Notifier
             }
         }
 
-        private string ComposeMessage(IEnumerable<TopItem> todayItems, IEnumerable<TopItem> yearAggregateItems)
+        private string ComposeMessage(List<TopItem> todayItems, List<TopItem> yearAggregateItems)
         {
-            DateTime date = DateTime.Today;
-            var title = string.Format(Template.Html.TodayItemsTitle, date.Day, date.Month, date.Year);
+            var title = string.Format(Template.Html.TodayItemsTitle, DateTime.Today.Day, DateTime.Today.Month,
+                DateTime.Today.Year);
+
             StringBuilder message =  new StringBuilder($"{Style.Definition}{title}");
             
             if (todayItems!=null && todayItems.Any())
@@ -61,7 +65,7 @@ namespace Sciendo.Topper.Notifier
                     rows.Append(string.Format(Template.Html.TodayItemRow, todayItem.Name, todayItem.Hits, todayItem.Score));
                 }
 
-                message.Append(string.Format(Template.Html.TodayItemsTable,Style.Today,rows.ToString()));
+                message.Append(string.Format(Template.Html.TodayItemsTable,Style.Today,rows));
 
             }
             else
@@ -75,7 +79,7 @@ namespace Sciendo.Topper.Notifier
                 foreach (var yearAggregatedItem in yearAggregateItems)
                 {
                     var calculatedStyle = "";
-                    if (todayItems.Any((t) => t.Name == yearAggregatedItem.Name))
+                    if (todayItems!=null && todayItems.Any((t) => t.Name == yearAggregatedItem.Name))
                         calculatedStyle = Style.Current;
                     switch (position)
                     {
@@ -95,13 +99,12 @@ namespace Sciendo.Topper.Notifier
                     rows.Append(string.Format(Template.Html.YearItemRow, calculatedStyle,position++,yearAggregatedItem.Name,yearAggregatedItem.Score,yearAggregatedItem.Loved));
                 }
 
-                message.Append(string.Format(Template.Html.YearItemsTable, rows.ToString()));
+                message.Append(string.Format(Template.Html.YearItemsTable, rows));
             }
             else
                 message.Append(Template.Html.NoItemsForYear);
 
             return message.ToString();
-
         }
 
         public void SendPreviousFailedEmails()
@@ -119,8 +122,11 @@ namespace Sciendo.Topper.Notifier
                     _mailSender.SendEmail(mailToBeSend.To, mailToBeSend.Subject, mailToBeSend.Content);
                     File.Delete(file);
                 }
-                catch {}
-
+                catch
+                {
+                    // if the email failed to send for whatever reason don't stop
+                    //will retry next time
+                }
             }
         }
     }

@@ -7,6 +7,7 @@ using Sciendo.Last.Fm;
 using Sciendo.Topper.Source;
 using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Notifier;
+using Sciendo.Topper.Source.DataTypes;
 using Sciendo.Topper.Store;
 
 namespace Sciendo.Topper
@@ -21,37 +22,32 @@ namespace Sciendo.Topper
                     .AddJsonFile("topper.json")
                     .AddCommandLine(args)
                     .Build();
-            TopperConfig topperConfig = new ConfigurationManager<TopperConfig>().GetConfiguration(config);
-
-            var topItemsSourcer=new TopItemsSourcer();
-            topItemsSourcer.RegisterSourcer(new LastFmTopArtistSourcer(
-                new ContentProvider<TopArtistsRootObject>(new UrlProvider(topperConfig.TopperLastFmConfig.ApiKey),
-                    new LastFmProvider())));
-            topItemsSourcer.RegisterSourcer(new LastFmLovedSourcer(
-                new ContentProvider<LovedTracksRootObject>(new UrlProvider(topperConfig.TopperLastFmConfig.ApiKey),
-                    new LastFmProvider())));
-
-            var todayTopItems = topItemsSourcer.GetItems(topperConfig.TopperLastFmConfig.UserName);
-
-            var notifier = new NotificationCreator(new EmailSender(topperConfig.EmailOptions),
-                topperConfig.EmailOptions.NotSendFileExtension);
-
-            notifier.SendPreviousFailedEmails();
-            var storeLogic = new StoreLogic();
-            storeLogic.Progress += StoreLogic_Progress;
-            IEnumerable<TopItem> yearAggregate;
-
-            using (var itemsRepo = new Repository<TopItem>(topperConfig.CosmosDb))
+            TopperConfig topperConfig;
+            try
             {
-                var rulesEngine = new RulesEngine();
-                rulesEngine.AddRule(new ArtistScoreRule(itemsRepo,topperConfig.TopperRulesConfig.RankingBonus));
-                rulesEngine.AddRule(new LovedRule(itemsRepo,topperConfig.TopperRulesConfig.LovedBonus));
-                foreach (var todayTopItem in todayTopItems)
-                {
-                    rulesEngine.ApplyAllRules(todayTopItem);
-                    storeLogic.StoreItem(todayTopItem,itemsRepo);
-                }
-                yearAggregate = storeLogic.GetAggregateHistoryOfScores(itemsRepo, 0);
+               topperConfig= new ConfigurationManager<TopperConfig>().GetConfiguration(config);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            var notifier = CreateNotifierAndSendPreviousNotifications(topperConfig.EmailOptions);
+
+            var todayTopItems = GetTodayTopItems(topperConfig.TopperLastFmConfig);
+
+
+            List<TopItem> yearAggregate = new List<TopItem>();
+
+            using (var itemsRepo = new Repository<TopItem>(topperConfig.CosmosDbConfig))
+            {
+                var storeLogic = new StoreManager(itemsRepo);
+                storeLogic.Progress += StoreLogic_Progress;
+
+                CalculateStoreTodayItems(itemsRepo, topperConfig.TopperRulesConfig, todayTopItems, storeLogic);
+
+                yearAggregate.AddRange(storeLogic.GetAggregateHistoryOfScores());
             }
 
             if (notifier.ComposeAndSendMessage(todayTopItems, yearAggregate, topperConfig.DestinationEmail))
@@ -63,6 +59,103 @@ namespace Sciendo.Topper
             {
                 return -1;
             }
+        }
+
+        private static void CalculateStoreTodayItems(Repository<TopItem> itemsRepo, TopperRulesConfig topperRulesConfig, 
+            List<TopItem> todayTopItems,
+            StoreManager storeLogic)
+        {
+            var rulesEngine = new RulesEngine();
+            rulesEngine.AddRule(new ArtistScoreRule(itemsRepo, topperRulesConfig.RankingBonus));
+            rulesEngine.AddRule(new LovedRule(itemsRepo, topperRulesConfig.LovedBonus));
+            foreach (var todayTopItem in todayTopItems)
+            {
+                rulesEngine.ApplyAllRules(todayTopItem);
+                try
+                {
+                    storeLogic.StoreItem(todayTopItem);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+        }
+
+        private static List<TopItem> GetTodayTopItems(LastFmConfig topperLastFmConfig)
+        {
+            List<TopItem> todayTopItems;
+            IUrlProvider urlProvider;
+            try
+            {
+                urlProvider = new UrlProvider(topperLastFmConfig.ApiKey);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            LastFmTopArtistProvider lastFmTopArtistProvider;
+            try
+            {
+                lastFmTopArtistProvider = new LastFmTopArtistProvider(
+                    new ContentProvider<TopArtistsRootObject>(urlProvider,
+                        new LastFmProvider()));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            LastFmLovedProvider lastFmLovedProvider;
+            try
+            {
+                lastFmLovedProvider = new LastFmLovedProvider(
+                    new ContentProvider<LovedTracksRootObject>(urlProvider,
+                        new LastFmProvider()));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            var topItemsAggregator = new TopItemsAggregator();
+            topItemsAggregator.RegisterProvider(lastFmTopArtistProvider);
+            topItemsAggregator.RegisterProvider(lastFmLovedProvider);
+
+            try
+            {
+                todayTopItems = topItemsAggregator.GetItems(topperLastFmConfig.UserName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return todayTopItems;
+        }
+
+        private static NotificationManager CreateNotifierAndSendPreviousNotifications(EmailConfig emailConfig)
+        {
+            NotificationManager notifier;
+            try
+            {
+                notifier = new NotificationManager(new EmailSender(emailConfig),
+                    emailConfig.NotSendFileExtension);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            notifier.SendPreviousFailedEmails();
+            return notifier;
         }
 
         private static void StoreLogic_Progress(object sender, ProgressEventArgs e)

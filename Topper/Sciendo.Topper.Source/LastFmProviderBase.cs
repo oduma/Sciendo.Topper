@@ -6,7 +6,7 @@ using Sciendo.Topper.Contracts;
 
 namespace Sciendo.Topper.Source
 {
-    public abstract class LastFmSourcerBase<T>:ILastFmSourcer where T:class, new()
+    public abstract class LastFmProviderBase<T>:ITopItemsProvider where T:class, new()
     {
         protected readonly IContentProvider<T> ContentProvider;
 
@@ -14,9 +14,9 @@ namespace Sciendo.Topper.Source
 
         protected abstract string AdditionalParameters { get; }
 
-        protected LastFmSourcerBase(IContentProvider<T> contentProvider)
+        protected LastFmProviderBase(IContentProvider<T> contentProvider)
         {
-            ContentProvider = contentProvider;
+            ContentProvider = contentProvider ?? throw new ArgumentNullException(nameof(contentProvider));
         }
 
         public abstract List<TopItem> GetItems(string userName);

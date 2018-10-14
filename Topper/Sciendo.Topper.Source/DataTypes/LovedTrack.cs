@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Sciendo.Last.Fm.DataTypes;
 
-namespace Sciendo.Topper.Source
+namespace Sciendo.Topper.Source.DataTypes
 {
     public class LovedTrack:Track
     {
