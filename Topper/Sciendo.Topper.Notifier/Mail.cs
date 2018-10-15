@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Sciendo.Topper.Notifier
 {
@@ -10,5 +11,7 @@ namespace Sciendo.Topper.Notifier
         public string Subject { get; set; }
         [JsonProperty("content")]
         public string Content { get; set; }
+        [JsonProperty("date")]
+        public DateTime? DateTime { get; set; }
     }
 }

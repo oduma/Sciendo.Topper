@@ -33,32 +33,37 @@ namespace Sciendo.Topper
                 throw;
             }
 
-            var notifier = CreateNotifierAndSendPreviousNotifications(topperConfig.EmailOptions);
+            var notifier = CreateNotifier(topperConfig.EmailOptions);
 
-            var todayTopItems = GetTodayTopItems(topperConfig.TopperLastFmConfig);
-
-
-            List<TopItem> yearAggregate = new List<TopItem>();
-
-            using (var itemsRepo = new Repository<TopItem>(topperConfig.CosmosDbConfig))
+            if (!notifier.SendPreviousFailedEmails())
             {
-                var storeLogic = new StoreManager(itemsRepo);
-                storeLogic.Progress += StoreLogic_Progress;
+                var todayTopItems = GetTodayTopItems(topperConfig.TopperLastFmConfig);
 
-                CalculateStoreTodayItems(itemsRepo, topperConfig.TopperRulesConfig, todayTopItems, storeLogic);
 
-                yearAggregate.AddRange(storeLogic.GetAggregateHistoryOfScores());
+                List<TopItem> yearAggregate = new List<TopItem>();
+
+                using (var itemsRepo = new Repository<TopItem>(topperConfig.CosmosDbConfig))
+                {
+                    var storeLogic = new StoreManager(itemsRepo);
+                    storeLogic.Progress += StoreLogic_Progress;
+
+                    CalculateStoreTodayItems(itemsRepo, topperConfig.TopperRulesConfig, todayTopItems, storeLogic);
+
+                    yearAggregate.AddRange(storeLogic.GetAggregateHistoryOfScores());
+                }
+
+                if (notifier.ComposeAndSendMessage(todayTopItems, yearAggregate, topperConfig.DestinationEmail))
+                {
+                    Console.WriteLine("check your email");
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
             }
 
-            if (notifier.ComposeAndSendMessage(todayTopItems, yearAggregate, topperConfig.DestinationEmail))
-            {
-                Console.WriteLine("check your email");
-                return 0;
-            }
-            else
-            {
-                return -1;
-            }
+            return 0;
         }
 
         private static void CalculateStoreTodayItems(Repository<TopItem> itemsRepo, TopperRulesConfig topperRulesConfig, 
@@ -140,7 +145,7 @@ namespace Sciendo.Topper
             return todayTopItems;
         }
 
-        private static NotificationManager CreateNotifierAndSendPreviousNotifications(EmailConfig emailConfig)
+        private static NotificationManager CreateNotifier(EmailConfig emailConfig)
         {
             NotificationManager notifier;
             try
@@ -154,7 +159,6 @@ namespace Sciendo.Topper
                 throw;
             }
 
-            notifier.SendPreviousFailedEmails();
             return notifier;
         }
 

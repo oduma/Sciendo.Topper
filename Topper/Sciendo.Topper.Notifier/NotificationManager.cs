@@ -43,7 +43,8 @@ namespace Sciendo.Topper.Notifier
 
         private void PersistLocallyFile(Mail mailToBeSent)
         {
-            var fileName = $"{DateTime.Now.Ticks}{mailToBeSent.To}.{_notSendFileExtension}";
+            mailToBeSent.DateTime=DateTime.Now;
+            var fileName = $"{mailToBeSent.DateTime}{mailToBeSent.To}.{_notSendFileExtension}";
             using (var fs = File.CreateText(fileName))
             {
                 fs.Write(JsonConvert.SerializeObject(mailToBeSent));
@@ -107,14 +108,21 @@ namespace Sciendo.Topper.Notifier
             return message.ToString();
         }
 
-        public void SendPreviousFailedEmails()
+        public bool SendPreviousFailedEmails()
         {
+            bool sentForToday = false;
             foreach (var file in Directory.EnumerateFiles(".", $"*.{_notSendFileExtension}"))
             {
                 Mail mailToBeSend;
                 using (var fs=File.OpenText(file))
                 {
                     mailToBeSend = JsonConvert.DeserializeObject<Mail>(fs.ReadToEnd());
+                    if (mailToBeSend.DateTime.HasValue && mailToBeSend.DateTime.Value.Day == DateTime.Now.Day &&
+                        mailToBeSend.DateTime.Value.Month == DateTime.Now.Month &&
+                        mailToBeSend.DateTime.Value.Year == DateTime.Now.Year)
+                    {
+                        sentForToday = true;
+                    }
                 }
 
                 try
@@ -128,6 +136,8 @@ namespace Sciendo.Topper.Notifier
                     //will retry next time
                 }
             }
+
+            return sentForToday;
         }
     }
 }
