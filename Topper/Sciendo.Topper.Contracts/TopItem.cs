@@ -22,5 +22,8 @@ namespace Sciendo.Topper.Contracts
 
         [JsonProperty("year")]
         public string Year { get; set; }
+
+        [JsonProperty("dayRanking")]
+        public int DayRanking { get; set; }
     }
 }

@@ -11,9 +11,11 @@ namespace Sciendo.Topper.Store
         {
             if (item == null)
                 return;
-            var potentialMatch =
-                TopItemsRepo.GetItemsAsync(i => i.Name == item.Name && i.Date == item.Date.AddDays(-1)).Result
-                    .FirstOrDefault();
+            
+            var potentialMatches =
+                TopItemsRepo.GetItemsAsync(i => i.Name == item.Name).Result.ToList();
+            var potentialMatch = potentialMatches
+                .FirstOrDefault(p => p.Date.ToString("YYYY-MM-DD") == item.Date.AddDays(-1).ToString("YYYY-MM-DD"));
             if (potentialMatch == null || potentialMatch.Hits < item.Hits)
                 AddHitsAndRankingBonus(item);
             else
@@ -27,7 +29,7 @@ namespace Sciendo.Topper.Store
 
         private void AddHitsAndRankingBonus(TopItem item)
         {
-            item.Score += ((item.Hits == 0) ? 0 : (item.Hits + _rankingBonus));
+            item.Score += ((item.Hits == 0) ? 0 : (item.Hits + item.DayRanking * _rankingBonus));
         }
 
         public ArtistScoreRule(Repository<TopItem> topItemsRepo,int rankingBonus) : base(topItemsRepo)

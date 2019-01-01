@@ -102,10 +102,10 @@ namespace Sciendo.Topper
                 throw;
             }
 
-            LastFmTopArtistProvider lastFmTopArtistProvider;
+            LastFmTopArtistsProvider lastFmTopArtistsProvider;
             try
             {
-                lastFmTopArtistProvider = new LastFmTopArtistProvider(
+                lastFmTopArtistsProvider = new LastFmTopArtistsProvider(
                     new ContentProvider<TopArtistsRootObject>(urlProvider,
                         new LastFmProvider()));
             }
@@ -129,7 +129,7 @@ namespace Sciendo.Topper
             }
 
             var topItemsAggregator = new TopItemsAggregator();
-            topItemsAggregator.RegisterProvider(lastFmTopArtistProvider);
+            topItemsAggregator.RegisterProvider(lastFmTopArtistsProvider);
             topItemsAggregator.RegisterProvider(lastFmLovedProvider);
 
             try

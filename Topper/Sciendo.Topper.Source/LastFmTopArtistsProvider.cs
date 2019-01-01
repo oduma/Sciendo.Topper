@@ -7,7 +7,7 @@ using Sciendo.Topper.Source.DataTypes;
 
 namespace Sciendo.Topper.Source
 {
-    public class LastFmTopArtistProvider:LastFmProviderBase<TopArtistsRootObject>
+    public class LastFmTopArtistsProvider:LastFmProviderBase<TopArtistsRootObject>
     {
 
         protected override string LastFmMethod { get=> "user.gettopartists"; }
@@ -30,11 +30,17 @@ namespace Sciendo.Topper.Source
             var topArtists = topArtistsRoot
                 .TopArtistsPage
                 .TopArtists;
-            var maxPlayCount = topArtists.First().PlayCount;
-            return
-                topArtists.Where(ta => ta.PlayCount == maxPlayCount)
-                    .Select(ta => new TopItem { Hits = ta.PlayCount, Name = ta.Name, Date = DateTime.Now })
-                    .ToList();
+            int rank = 1;
+            List<TopItem> results= new List<TopItem>();
+            foreach (var playCount in topArtists.Select(a => a.PlayCount).Distinct().OrderByDescending(c => c).Take(3))
+            {
+                results.AddRange(topArtists.Where(ta => ta.PlayCount == playCount)
+                    .Select(ta => new TopItem
+                        {Hits = ta.PlayCount, Name = ta.Name, Date = DateTime.Now, DayRanking = rank}));
+                rank++;
+            }
+
+            return results;
         }
 
         public override void MergeSourceProperties(TopItem fromItem, TopItem toItem)
@@ -46,7 +52,7 @@ namespace Sciendo.Topper.Source
             toItem.Hits = fromItem.Hits;
         }
 
-        public LastFmTopArtistProvider(IContentProvider<TopArtistsRootObject> contentProvider) : base(contentProvider)
+        public LastFmTopArtistsProvider(IContentProvider<TopArtistsRootObject> contentProvider) : base(contentProvider)
         {
         }
     }
