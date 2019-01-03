@@ -11,5 +11,7 @@ namespace Sciendo.Topper.Store
         Task<Document> CreateItemAsync(T item);
         Task<IEnumerable<T>> GetItemsAsync(Expression<Func<T, bool>> predicate);
         Task<IEnumerable<T>> GetAllItemsAsync();
+
+        void OpenConnection();
     }
 }

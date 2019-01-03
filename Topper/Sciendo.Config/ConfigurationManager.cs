@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace Sciendo.Config
 {
@@ -8,6 +9,7 @@ namespace Sciendo.Config
     {
         public T GetConfiguration(IConfigurationRoot config)
         {
+            Log.Information("Getting configuration ...");
             if(config==null)
                 throw new ArgumentNullException(nameof(config));
             T configClass = new T();
@@ -28,6 +30,7 @@ namespace Sciendo.Config
                     }
                 }
             }
+            Log.Information("Configuration retrieved: {configClass}", configClass);
 
             return configClass;
         }

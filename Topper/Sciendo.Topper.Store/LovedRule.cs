@@ -1,4 +1,5 @@
 ﻿using Sciendo.Topper.Contracts;
+using Serilog;
 
 namespace Sciendo.Topper.Store
 {
@@ -11,6 +12,7 @@ namespace Sciendo.Topper.Store
             if (item == null)
                 return;
             item.Score += (item.Loved * _lovedBonus);
+            Log.Information("After calculating score based on rule{2} item {0} has score {1}", item.Name, item.Score, this);
         }
 
         public LovedRule(Repository<TopItem> topItemsRepo,int lovedBonus) : base(topItemsRepo)

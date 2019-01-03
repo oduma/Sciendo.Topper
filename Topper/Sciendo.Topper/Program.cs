@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Sciendo.Config;
 using Sciendo.Last.Fm;
@@ -9,6 +10,10 @@ using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Notifier;
 using Sciendo.Topper.Source.DataTypes;
 using Sciendo.Topper.Store;
+using Serilog;
+using Serilog.Core;
+using Serilog.Sinks.SystemConsole.Themes;
+
 
 namespace Sciendo.Topper
 {
@@ -16,6 +21,11 @@ namespace Sciendo.Topper
     {
         static int Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("log-.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+            Log.Information("Starting...");
 
             var config =
                 new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
@@ -29,7 +39,7 @@ namespace Sciendo.Topper
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Error(e,"Something happened here!");
                 throw;
             }
 
@@ -37,6 +47,7 @@ namespace Sciendo.Topper
 
             if (!notifier.SendPreviousFailedEmails())
             {
+                Log.Information("Trying to send new email for today...");
                 var todayTopItems = GetTodayTopItems(topperConfig.TopperLastFmConfig);
 
 
@@ -44,21 +55,46 @@ namespace Sciendo.Topper
 
                 using (var itemsRepo = new Repository<TopItem>(topperConfig.CosmosDbConfig))
                 {
+                    try
+                    {
+                        itemsRepo.OpenConnection();
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error(e,"Timeout while creating objects in the database.");
+                        throw;
+                    }
+
                     var storeLogic = new StoreManager(itemsRepo);
                     storeLogic.Progress += StoreLogic_Progress;
-
-                    CalculateStoreTodayItems(itemsRepo, topperConfig.TopperRulesConfig, todayTopItems, storeLogic);
-
+                    if(todayTopItems.Count>0)
+                        CalculateStoreTodayItems(itemsRepo, topperConfig.TopperRulesConfig, todayTopItems, storeLogic);
+                    else
+                    {
+                        Log.Warning("No top items for today no calculation of scores needed.");
+                    }
                     yearAggregate.AddRange(storeLogic.GetAggregateHistoryOfScores());
+                    if (!yearAggregate.Any())
+                    {
+                        Log.Warning("No year aggregate retrieve.");
+                    }
+                    else
+                        Log.Information("Items scored this year {0}", yearAggregate.Count);
                 }
 
+                if (!yearAggregate.Any() && !todayTopItems.Any())
+                {
+                    Log.Warning("Nothing to send. No email sent.");
+                    return -2;
+                }
                 if (notifier.ComposeAndSendMessage(todayTopItems, yearAggregate, topperConfig.DestinationEmail))
                 {
-                    Console.WriteLine("check your email");
+                    Log.Information("Check your email.");
                     return 0;
                 }
                 else
                 {
+                    Log.Warning("Email not sent.");
                     return -1;
                 }
             }
@@ -70,11 +106,13 @@ namespace Sciendo.Topper
             List<TopItem> todayTopItems,
             StoreManager storeLogic)
         {
+            Log.Information("Calculating scores for today's items...");
             var rulesEngine = new RulesEngine();
             rulesEngine.AddRule(new ArtistScoreRule(itemsRepo, topperRulesConfig.RankingBonus));
             rulesEngine.AddRule(new LovedRule(itemsRepo, topperRulesConfig.LovedBonus));
             foreach (var todayTopItem in todayTopItems)
             {
+                Log.Information("Calculating Score for {0}", todayTopItem.Name);
                 rulesEngine.ApplyAllRules(todayTopItem);
                 try
                 {
@@ -82,7 +120,7 @@ namespace Sciendo.Topper
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Log.Error(e,"Cannot persist item in store.");
                     throw;
                 }
             }
@@ -90,6 +128,7 @@ namespace Sciendo.Topper
 
         private static List<TopItem> GetTodayTopItems(LastFmConfig topperLastFmConfig)
         {
+            Log.Information("Getting new top items from last.fm ...");
             List<TopItem> todayTopItems;
             IUrlProvider urlProvider;
             try
@@ -98,7 +137,7 @@ namespace Sciendo.Topper
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Error(e,"Cannot use urlProvider...");
                 throw;
             }
 
@@ -111,7 +150,7 @@ namespace Sciendo.Topper
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Error(e,"Cannot use LastFmTopArtistProvider");
                 throw;
             }
 
@@ -124,7 +163,7 @@ namespace Sciendo.Topper
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Error(e,"Cannot use LastFmLovesProvider");
                 throw;
             }
 
@@ -138,15 +177,19 @@ namespace Sciendo.Topper
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Error(e,"Cannot Retrieve items from at least one source.");
                 throw;
             }
-
+            if(!todayTopItems.Any())
+                Log.Warning("Todays top items not retrieved.");
+            else
+                Log.Information("Retrieved {0} items.", todayTopItems.Count);
             return todayTopItems;
         }
 
         private static NotificationManager CreateNotifier(EmailConfig emailConfig)
         {
+            Log.Information("Creating notifier for {0} ...",emailConfig.Domain);
             NotificationManager notifier;
             try
             {
@@ -155,10 +198,10 @@ namespace Sciendo.Topper
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Error(e,"Cannot create notifier.");
                 throw;
             }
-
+            Log.Information("Notifier created.");
             return notifier;
         }
 

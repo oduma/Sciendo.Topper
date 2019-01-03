@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
+using Serilog;
 
 namespace Sciendo.Topper.Store
 {
@@ -16,12 +17,13 @@ namespace Sciendo.Topper.Store
 
         public Repository (CosmosDbConfig cosmosDbConfig)
         {
+            Log.Information(
+                "Creating a repository for Database:{0} and collection: {1}",
+                cosmosDbConfig.DatabaseId, cosmosDbConfig.CollectionId);
             _cosmosDbConfig = cosmosDbConfig;
             _documentClient = new DocumentClient(new Uri(_cosmosDbConfig.Endpoint), _cosmosDbConfig.Key,
                 new ConnectionPolicy {EnableEndpointDiscovery = false});
-            _documentClient.OpenAsync();
-            CreateDatabaseIfNotExistsAsync().Wait();
-            CreateCollectionIfNotExistsAsync().Wait();
+            Log.Information("Repository created.");
 
         }
         public void Dispose()
@@ -112,5 +114,24 @@ namespace Sciendo.Topper.Store
             return results;
         }
 
+        public void OpenConnection()
+        {
+            Log.Information(
+                "Opening a connection to the database.");
+
+            _documentClient.OpenAsync();
+            if (!CreateDatabaseIfNotExistsAsync().Wait(1000))
+            {
+                //throw new Exception("Timeout while tring to create the database.");
+            }
+
+            if (CreateCollectionIfNotExistsAsync().Wait(1000))
+            {
+                //throw new Exception("Timeout while trying to create the collection.");
+            }
+            Log.Information(
+                "Connection to the database opened Ok.");
+
+        }
     }
 }
