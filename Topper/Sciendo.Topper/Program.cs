@@ -21,27 +21,10 @@ namespace Sciendo.Topper
     {
         static int Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .WriteTo.File("log-.txt", rollingInterval: RollingInterval.Day)
-                .CreateLogger();
+            ConfigureLog();
             Log.Information("Starting...");
 
-            var config =
-                new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("topper.json")
-                    .AddCommandLine(args)
-                    .Build();
-            TopperConfig topperConfig;
-            try
-            {
-               topperConfig= new ConfigurationManager<TopperConfig>().GetConfiguration(config);
-            }
-            catch (Exception e)
-            {
-                Log.Error(e,"Something happened here!");
-                throw;
-            }
+            var topperConfig = ReadConfiguration(args);
 
             var notifier = CreateNotifier(topperConfig.EmailOptions);
 
@@ -100,6 +83,35 @@ namespace Sciendo.Topper
             }
 
             return 0;
+        }
+
+        private static TopperConfig ReadConfiguration(string[] args)
+        {
+            var config =
+                new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile($"{AppDomain.CurrentDomain.FriendlyName}.topper.json")
+                    .AddCommandLine(args)
+                    .Build();
+            TopperConfig topperConfig;
+            try
+            {
+                topperConfig = new ConfigurationManager<TopperConfig>().GetConfiguration(config);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "Something happened here!");
+                throw;
+            }
+
+            return topperConfig;
+        }
+
+        private static void ConfigureLog()
+        {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("log-.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
         }
 
         private static void CalculateStoreTodayItems(Repository<TopItem> itemsRepo, TopperRulesConfig topperRulesConfig, 

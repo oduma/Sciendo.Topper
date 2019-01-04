@@ -21,7 +21,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Config", "Sciendo.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Tests.Unit", "Sciendo.Topper.Tests.Unit\Sciendo.Topper.Tests.Unit.csproj", "{F7F2B488-D6EC-44A6-91E6-84A404ED3626}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Topper.Export", "Topper.Export\Topper.Export.csproj", "{FA845B9A-7B2F-471C-849C-F71155202205}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Topper.Export", "Topper.Export\Topper.Export.csproj", "{FA845B9A-7B2F-471C-849C-F71155202205}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{25D29692-7687-42EE-9EB4-631CC4484551}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
