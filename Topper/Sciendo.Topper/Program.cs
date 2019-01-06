@@ -44,25 +44,11 @@ namespace Sciendo.Topper
                     }
                     catch (Exception e)
                     {
-                        Log.Error(e,"Timeout while creating objects in the database.");
+                        Log.Error(e,"Timeout while creating database and collection.");
                         throw;
                     }
 
-                    var storeLogic = new StoreManager(itemsRepo);
-                    storeLogic.Progress += StoreLogic_Progress;
-                    if(todayTopItems.Count>0)
-                        CalculateStoreTodayItems(itemsRepo, topperConfig.TopperRulesConfig, todayTopItems, storeLogic);
-                    else
-                    {
-                        Log.Warning("No top items for today no calculation of scores needed.");
-                    }
-                    yearAggregate.AddRange(storeLogic.GetAggregateHistoryOfScores());
-                    if (!yearAggregate.Any())
-                    {
-                        Log.Warning("No year aggregate retrieve.");
-                    }
-                    else
-                        Log.Information("Items scored this year {0}", yearAggregate.Count);
+                    CalculateTopItemsAndGetAggregateItems(itemsRepo, todayTopItems, topperConfig, yearAggregate);
                 }
 
                 if (!yearAggregate.Any() && !todayTopItems.Any())
@@ -81,15 +67,35 @@ namespace Sciendo.Topper
                     return -1;
                 }
             }
-
             return 0;
+        }
+
+        private static void CalculateTopItemsAndGetAggregateItems(Repository<TopItem> itemsRepo, List<TopItem> todayTopItems,
+            TopperConfig topperConfig, List<TopItem> yearAggregate)
+        {
+            var storeLogic = new StoreManager(itemsRepo);
+            storeLogic.Progress += StoreLogic_Progress;
+            if (todayTopItems.Count > 0)
+                CalculateStoreTodayItems(itemsRepo, topperConfig.TopperRulesConfig, todayTopItems, storeLogic);
+            else
+            {
+                Log.Warning("No top items for today no calculation of scores needed.");
+            }
+
+            yearAggregate.AddRange(storeLogic.GetAggregateHistoryOfScores());
+            if (!yearAggregate.Any())
+            {
+                Log.Warning("No year aggregate retrieve.");
+            }
+            else
+                Log.Information("Items scored this year {0}", yearAggregate.Count);
         }
 
         private static TopperConfig ReadConfiguration(string[] args)
         {
             var config =
                 new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile($"{AppDomain.CurrentDomain.FriendlyName}.topper.json")
+                    .AddJsonFile($"{AppDomain.CurrentDomain.FriendlyName}.json")
                     .AddCommandLine(args)
                     .Build();
             TopperConfig topperConfig;
