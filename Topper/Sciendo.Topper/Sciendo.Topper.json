@@ -15,12 +15,12 @@
   },
   "emailOptions": {
     "DefaultSenderDisplayName": "Music Listening Report",
-    "DefaultSenderEmail": "noreply.music.listening@outlook.com",
-    "Domain": "smtp-mail.outlook.com",
+    "DefaultSenderEmail": "musiclistening2019@gmail.com",
+    "Domain": "smtp.gmail.com",
     "Key": "protected",
-    "Port": "25",
+    "Port": "587",
     "RequiresAuthentication": "true",
-    "UseHtml": "True",
+    "UseHtml": "true",
     "UserName": "protected",
     "UseSsl": "true",
     "NotSendFileExtension": "mail" 
