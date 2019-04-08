@@ -20,12 +20,18 @@ namespace Sciendo.Topper.Store
                 .FirstOrDefault(p => p.Date.ToString("YYYY-MM-DD") == item.Date.AddDays(-1).ToString("YYYY-MM-DD"));
             if (potentialMatch == null || potentialMatch.Hits < item.Hits)
             {
-                Log.Information("Apply bonus...");
+                Log.Information("Apply bonus. Reason: {0}{1}{2}",
+                    (potentialMatch == null) ? "Not found item with name " : "Found the item with name: ", item.Name,
+                    (potentialMatch == null)
+                        ? "."
+                        : $" but with Hits in db = {potentialMatch.Hits} compared with new hits = {item.Hits}");
                 AddHitsAndRankingBonus(item);
             }
             else
             {
-                Log.Information("No bonus just hits.");
+                Log.Information(
+                    "No bonus just hits. Reason: Item in the db with name:{0} with existing hits {1} matched against the new item {2} with new hits {3}",
+                    potentialMatch.Name, potentialMatch.Hits, item.Name, item.Hits);
                 AddHits(item);
             }
         }
