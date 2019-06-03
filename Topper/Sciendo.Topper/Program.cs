@@ -11,8 +11,6 @@ using Sciendo.Topper.Notifier;
 using Sciendo.Topper.Source.DataTypes;
 using Sciendo.Topper.Store;
 using Serilog;
-using Serilog.Core;
-using Serilog.Sinks.SystemConsole.Themes;
 
 
 namespace Sciendo.Topper

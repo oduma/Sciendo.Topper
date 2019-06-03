@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using System.Transactions;
-
-namespace Sciendo.Topper.Notifier
+﻿namespace Sciendo.Topper.Notifier
 {
     public static class Style
     {

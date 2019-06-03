@@ -16,8 +16,9 @@ namespace Sciendo.Topper.Store
             var potentialMatches =
                 TopItemsRepo.GetItemsAsync(i => i.Name == item.Name).Result.ToList();
             Log.Information("{0} potential existing matches found.",potentialMatches?.Count);
+            Log.Information("Looking for potential matches in {0}",item.Date.AddDays(-1).ToString("yyyy-MM-dd"));
             var potentialMatch = potentialMatches
-                .FirstOrDefault(p => p.Date.ToString("YYYY-MM-DD") == item.Date.AddDays(-1).ToString("YYYY-MM-DD"));
+                .FirstOrDefault(p => p.Date.ToString("yyyy-MM-dd") == item.Date.AddDays(-1).ToString("yyyy-MM-dd") && p.Hits>0);
             if (potentialMatch == null || potentialMatch.Hits < item.Hits)
             {
                 Log.Information("Apply bonus. Reason: {0}{1}{2}",
