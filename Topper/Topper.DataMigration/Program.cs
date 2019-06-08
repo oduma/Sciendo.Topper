@@ -57,6 +57,7 @@ namespace Topper.DataMigration
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
+                        return;
                     }
                 }
             }
@@ -73,7 +74,7 @@ namespace Topper.DataMigration
                 throw new IOException($"{inputFile} does not exist.");
             foreach (var fileLine in File.ReadLines(inputFile))
             {
-                if(fileLine.StartsWith("Artist,Day,Hits,TempScore,NoOfLoved,Score"))
+                if(fileLine.StartsWith("Artist,Day,Hits,NoOfLoved,Score,Year,DayRanking"))
                     continue;
                 else
                 {
@@ -85,8 +86,10 @@ namespace Topper.DataMigration
                                 Name = fileLineParts[0],
                                 Date = Convert.ToDateTime(fileLineParts[1]),
                                 Hits = Convert.ToInt32(fileLineParts[2]),
-                                Score = Convert.ToInt32(fileLineParts[5]),
-                                Loved=(string.IsNullOrEmpty(fileLineParts[4]))?0:Convert.ToInt32(fileLineParts[4])
+                                Loved = Convert.ToInt32(fileLineParts[3]),
+                                Score = Convert.ToInt32(fileLineParts[4]),
+                                Year=fileLineParts[5],
+                                DayRanking = Convert.ToInt32(fileLineParts[6])
                             };
                 }
             }

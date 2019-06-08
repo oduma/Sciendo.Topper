@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Tests.Unit",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Topper.Export", "Topper.Export\Topper.Export.csproj", "{FA845B9A-7B2F-471C-849C-F71155202205}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Topper.Fixer", "Topper.Fixer\Topper.Fixer.csproj", "{61059648-82DC-4AD4-B905-013F908B95B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{FA845B9A-7B2F-471C-849C-F71155202205}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA845B9A-7B2F-471C-849C-F71155202205}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA845B9A-7B2F-471C-849C-F71155202205}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61059648-82DC-4AD4-B905-013F908B95B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61059648-82DC-4AD4-B905-013F908B95B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61059648-82DC-4AD4-B905-013F908B95B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61059648-82DC-4AD4-B905-013F908B95B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

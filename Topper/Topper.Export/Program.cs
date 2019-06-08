@@ -38,11 +38,12 @@ namespace Topper.Export
             {
                 using (var fs = File.CreateText(topperExportConfig.OutputFile))
                 {
-                    fs.WriteLine("Artist,Day,Hits,TempScore,NoOfLoved,Score");
+                    fs.WriteLine("Artist,Day,Hits,NoOfLoved,Score,Year,DayRanking");
                     foreach (var topItem in itemsRepository.GetAllItemsAsync().Result)
                     {
-                        fs.WriteLine($"{topItem.Name},{topItem.Date.Day}/{topItem.Date.Month}/{topItem.Date.Year},{topItem.Hits},0,{topItem.Loved},{topItem.Score}");
-                        Console.WriteLine("Exported {0} Ok.",topItem.Name);
+                        fs.WriteLine(
+                            $"{topItem.Name},{topItem.Date.Day}/{topItem.Date.Month}/{topItem.Date.Year},{topItem.Hits},{topItem.Loved},{topItem.Score},{topItem.Year},{topItem.DayRanking}");
+                        Console.WriteLine("Exported {1} - {0} Ok.",topItem.Name,topItem.Date);
                         i++;
                     }
                     fs.Flush();

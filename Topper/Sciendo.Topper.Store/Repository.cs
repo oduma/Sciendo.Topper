@@ -85,7 +85,7 @@ namespace Sciendo.Topper.Store
         {
             IDocumentQuery<T> query = _documentClient.CreateDocumentQuery<T>(
                 UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, _cosmosDbConfig.CollectionId),
-                new FeedOptions { MaxItemCount = -1 })
+                new FeedOptions { MaxItemCount = -1,EnableCrossPartitionQuery=true })
                 .Where(predicate)
                 .AsDocumentQuery();
 
@@ -102,7 +102,7 @@ namespace Sciendo.Topper.Store
         {
             IDocumentQuery<T> query = _documentClient.CreateDocumentQuery<T>(
                     UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, _cosmosDbConfig.CollectionId),
-                    new FeedOptions { MaxItemCount = -1 })
+                    new FeedOptions { MaxItemCount = -1,EnableCrossPartitionQuery=true })
                 .AsDocumentQuery();
 
             List<T> results = new List<T>();
