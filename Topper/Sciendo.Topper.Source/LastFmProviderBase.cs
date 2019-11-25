@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Sciendo.Last.Fm;
-using Sciendo.Topper.Contracts;
+using Sciendo.Topper.Domain;
 
 namespace Sciendo.Topper.Source
 {

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
-using Sciendo.Topper.Contracts;
+using Sciendo.Topper.Domain;
 using Serilog;
 
 namespace Sciendo.Topper.Notifier

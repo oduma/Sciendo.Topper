@@ -1,4 +1,4 @@
-﻿using Sciendo.Topper.Contracts;
+﻿using Sciendo.Topper.Domain;
 using Serilog;
 
 namespace Sciendo.Topper.Store

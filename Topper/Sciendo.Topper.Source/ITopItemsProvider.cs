@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Sciendo.Topper.Domain;
 using System.Collections.Generic;
-using System.Text;
-using Sciendo.Topper.Contracts;
 
 namespace Sciendo.Topper.Source
 {

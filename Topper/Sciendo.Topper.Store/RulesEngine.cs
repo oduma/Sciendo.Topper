@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Sciendo.Topper.Contracts;
+﻿using System.Collections.Generic;
+using Sciendo.Topper.Domain;
 using Serilog;
 
 namespace Sciendo.Topper.Store

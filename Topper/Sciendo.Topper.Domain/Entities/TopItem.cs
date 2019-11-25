@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Sciendo.Topper.Contracts
+namespace Sciendo.Topper.Domain
 {
     public class TopItem
     {

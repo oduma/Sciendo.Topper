@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sciendo.Topper.Contracts\Sciendo.Topper.Contracts.csproj" />
+    <ProjectReference Include="..\Sciendo.Topper.Domain\Sciendo.Topper.Domain.csproj" />
   </ItemGroup>
 
 </Project>

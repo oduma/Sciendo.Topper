@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Sciendo.Config;
 using Sciendo.Last.Fm;
 using Sciendo.Topper.Source;
-using Sciendo.Topper.Contracts;
+using Sciendo.Topper.Domain;
 using Sciendo.Topper.Notifier;
 using Sciendo.Topper.Source.DataTypes;
 using Sciendo.Topper.Store;

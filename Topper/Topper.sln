@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2047
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper", "Sciendo.Topper\Sciendo.Topper.csproj", "{71571A96-10D0-4216-96C4-717A2EC441BA}"
 EndProject
@@ -23,7 +23,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Tests.Unit",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Topper.Export", "Topper.Export\Topper.Export.csproj", "{FA845B9A-7B2F-471C-849C-F71155202205}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Topper.Fixer", "Topper.Fixer\Topper.Fixer.csproj", "{61059648-82DC-4AD4-B905-013F908B95B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Topper.Fixer", "Topper.Fixer\Topper.Fixer.csproj", "{61059648-82DC-4AD4-B905-013F908B95B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Api", "Sciendo.Topper.Api\Sciendo.Topper.Api.csproj", "{73CE5FE8-242F-4690-8257-448190B85401}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Domain", "Sciendo.Topper.Domain\Sciendo.Topper.Domain.csproj", "{B93FE2A8-1CD6-4DA3-B04B-4AE639A5A0A8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Service", "Sciendo.Topper.Service\Sciendo.Topper.Service.csproj", "{19D80477-0615-460F-9D91-C72B57B4709D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +81,18 @@ Global
 		{61059648-82DC-4AD4-B905-013F908B95B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61059648-82DC-4AD4-B905-013F908B95B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61059648-82DC-4AD4-B905-013F908B95B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73CE5FE8-242F-4690-8257-448190B85401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73CE5FE8-242F-4690-8257-448190B85401}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73CE5FE8-242F-4690-8257-448190B85401}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73CE5FE8-242F-4690-8257-448190B85401}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B93FE2A8-1CD6-4DA3-B04B-4AE639A5A0A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B93FE2A8-1CD6-4DA3-B04B-4AE639A5A0A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B93FE2A8-1CD6-4DA3-B04B-4AE639A5A0A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B93FE2A8-1CD6-4DA3-B04B-4AE639A5A0A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19D80477-0615-460F-9D91-C72B57B4709D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19D80477-0615-460F-9D91-C72B57B4709D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19D80477-0615-460F-9D91-C72B57B4709D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19D80477-0615-460F-9D91-C72B57B4709D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

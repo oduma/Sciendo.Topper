@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sciendo.Last.Fm;
-using Sciendo.Topper.Contracts;
+using Sciendo.Topper.Domain;
 using Sciendo.Topper.Source.DataTypes;
 using Serilog;
 

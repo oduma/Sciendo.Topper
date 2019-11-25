@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Sciendo.Config;
-using Sciendo.Topper.Contracts;
+using Sciendo.Topper.Domain;
 using Sciendo.Topper.Store;
 
 namespace Topper.DataMigration
