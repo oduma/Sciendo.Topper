@@ -19,7 +19,7 @@ namespace Sciendo.Topper.Service.Mappers
             if (fromItem == null)
                 throw new ArgumentNullException(nameof(fromItem));
             OverallEntry overallEntry = new OverallEntry { Name = base.Map(fromItem).Name };
-            overallEntry.Position = mapTopItemToPosition.Map(fromItem);
+            overallEntry.CurrentOverallPosition = mapTopItemToPosition.Map(fromItem);
             return overallEntry;
         }
     }

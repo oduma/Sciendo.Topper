@@ -6,20 +6,18 @@ using System.Text;
 
 namespace Sciendo.Topper.Service.Mappers
 {
-    public class MapTopItemToDatedEntry : MapTopItemToBaseEntry, IMap<TopItem, DatedEntry>
+    public class MapTopItemToDatedEntry : MapTopItemToOverallEntry, IMap<TopItem, DatedEntry>
     {
-        private readonly IMap<TopItem, Position> mapTopItemToPosition;
 
-        public MapTopItemToDatedEntry(IMap<TopItem,Position> mapTopItemToPosition)
+        public MapTopItemToDatedEntry(IMap<TopItem,Position> mapTopItemToPosition):base(mapTopItemToPosition)
         {
-            this.mapTopItemToPosition = mapTopItemToPosition;
         }
         public new DatedEntry Map(TopItem fromItem)
         {
-            var oneDayEntry = (DatedEntry)base.Map(fromItem);
-            oneDayEntry.Date = fromItem.Date;
-            oneDayEntry.Position = mapTopItemToPosition.Map(fromItem);
-            return oneDayEntry;
+            if (fromItem == null)
+                throw new ArgumentNullException(nameof(fromItem));
+            var overallEntry = base.Map(fromItem);
+            return new DatedEntry { Name = overallEntry.Name, CurrentOverallPosition = overallEntry.CurrentOverallPosition,Date=fromItem.Date };
         }
     }
 }

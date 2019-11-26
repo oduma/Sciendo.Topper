@@ -14,7 +14,7 @@ namespace Sciendo.Topper.Service.Mappers
             if (fromItem == null)
                 throw new ArgumentNullException(nameof(fromItem));
             return new Position { 
-                PositionRank = fromItem.DayRanking, 
+                Rank = fromItem.DayRanking, 
                 Hits = fromItem.Hits, 
                 NoOfLovedTracks= 
                 fromItem.Loved, 

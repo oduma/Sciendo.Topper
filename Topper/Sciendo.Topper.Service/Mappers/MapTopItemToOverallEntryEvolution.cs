@@ -19,15 +19,15 @@ namespace Sciendo.Topper.Service.Mappers
             if (currentItem == null)
             {
                 var overallEntry = base.Map(previousItem);
-                overallEntryEvolution = new OverallEntryEvolution { Name = overallEntry.Name, PreviousDayOverallPosition = overallEntry.Position };
-                overallEntryEvolution.Position = null;
+                overallEntryEvolution = new OverallEntryEvolution { Name = overallEntry.Name, PreviousDayOverallPosition = overallEntry.CurrentOverallPosition };
+                overallEntryEvolution.CurrentOverallPosition = null;
                 return overallEntryEvolution;
 
             }
             else if (previousItem == null)
             {
                 var overallEntry = base.Map(currentItem);
-                overallEntryEvolution = new OverallEntryEvolution { Name=overallEntry.Name,Position=overallEntry.Position};
+                overallEntryEvolution = new OverallEntryEvolution { Name=overallEntry.Name,CurrentOverallPosition=overallEntry.CurrentOverallPosition};
                 overallEntryEvolution.PreviousDayOverallPosition = null;
                 return overallEntryEvolution;
             }
@@ -38,8 +38,8 @@ namespace Sciendo.Topper.Service.Mappers
             else
             {
                 var overallEntry = base.Map(currentItem);
-                overallEntryEvolution = new OverallEntryEvolution { Name = overallEntry.Name, Position = overallEntry.Position };
-                overallEntryEvolution.PreviousDayOverallPosition = base.Map(previousItem).Position;
+                overallEntryEvolution = new OverallEntryEvolution { Name = overallEntry.Name, CurrentOverallPosition = overallEntry.CurrentOverallPosition };
+                overallEntryEvolution.PreviousDayOverallPosition = base.Map(previousItem).CurrentOverallPosition;
                 return overallEntryEvolution;
             }
         }

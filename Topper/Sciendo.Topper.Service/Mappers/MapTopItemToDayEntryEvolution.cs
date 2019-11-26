@@ -26,9 +26,9 @@ namespace Sciendo.Topper.Service.Mappers
 
             var dayEntryEvolution = new DayEntryEvolution { 
                 Name = dailyEntryEvolution.Name, 
-                CurrentDayPosition = dailyEntryEvolution.Position, 
+                CurrentDayPosition = dailyEntryEvolution.CurrentOverallPosition, 
                 PreviousDayPosition = dailyEntryEvolution.PreviousDayOverallPosition, 
-                Position = overallEntryEvolution.Position, 
+                CurrentOverallPosition = overallEntryEvolution.CurrentOverallPosition, 
                 PreviousDayOverallPosition = overallEntryEvolution.PreviousDayOverallPosition };
 
             return dayEntryEvolution;

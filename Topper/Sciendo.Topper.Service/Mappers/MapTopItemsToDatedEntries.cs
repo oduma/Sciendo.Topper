@@ -16,6 +16,8 @@ namespace Sciendo.Topper.Service.Mappers
         }
         public IEnumerable<DatedEntry> Map(IEnumerable<TopItem> fromItem)
         {
+            if (fromItem == null)
+                throw new ArgumentNullException(nameof(fromItem));
             foreach(var topItem in fromItem)
             {
                 yield return mapTopItemToDetailEntry.Map(topItem);

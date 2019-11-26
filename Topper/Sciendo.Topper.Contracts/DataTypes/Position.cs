@@ -2,7 +2,7 @@
 {
     public class Position
     {
-        public int PositionRank { get; set; }
+        public int Rank { get; set; }
 
         public int Hits { get; set; }
 
