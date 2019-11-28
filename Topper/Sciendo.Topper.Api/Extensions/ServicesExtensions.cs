@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Sciendo.Topper.Contracts;
+using Sciendo.Topper.Domain;
 using Sciendo.Topper.Service;
+using Sciendo.Topper.Store;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -43,6 +45,8 @@ namespace Sciendo.Topper.Api.Extensions
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddScoped<IAdminService, AdminService>();
+            //services.AddScoped<IRepository<TopItem>, Repository<TopItem>>(s=>new Repository<TopItem>(cosmosDbConfig));
+
         }
     }
 }

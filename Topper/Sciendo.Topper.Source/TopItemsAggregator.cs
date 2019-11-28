@@ -1,61 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Sciendo.Topper.Domain;
-using Serilog;
 
 namespace Sciendo.Topper.Source
 {
-    public class TopItemsAggregator
+    public class TopItemsAggregator : ITopItemsAggregator
     {
-        public TopItemsAggregator()
+        public TopItemsAggregator(ILogger<TopItemsAggregator> logger)
         {
-            _providers=new List<ITopItemsProvider>();
+            _providers = new List<ITopItemsProvider>();
+            this.logger = logger;
         }
         private List<ITopItemsProvider> _providers;
+        private readonly ILogger<TopItemsAggregator> logger;
+
         public void RegisterProvider(ITopItemsProvider provider)
         {
-            if(provider == null)
+            if (provider == null)
                 throw new ArgumentNullException(nameof(provider));
             _providers.Add(provider);
-            Log.Information("Registered provider {provider}", provider);
+            logger.LogInformation("Registered provider {provider}", provider);
         }
         public List<TopItem> GetItems(string userName)
         {
-            Log.Information("Getting Top Items...");
-            if(string.IsNullOrEmpty(userName))
+            logger.LogInformation("Getting Top Items...");
+            if (string.IsNullOrEmpty(userName))
                 throw new ArgumentNullException(nameof(userName));
             List<TopItem> result = new List<TopItem>();
             int providersFailed = 0;
             foreach (var provider in _providers)
             {
-                var topItems= provider.GetItems(userName);
-                if(topItems.Any())
+                var topItems = provider.GetItems(userName);
+                if (topItems.Any())
                     if (!result.Any())
-                {
-                    result.AddRange(topItems);
-                    Log.Information("Top Items added to the pool.");
-                }
+                    {
+                        result.AddRange(topItems);
+                        logger.LogInformation("Top Items added to the pool.");
+                    }
+                    else
+                    {
+                        logger.LogInformation("Merging topItems from a different provider...");
+                        MergeItems(topItems, result, provider.MergeSourceProperties);
+                    }
                 else
                 {
-                    Log.Information("Merging topItems from a different provider...");
-                    MergeItems(topItems, result, provider.MergeSourceProperties);
-                }
-                else
-                {
-                    Log.Warning("Provider {provider} did not return any items.",provider);
+                    logger.LogWarning("Provider {provider} did not return any items.", provider);
                     providersFailed++;
                 }
             }
-            if(_providers.Count>providersFailed)
-                Log.Information("Retrieved {0} top Items.", result.Count);
+            if (_providers.Count > providersFailed)
+                logger.LogInformation("Retrieved {0} top Items.", result.Count);
             else
-                Log.Warning("No provider returned results.");
+                logger.LogWarning("No provider returned results.");
             return result;
         }
 
-        private void MergeItems(List<TopItem> fromList, List<TopItem> toList, 
-            Action<TopItem,TopItem> mergeSourceProperties)
+        private void MergeItems(List<TopItem> fromList, List<TopItem> toList,
+            Action<TopItem, TopItem> mergeSourceProperties)
         {
             foreach (var fromTopItem in fromList)
             {
@@ -68,7 +71,7 @@ namespace Sciendo.Topper.Source
                 else
                 {
                     toList.Add(fromTopItem);
-                    Log.Warning("No need to merge adding a new top Item.");
+                    logger.LogWarning("No need to merge adding a new top Item.");
                 }
             }
 

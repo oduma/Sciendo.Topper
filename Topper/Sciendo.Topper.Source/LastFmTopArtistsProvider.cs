@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Sciendo.Last.Fm;
 using Sciendo.Topper.Domain;
 using Sciendo.Topper.Source.DataTypes;
-using Serilog;
 
 namespace Sciendo.Topper.Source
 {
     public class LastFmTopArtistsProvider:LastFmProviderBase<TopArtistsRootObject>
     {
+        private readonly ILogger<LastFmTopArtistsProvider> logger;
 
         protected override string LastFmMethod { get=> "user.gettopartists"; }
         protected override string AdditionalParameters
@@ -19,25 +20,25 @@ namespace Sciendo.Topper.Source
 
         public override List<TopItem> GetItems(string userName)
         {
-            Log.Information("Getting top Artists with {LastFmMethod}",LastFmMethod);
+            logger.LogInformation("Getting top Artists with {LastFmMethod}",LastFmMethod);
             if(string.IsNullOrEmpty(userName))
                 throw new ArgumentNullException(nameof(userName));
             var topArtistsRoot = ContentProvider.GetContent(LastFmMethod, userName, 1, AdditionalParameters);
             if (topArtistsRoot == null)
             {
-                Log.Warning("No top Artists from last fm.");
+                logger.LogWarning("No top Artists from last fm.");
                 return new List<TopItem>();
             }
 
             if (topArtistsRoot.TopArtistsPage == null)
             {
-                Log.Warning("No top Artists page from last fm.");
+                logger.LogWarning("No top Artists page from last fm.");
                 return new List<TopItem>();
             }
 
             if (topArtistsRoot.TopArtistsPage.TopArtists == null)
             {
-                Log.Warning("No top Artists in top Artists page from last fm.");
+                logger.LogWarning("No top Artists in top Artists page from last fm.");
                 return new List<TopItem>();
             }
             var topArtists = topArtistsRoot
@@ -52,7 +53,7 @@ namespace Sciendo.Topper.Source
                         {Hits = ta.PlayCount, Name = ta.Name, Date = DateTime.Now, DayRanking = rank}));
                 rank++;
             }
-            Log.Information("Retrieved {0} top artists", topArtists.Count());
+            logger.LogInformation("Retrieved {0} top artists", topArtists.Count());
             return results;
         }
 
@@ -64,13 +65,14 @@ namespace Sciendo.Topper.Source
                 throw new ArgumentNullException(nameof(toItem));
             toItem.Hits = fromItem.Hits;
             toItem.DayRanking = fromItem.DayRanking;
-            Log.Information(
+            logger.LogInformation(
                 "After merge topItem has been set to:{toItem.Hits} Hits and {toItem.DayRanking} DayRanking.",
                 toItem.Hits, toItem.DayRanking);
         }
 
-        public LastFmTopArtistsProvider(IContentProvider<TopArtistsRootObject> contentProvider) : base(contentProvider)
+        public LastFmTopArtistsProvider(ILogger<LastFmTopArtistsProvider> logger, IContentProvider<TopArtistsRootObject> contentProvider) : base(contentProvider)
         {
+            this.logger = logger;
         }
     }
 }

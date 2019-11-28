@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Sciendo.Config;
 using Sciendo.Topper.Domain;
 using Sciendo.Topper.Store;
+using Serilog;
 
 namespace Topper.DataMigration
 {
@@ -12,11 +15,30 @@ namespace Topper.DataMigration
     {
         static void Main(string[] args)
         {
-            TopperDataMigrationConfig topperDataMigrationConfig;
+            var serviceCollection = new ServiceCollection();
+
+            var serviceProvider = ConfigureLog(serviceCollection);
+            var logger = serviceProvider.GetService<ILogger<Program>>();
+
+            TopperDataMigrationConfig topperDataMigrationConfig = ReadConfiguration(logger, args);
+            serviceProvider = ConfigureServices(serviceCollection, topperDataMigrationConfig);
+
+            MigrateData(logger, serviceProvider, topperDataMigrationConfig);
+        }
+
+        private static ServiceProvider ConfigureServices(ServiceCollection serviceCollection, TopperDataMigrationConfig topperDataMigrationConfig)
+        {
+            serviceCollection.AddTransient<IRepository<TopItem>>(r => new Repository<TopItem>(r.GetRequiredService<ILogger<Repository<TopItem>>>(), topperDataMigrationConfig.CosmosDbConfig));
+            serviceCollection.AddTransient<IStoreManager, StoreManager>();
+            return serviceCollection.BuildServiceProvider();
+
+        }
+
+        private static TopperDataMigrationConfig ReadConfiguration(ILogger<Program> logger, string[] args)
+        {
             try
             {
-                topperDataMigrationConfig =
-                    new ConfigurationManager<TopperDataMigrationConfig>().GetConfiguration(new ConfigurationBuilder()
+                return new ConfigurationManager<TopperDataMigrationConfig>().GetConfiguration(new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile("topper.dataMigration.json")
                         .AddCommandLine(args)
@@ -24,18 +46,26 @@ namespace Topper.DataMigration
             }
             catch (Exception e)
             {
-                    Console.WriteLine(e);
-                    throw;
+                logger.LogError("Error in Configuration.",e);
+                throw e;
             }
-            MigrateData(topperDataMigrationConfig);
+
         }
 
-        private static void MigrateData(TopperDataMigrationConfig topperDataMigrationConfig)
+        private static ServiceProvider ConfigureLog(IServiceCollection services)
         {
-            using (var itemsRepository = new Repository<TopItem>(topperDataMigrationConfig.CosmosDbConfig))
+            return services.AddLogging(configure => configure.AddSerilog(new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("log-.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger())).BuildServiceProvider();
+        }
+
+        private static void MigrateData(Microsoft.Extensions.Logging.ILogger logger, ServiceProvider serviceProvider, TopperDataMigrationConfig topperDataMigrationConfig)
+        {
+            using (var itemsRepository = serviceProvider.GetService<IRepository<TopItem>>())
             {
                 int i = 0;
-                var storeLogic = new StoreManager(itemsRepository);
+                var storeLogic = serviceProvider.GetService<IStoreManager>();
                 storeLogic.Progress += StoreLogic_Progress;
                 IEnumerable<TopItem> dataToMigrate;
                 try
@@ -44,7 +74,7 @@ namespace Topper.DataMigration
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    logger.LogError(e, "");
                     return;
                 }
                 foreach (var topItem in dataToMigrate)

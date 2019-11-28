@@ -1,22 +1,24 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using Sciendo.Topper.Domain;
-using Serilog;
 
 namespace Sciendo.Topper.Store
 {
-    public class RulesEngine
+    public class RulesEngine : IRulesEngine
     {
         private readonly List<RuleBase> _rules;
+        private readonly ILogger<RulesEngine> logger;
 
-        public RulesEngine()
+        public RulesEngine(ILogger<RulesEngine> logger)
         {
             _rules = new List<RuleBase>();
+            this.logger = logger;
         }
         public void AddRule(RuleBase rule)
         {
             if (rule != null)
             {
-                Log.Information("Added rule {rule}",rule);
+                logger.LogInformation("Added rule {rule}", rule);
                 _rules.Add(rule);
             }
         }
@@ -27,10 +29,10 @@ namespace Sciendo.Topper.Store
         }
         public void ApplyAllRules(TopItem item)
         {
-            Log.Information("Applying {0} rules to {1}",_rules.Count,item.Name);
+            logger.LogInformation("Applying {0} rules to {1}", _rules.Count, item.Name);
             foreach (var rule in _rules)
                 rule.ApplyRule(item);
-            Log.Information("All Rules applied.");
+            logger.LogInformation("All Rules applied.");
         }
     }
 }

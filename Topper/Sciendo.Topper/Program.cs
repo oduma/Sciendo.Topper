@@ -11,7 +11,8 @@ using Sciendo.Topper.Notifier;
 using Sciendo.Topper.Source.DataTypes;
 using Sciendo.Topper.Store;
 using Serilog;
-
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Sciendo.Topper
 {
@@ -19,22 +20,26 @@ namespace Sciendo.Topper
     {
         static int Main(string[] args)
         {
-            ConfigureLog();
-            Log.Information("Starting...");
+            var serviceCollection = new ServiceCollection();
+            
+            var serviceProvider = ConfigureLog(serviceCollection);
+            var logger = serviceProvider.GetService<ILogger<Program>>();
+            logger.LogInformation("Starting...");
+            var topperConfig = ReadConfiguration(logger, args);
+            serviceProvider = ConfigureServices(serviceCollection,topperConfig);
 
-            var topperConfig = ReadConfiguration(args);
 
-            var notifier = CreateNotifier(topperConfig.EmailOptions);
+            var notifier = CreateNotifier(logger, topperConfig.EmailOptions, serviceProvider);
 
             if (!notifier.SendPreviousFailedEmails())
             {
-                Log.Information("Trying to send new email for today...");
-                var todayTopItems = GetTodayTopItems(topperConfig.TopperLastFmConfig);
+                logger.LogInformation("Trying to send new email for today...");
+                var todayTopItems = GetTodayTopItems(logger, serviceProvider, topperConfig.TopperLastFmConfig);
 
 
                 List<TopItem> yearAggregate = new List<TopItem>();
 
-                using (var itemsRepo = new Repository<TopItem>(topperConfig.CosmosDbConfig))
+                using (var itemsRepo = serviceProvider.GetService<IRepository<TopItem>>())
                 {
                     try
                     {
@@ -42,54 +47,100 @@ namespace Sciendo.Topper
                     }
                     catch (Exception e)
                     {
-                        Log.Error(e,"Timeout while creating database and collection.");
+                        logger.LogError(e,"Timeout while creating database and collection.");
                         throw;
                     }
 
-                    CalculateTopItemsAndGetAggregateItems(itemsRepo, todayTopItems, topperConfig, yearAggregate);
+                    CalculateTopItemsAndGetAggregateItems(logger, serviceProvider, todayTopItems, yearAggregate);
                 }
 
                 if (!yearAggregate.Any() && !todayTopItems.Any())
                 {
-                    Log.Warning("Nothing to send. No email sent.");
+                    logger.LogWarning("Nothing to send. No email sent.");
                     return -2;
                 }
                 if (notifier.ComposeAndSendMessage(todayTopItems, yearAggregate, topperConfig.DestinationEmail))
                 {
-                    Log.Information("Check your email.");
+                    logger.LogInformation("Check your email.");
                     return 0;
                 }
                 else
                 {
-                    Log.Warning("Email not sent.");
+                    logger.LogWarning("Email not sent.");
                     return -1;
                 }
             }
             return 0;
         }
 
-        private static void CalculateTopItemsAndGetAggregateItems(Repository<TopItem> itemsRepo, List<TopItem> todayTopItems,
-            TopperConfig topperConfig, List<TopItem> yearAggregate)
+        public delegate ITopItemsProvider TopItemsProviderResolver(string key);
+        public delegate RuleBase RulesResolver(string key);
+        private static ServiceProvider ConfigureServices(ServiceCollection serviceCollection, TopperConfig topperConfig)
         {
-            var storeLogic = new StoreManager(itemsRepo);
+            serviceCollection.AddTransient<IRepository<TopItem>>(r => new Repository<TopItem>(r.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Repository<TopItem>>>(), topperConfig.CosmosDbConfig));
+            serviceCollection.AddTransient<IEmailSender>(e => new EmailSender(e.GetRequiredService <ILogger<EmailSender>>(), topperConfig.EmailOptions));
+            serviceCollection.AddTransient<INotificationManager>(n => new NotificationManager(n.GetRequiredService<ILogger<NotificationManager>>(), n.GetRequiredService<IEmailSender>(),"mail"));
+            serviceCollection.AddTransient<IUrlProvider>(u => new UrlProvider(u.GetRequiredService<ILogger<UrlProvider>>(), topperConfig.TopperLastFmConfig.ApiKey));
+            serviceCollection.AddTransient<ILastFmProvider, LastFmProvider>();
+            serviceCollection.AddTransient<IContentProvider<TopArtistsRootObject>, ContentProvider<TopArtistsRootObject>>();
+            serviceCollection.AddTransient<LastFmTopArtistsProvider>();
+            serviceCollection.AddTransient<IContentProvider<LovedTracksRootObject>, ContentProvider<LovedTracksRootObject>>();
+            serviceCollection.AddTransient<LastFmLovedProvider>();
+            serviceCollection.AddTransient<TopItemsProviderResolver>(serviceProvider=>key=> 
+            {
+                switch(key)
+                {
+                    case "LOVEDTRACK":
+                        return serviceProvider.GetService<LastFmLovedProvider>();
+                    case "TOPARTIST":
+                        return serviceProvider.GetService<LastFmTopArtistsProvider>();
+                    default:
+                        throw new KeyNotFoundException();
+                }
+            });
+            serviceCollection.AddTransient<ITopItemsAggregator, TopItemsAggregator>();
+            serviceCollection.AddTransient<IStoreManager, StoreManager>();
+            serviceCollection.AddTransient<IRulesEngine, RulesEngine>();
+            serviceCollection.AddTransient<ArtistScoreRule>(a=>new ArtistScoreRule(a.GetRequiredService<ILogger<ArtistScoreRule>>(),a.GetRequiredService<IRepository<TopItem>>(),topperConfig.TopperRulesConfig.RankingBonus));
+            serviceCollection.AddTransient<LovedRule>(l=> new LovedRule(l.GetRequiredService<ILogger<LovedRule>>(), l.GetRequiredService<IRepository<TopItem>>(), topperConfig.TopperRulesConfig.LovedBonus));
+            serviceCollection.AddTransient<RulesResolver>(serviceProvider=>key=>
+            {
+                switch(key)
+                {
+                    case "LOVEDTRACK":
+                        return serviceProvider.GetService<LovedRule>();
+                    case "TOPARTIST":
+                        return serviceProvider.GetService<ArtistScoreRule>();
+                    default:
+                        throw new KeyNotFoundException();
+                }
+            });
+            return serviceCollection.BuildServiceProvider();
+        }
+
+        private static void CalculateTopItemsAndGetAggregateItems(Microsoft.Extensions.Logging.ILogger<Program> logger, 
+            ServiceProvider serviceProvider, List<TopItem> todayTopItems,
+            List<TopItem> yearAggregate)
+        {
+            var storeLogic = serviceProvider.GetService<IStoreManager>();
             storeLogic.Progress += StoreLogic_Progress;
             if (todayTopItems.Count > 0)
-                CalculateStoreTodayItems(itemsRepo, topperConfig.TopperRulesConfig, todayTopItems, storeLogic);
+                CalculateStoreTodayItems(logger, serviceProvider, todayTopItems, storeLogic);
             else
             {
-                Log.Warning("No top items for today no calculation of scores needed.");
+                logger.LogWarning("No top items for today no calculation of scores needed.");
             }
 
             yearAggregate.AddRange(storeLogic.GetAggregateHistoryOfScores());
             if (!yearAggregate.Any())
             {
-                Log.Warning("No year aggregate retrieve.");
+                logger.LogWarning("No year aggregate retrieve.");
             }
             else
-                Log.Information("Items scored this year {0}", yearAggregate.Count);
+                logger.LogInformation("Items scored this year {0}", yearAggregate.Count);
         }
 
-        private static TopperConfig ReadConfiguration(string[] args)
+        private static TopperConfig ReadConfiguration(Microsoft.Extensions.Logging.ILogger<Program> logger, string[] args)
         {
             var config =
                 new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
@@ -103,32 +154,33 @@ namespace Sciendo.Topper
             }
             catch (Exception e)
             {
-                Log.Error(e, "Something happened here!");
+                logger.LogError(e, "Something happened here!");
                 throw;
             }
 
             return topperConfig;
         }
 
-        private static void ConfigureLog()
+        private static ServiceProvider ConfigureLog(IServiceCollection services)
         {
-            Log.Logger = new LoggerConfiguration()
+            return services.AddLogging(configure => configure.AddSerilog(new LoggerConfiguration()
                 .WriteTo.Console()
                 .WriteTo.File("log-.txt", rollingInterval: RollingInterval.Day)
-                .CreateLogger();
+                .CreateLogger())).BuildServiceProvider();
         }
 
-        private static void CalculateStoreTodayItems(Repository<TopItem> itemsRepo, TopperRulesConfig topperRulesConfig, 
+        private static void CalculateStoreTodayItems(Microsoft.Extensions.Logging.ILogger<Program> logger, 
+            ServiceProvider serviceProvider, 
             List<TopItem> todayTopItems,
-            StoreManager storeLogic)
+            IStoreManager storeLogic)
         {
-            Log.Information("Calculating scores for today's items...");
-            var rulesEngine = new RulesEngine();
-            rulesEngine.AddRule(new ArtistScoreRule(itemsRepo, topperRulesConfig.RankingBonus));
-            rulesEngine.AddRule(new LovedRule(itemsRepo, topperRulesConfig.LovedBonus));
+            logger.LogInformation("Calculating scores for today's items...");
+            var rulesEngine = serviceProvider.GetService<IRulesEngine>();
+            rulesEngine.AddRule(serviceProvider.GetService<RulesResolver>()("TOPARTIST"));
+            rulesEngine.AddRule(serviceProvider.GetService<RulesResolver>()("LOVEDTRACK"));
             foreach (var todayTopItem in todayTopItems)
             {
-                Log.Information("Calculating Score for {0}", todayTopItem.Name);
+                logger.LogInformation("Calculating Score for {0}", todayTopItem.Name);
                 rulesEngine.ApplyAllRules(todayTopItem);
                 try
                 {
@@ -136,54 +188,54 @@ namespace Sciendo.Topper
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e,"Cannot persist item in store.");
+                    logger.LogError(e,"Cannot persist item in store.");
                     throw;
                 }
             }
         }
 
-        private static List<TopItem> GetTodayTopItems(LastFmConfig topperLastFmConfig)
+        private static List<TopItem> GetTodayTopItems(Microsoft.Extensions.Logging.ILogger<Program> logger,  ServiceProvider serviceProvider,
+            LastFmConfig topperLastFmConfig)
         {
-            Log.Information("Getting new top items from last.fm ...");
+            logger.LogInformation("Getting new top items from last.fm ...");
+
+            TopItemsProviderResolver serviceResolver = serviceProvider.GetService<TopItemsProviderResolver>();
+
             List<TopItem> todayTopItems;
             IUrlProvider urlProvider;
             try
             {
-                urlProvider = new UrlProvider(topperLastFmConfig.ApiKey);
+                urlProvider = serviceProvider.GetService<IUrlProvider>();
             }
             catch (Exception e)
             {
-                Log.Error(e,"Cannot use urlProvider...");
+                logger.LogError(e,"Cannot use urlProvider...");
                 throw;
             }
 
-            LastFmTopArtistsProvider lastFmTopArtistsProvider;
+            ITopItemsProvider lastFmTopArtistsProvider;
             try
             {
-                lastFmTopArtistsProvider = new LastFmTopArtistsProvider(
-                    new ContentProvider<TopArtistsRootObject>(urlProvider,
-                        new LastFmProvider()));
+                lastFmTopArtistsProvider = serviceResolver("TOPARTIST");
             }
             catch (Exception e)
             {
-                Log.Error(e,"Cannot use LastFmTopArtistProvider");
+                logger.LogError(e,"Cannot use LastFmTopArtistProvider");
                 throw;
             }
 
-            LastFmLovedProvider lastFmLovedProvider;
+            ITopItemsProvider lastFmLovedProvider;
             try
             {
-                lastFmLovedProvider = new LastFmLovedProvider(
-                    new ContentProvider<LovedTracksRootObject>(urlProvider,
-                        new LastFmProvider()));
+                lastFmLovedProvider = serviceResolver("LOVEDTRACK");
             }
             catch (Exception e)
             {
-                Log.Error(e,"Cannot use LastFmLovesProvider");
+                logger.LogError(e,"Cannot use LastFmLovesProvider");
                 throw;
             }
 
-            var topItemsAggregator = new TopItemsAggregator();
+            var topItemsAggregator = serviceProvider.GetService<ITopItemsAggregator>();
             topItemsAggregator.RegisterProvider(lastFmTopArtistsProvider);
             topItemsAggregator.RegisterProvider(lastFmLovedProvider);
 
@@ -193,31 +245,32 @@ namespace Sciendo.Topper
             }
             catch (Exception e)
             {
-                Log.Error(e,"Cannot Retrieve items from at least one source.");
+                logger.LogError(e,"Cannot Retrieve items from at least one source.");
                 throw;
             }
             if(!todayTopItems.Any())
-                Log.Warning("Todays top items not retrieved.");
+                logger.LogWarning("Todays top items not retrieved.");
             else
-                Log.Information("Retrieved {0} items.", todayTopItems.Count);
+                logger.LogInformation("Retrieved {0} items.", todayTopItems.Count);
             return todayTopItems;
         }
 
-        private static NotificationManager CreateNotifier(EmailConfig emailConfig)
+        private static INotificationManager CreateNotifier(Microsoft.Extensions.Logging.ILogger<Program> logger, 
+            EmailConfig emailConfig,
+            ServiceProvider serviceProvider)
         {
-            Log.Information("Creating notifier for {0} ...",emailConfig.Domain);
-            NotificationManager notifier;
+            logger.LogInformation("Creating notifier for {0} ...",emailConfig.Domain);
+            INotificationManager notifier;
             try
             {
-                notifier = new NotificationManager(new EmailSender(emailConfig),
-                    emailConfig.NotSendFileExtension);
+                notifier = serviceProvider.GetService<INotificationManager>();
             }
             catch (Exception e)
             {
-                Log.Error(e,"Cannot create notifier.");
+                logger.LogError(e,"Cannot create notifier.");
                 throw;
             }
-            Log.Information("Notifier created.");
+            logger.LogInformation("Notifier created.");
             return notifier;
         }
 

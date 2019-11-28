@@ -1,19 +1,21 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using Serilog;
 
 namespace Sciendo.Topper.Notifier
 {
     public class EmailSender : IEmailSender
     {
+        private readonly ILogger<EmailSender> logger;
         private readonly EmailConfig _senderConfig;
 
-        public EmailSender(EmailConfig senderConfig)
+        public EmailSender(ILogger<EmailSender> logger, EmailConfig senderConfig)
         {
             if(senderConfig==null || string.IsNullOrEmpty(senderConfig.Domain))
                 throw new ArgumentNullException(nameof(senderConfig));
+            this.logger = logger;
             _senderConfig = senderConfig;
         }
 
@@ -32,7 +34,7 @@ namespace Sciendo.Topper.Notifier
 
         public void SendEmail(string toEmail, string subject, string message)
         {
-            Log.Information("Sending email...");
+            logger.LogInformation("Sending email...");
             if(string.IsNullOrEmpty(toEmail))
                 throw new ArgumentNullException(nameof(toEmail));
             
@@ -42,13 +44,13 @@ namespace Sciendo.Topper.Notifier
                 _senderConfig.UserName, _senderConfig.Key, _senderConfig.UseSsl);
 
             client.Send(mail);
-            Log.Information("Email sent.");
+            logger.LogInformation("Email sent.");
         }
 
-        private static MailMessage GetMailMessage(string toEmail, string subject, string message,
+        private MailMessage GetMailMessage(string toEmail, string subject, string message,
             string defaultSenderEmail, string defaultSenderDisplayName = null, bool useHtml = true)
         {
-            Log.Information("Composing email...");
+            logger.LogInformation("Composing email...");
             MailAddress sender;
 
             if (string.IsNullOrEmpty(defaultSenderEmail))
@@ -69,14 +71,14 @@ namespace Sciendo.Topper.Notifier
                 IsBodyHtml = useHtml
             };
             mail.To.Add(toEmail);
-            Log.Information("Mail composed.");
+            logger.LogInformation("Mail composed.");
             return mail;
         }
 
-        private static SmtpClient GetSmtpClient(string host, int port, bool requiresAuthentication = true,
+        private SmtpClient GetSmtpClient(string host, int port, bool requiresAuthentication = true,
             string userName = null, string userKey = null, bool useSsl = false)
         {
-            Log.Information("Building an email client...");
+            logger.LogInformation("Building an email client...");
             if (string.IsNullOrEmpty(host))
             {
                 throw new ArgumentException("No domain was provided");
@@ -102,7 +104,7 @@ namespace Sciendo.Topper.Notifier
 
             client.EnableSsl = useSsl;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            Log.Information("Email client built.");
+            logger.LogInformation("Email client built.");
             return client;
         }
     }
