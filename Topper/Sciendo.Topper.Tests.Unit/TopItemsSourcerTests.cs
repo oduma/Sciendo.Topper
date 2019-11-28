@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -10,33 +12,42 @@ using Serilog;
 
 namespace Sciendo.Topper.Tests.Unit
 {
-    public class LoggerFactory : ILoggerFactory
-    {
-        public void AddProvider(ILoggerProvider provider)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Microsoft.Extensions.Logging.ILogger CreateLogger(string categoryName)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new System.NotImplementedException();
-        }
-    }
     [TestClass]
     public class TopItemsSourcerTests   
     {
+        private readonly ILogger<TopItemsSourcerTests> logger;
+        private ServiceProvider serviceProvider;
+        private ServiceCollection serviceCollection;
 
         public TopItemsSourcerTests()
         {
-            var logger = new LoggerConfiguration()
-    .WriteTo.Console().CreateLogger();
+            serviceCollection = new ServiceCollection();
+
+            serviceProvider = ConfigureLog(serviceCollection);
+            logger = serviceProvider.GetService<ILogger<TopItemsSourcerTests>>();
+
 
         }
+
+        private ServiceProvider ConfigureServices(ServiceCollection serviceCollection, 
+            IContentProvider<TopArtistsRootObject> topArtistsProvider,
+            IContentProvider<LovedTracksRootObject> lovedTracksProvider)
+        {
+
+            serviceCollection.AddTransient<ITopItemsAggregator, TopItemsAggregator>();
+            serviceCollection.AddTransient<LastFmTopArtistsProvider>(l=>new LastFmTopArtistsProvider(l.GetRequiredService<ILogger<LastFmTopArtistsProvider>>(),topArtistsProvider));
+            serviceCollection.AddTransient<LastFmLovedProvider>(l => new LastFmLovedProvider(l.GetRequiredService<ILogger<LastFmLovedProvider>>(), lovedTracksProvider));
+            return serviceCollection.BuildServiceProvider();
+
+        }
+
+        private ServiceProvider ConfigureLog(ServiceCollection services)
+        {
+            return services.AddLogging(configure => configure.AddSerilog(new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger())).BuildServiceProvider();
+        }
+
         [TestMethod]
         public void NoSourcersData()
         {
@@ -46,11 +57,12 @@ namespace Sciendo.Topper.Tests.Unit
             var lovedTracksContentProviderMock = new Mock<IContentProvider<LovedTracksRootObject>>();
             lovedTracksContentProviderMock.Setup((m) => m.GetContent("user.getlovedtracks", "scentmaster",1,""))
                 .Returns(new LovedTracksRootObject());
-            TopItemsAggregator topItemsSourcer = new TopItemsAggregator(new Logger<TopItemsAggregator>(new LoggerFactory()));
-            topItemsSourcer.RegisterProvider(new LastFmTopArtistsProvider(new Logger<LastFmTopArtistsProvider>(new LoggerFactory()),
-                topartistsContentProviderMock.Object));
-            topItemsSourcer.RegisterProvider(new LastFmLovedProvider(new Logger<LastFmLovedProvider>(new LoggerFactory()),
-                lovedTracksContentProviderMock.Object));
+            serviceProvider = ConfigureServices(serviceCollection,topartistsContentProviderMock.Object,
+                lovedTracksContentProviderMock.Object);
+
+            ITopItemsAggregator topItemsSourcer = serviceProvider.GetService<ITopItemsAggregator>();
+            topItemsSourcer.RegisterProvider(serviceProvider.GetService<LastFmTopArtistsProvider>());
+            topItemsSourcer.RegisterProvider(serviceProvider.GetService<LastFmLovedProvider>());
             var topItems = topItemsSourcer.GetItems("scentmaster");
             Assert.IsNotNull(topItems);
             Assert.IsFalse(topItems.Any());
@@ -73,11 +85,12 @@ namespace Sciendo.Topper.Tests.Unit
             var lovedTracksContentProviderMock = new Mock<IContentProvider<LovedTracksRootObject>>();
             lovedTracksContentProviderMock.Setup((m) => m.GetContent("user.getlovedtracks", "scentmaster", 1, ""))
                 .Returns(new LovedTracksRootObject());
-            TopItemsAggregator topItemsSourcer = new TopItemsAggregator(new Logger<TopItemsAggregator>(new LoggerFactory()));
-            topItemsSourcer.RegisterProvider(new LastFmTopArtistsProvider(new Logger<LastFmTopArtistsProvider>(new LoggerFactory()),
-                topartistsContentProviderMock.Object));
-            topItemsSourcer.RegisterProvider(new LastFmLovedProvider(new Logger<LastFmLovedProvider>(new LoggerFactory()),
-                lovedTracksContentProviderMock.Object));
+            serviceProvider = ConfigureServices(serviceCollection, topartistsContentProviderMock.Object,
+                lovedTracksContentProviderMock.Object);
+
+            ITopItemsAggregator topItemsSourcer = serviceProvider.GetService<ITopItemsAggregator>();
+            topItemsSourcer.RegisterProvider(serviceProvider.GetService<LastFmTopArtistsProvider>());
+            topItemsSourcer.RegisterProvider(serviceProvider.GetService<LastFmLovedProvider>());
             var topItems = topItemsSourcer.GetItems("scentmaster");
             Assert.IsNotNull(topItems);
             Assert.IsTrue(topItems.Any());
@@ -113,11 +126,12 @@ namespace Sciendo.Topper.Tests.Unit
             var lovedTracksContentProviderMock = new Mock<IContentProvider<LovedTracksRootObject>>();
             lovedTracksContentProviderMock.Setup((m) => m.GetContent("user.getlovedtracks", "scentmaster", 1, ""))
                 .Returns(lovedTracksRootReturn);
-            TopItemsAggregator topItemsSourcer = new TopItemsAggregator(new Logger<TopItemsAggregator>(new LoggerFactory()));
-            topItemsSourcer.RegisterProvider(new LastFmTopArtistsProvider(new Logger<LastFmTopArtistsProvider>(new LoggerFactory()),
-                topartistsContentProviderMock.Object));
-            topItemsSourcer.RegisterProvider(new LastFmLovedProvider(new Logger<LastFmLovedProvider>(new LoggerFactory()),
-                lovedTracksContentProviderMock.Object));
+            serviceProvider = ConfigureServices(serviceCollection, topartistsContentProviderMock.Object,
+                lovedTracksContentProviderMock.Object);
+
+            ITopItemsAggregator topItemsSourcer = serviceProvider.GetService<ITopItemsAggregator>();
+            topItemsSourcer.RegisterProvider(serviceProvider.GetService<LastFmTopArtistsProvider>());
+            topItemsSourcer.RegisterProvider(serviceProvider.GetService<LastFmLovedProvider>());
             var topItems = topItemsSourcer.GetItems("scentmaster");
             Assert.IsNotNull(topItems);
             Assert.IsTrue(topItems.Any());
@@ -163,11 +177,12 @@ namespace Sciendo.Topper.Tests.Unit
             var lovedTracksContentProviderMock = new Mock<IContentProvider<LovedTracksRootObject>>();
             lovedTracksContentProviderMock.Setup((m) => m.GetContent("user.getlovedtracks", "scentmaster", 1, ""))
                 .Returns(lovedTracksRootReturn);
-            TopItemsAggregator topItemsSourcer = new TopItemsAggregator(new Logger<TopItemsAggregator>(new LoggerFactory()));
-            topItemsSourcer.RegisterProvider(new LastFmTopArtistsProvider(new Logger<LastFmTopArtistsProvider>(new LoggerFactory()),
-                topartistsContentProviderMock.Object));
-            topItemsSourcer.RegisterProvider(new LastFmLovedProvider(new Logger<LastFmLovedProvider>(new LoggerFactory()),
-                lovedTracksContentProviderMock.Object));
+            serviceProvider = ConfigureServices(serviceCollection, topartistsContentProviderMock.Object,
+                lovedTracksContentProviderMock.Object);
+
+            ITopItemsAggregator topItemsSourcer = serviceProvider.GetService<ITopItemsAggregator>();
+            topItemsSourcer.RegisterProvider(serviceProvider.GetService<LastFmTopArtistsProvider>());
+            topItemsSourcer.RegisterProvider(serviceProvider.GetService<LastFmLovedProvider>());
             var topItems = topItemsSourcer.GetItems("scentmaster");
             Assert.IsNotNull(topItems);
             Assert.IsTrue(topItems.Any());
