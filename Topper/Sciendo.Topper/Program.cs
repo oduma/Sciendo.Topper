@@ -77,11 +77,11 @@ namespace Sciendo.Topper
         public delegate RuleBase RulesResolver(string key);
         private static ServiceProvider ConfigureServices(ServiceCollection serviceCollection, TopperConfig topperConfig)
         {
-            serviceCollection.AddTransient<IRepository<TopItem>>(r => new Repository<TopItem>(r.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Repository<TopItem>>>(), topperConfig.CosmosDbConfig));
-            serviceCollection.AddTransient<IEmailSender>(e => new EmailSender(e.GetRequiredService <ILogger<EmailSender>>(), topperConfig.EmailOptions));
-            serviceCollection.AddTransient<INotificationManager>(n => new NotificationManager(n.GetRequiredService<ILogger<NotificationManager>>(), n.GetRequiredService<IEmailSender>(),"mail"));
-            serviceCollection.AddTransient<IUrlProvider>(u => new UrlProvider(u.GetRequiredService<ILogger<UrlProvider>>(), topperConfig.TopperLastFmConfig.ApiKey));
-            serviceCollection.AddTransient<ILastFmProvider, LastFmProvider>();
+            serviceCollection.AddSingleton<IRepository<TopItem>>(r => new Repository<TopItem>(r.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Repository<TopItem>>>(), topperConfig.CosmosDbConfig));
+            serviceCollection.AddSingleton<IEmailSender>(e => new EmailSender(e.GetRequiredService <ILogger<EmailSender>>(), topperConfig.EmailOptions));
+            serviceCollection.AddSingleton<INotificationManager>(n => new NotificationManager(n.GetRequiredService<ILogger<NotificationManager>>(), n.GetRequiredService<IEmailSender>(),"mail"));
+            serviceCollection.AddSingleton<IUrlProvider>(u => new UrlProvider(u.GetRequiredService<ILogger<UrlProvider>>(), topperConfig.TopperLastFmConfig.ApiKey));
+            serviceCollection.AddSingleton<ILastFmProvider, LastFmProvider>();
             serviceCollection.AddTransient<IContentProvider<TopArtistsRootObject>, ContentProvider<TopArtistsRootObject>>();
             serviceCollection.AddTransient<LastFmTopArtistsProvider>();
             serviceCollection.AddTransient<IContentProvider<LovedTracksRootObject>, ContentProvider<LovedTracksRootObject>>();
