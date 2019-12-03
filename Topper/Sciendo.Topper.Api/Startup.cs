@@ -47,7 +47,9 @@ namespace Sciendo.Topper.Api
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
+
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }
