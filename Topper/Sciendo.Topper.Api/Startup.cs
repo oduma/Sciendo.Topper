@@ -19,6 +19,7 @@ namespace Sciendo.Topper.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -29,7 +30,7 @@ namespace Sciendo.Topper.Api
             services.ConfigureCors();
             services.ConfigureLogger();
             services.ConfigureIISIntegration();
-            services.ConfigureServices();
+            services.ConfigureServices(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

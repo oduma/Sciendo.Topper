@@ -8,11 +8,11 @@ namespace Sciendo.Topper.Service.Mappers
 {
     public class MapTopItemsToDatedEntries : IMap<IEnumerable<TopItem>, IEnumerable<DatedEntry>>
     {
-        private readonly IMap<TopItem, DatedEntry> mapTopItemToDetailEntry;
+        private readonly IMap<TopItem, DatedEntry> mapTopItemToDatedEntry;
 
-        public MapTopItemsToDatedEntries(IMap<TopItem, DatedEntry> mapTopItemToDetailEntry)
+        public MapTopItemsToDatedEntries(IMap<TopItem, DatedEntry> mapTopItemToDatedEntry)
         {
-            this.mapTopItemToDetailEntry = mapTopItemToDetailEntry;
+            this.mapTopItemToDatedEntry = mapTopItemToDatedEntry;
         }
         public IEnumerable<DatedEntry> Map(IEnumerable<TopItem> fromItem)
         {
@@ -20,7 +20,7 @@ namespace Sciendo.Topper.Service.Mappers
                 throw new ArgumentNullException(nameof(fromItem));
             foreach(var topItem in fromItem)
             {
-                yield return mapTopItemToDetailEntry.Map(topItem);
+                yield return mapTopItemToDatedEntry.Map(topItem);
             }
         }
     }

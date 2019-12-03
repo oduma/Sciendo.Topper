@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Sciendo.Topper.Contracts;
 
 namespace Sciendo.Topper.Api.Controllers
@@ -12,10 +13,12 @@ namespace Sciendo.Topper.Api.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
+        private readonly ILogger<AdminController> logger;
         private IAdminService _adminService;
 
-        public AdminController(IAdminService adminService)
+        public AdminController(ILogger<AdminController> logger, IAdminService adminService)
         {
+            this.logger = logger;
             _adminService = adminService;
         }
         [HttpGet]
@@ -23,6 +26,7 @@ namespace Sciendo.Topper.Api.Controllers
         {
             try
             {
+                logger.LogInformation("Get All History Years!");
                 var years = _adminService.GetHistoryYears();
                 return Ok(years);
             }

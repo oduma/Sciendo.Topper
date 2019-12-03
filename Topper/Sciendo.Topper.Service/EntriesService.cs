@@ -1,4 +1,5 @@
-﻿using Sciendo.Topper.Contracts;
+﻿using Microsoft.Extensions.Logging;
+using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Contracts.DataTypes;
 using Sciendo.Topper.Domain;
 using Sciendo.Topper.Service.Mappers;
@@ -12,18 +13,20 @@ namespace Sciendo.Topper.Service
 {
     public class EntriesService : IEntriesService
     {
+        private readonly ILogger<EntriesService> logger;
         private readonly IRepository<TopItem> repository;
         private readonly IMap<IEnumerable<TopItem>, IEnumerable<DatedEntry>> mapTopItemsToDatedEntries;
         private readonly IMap<IEnumerable<TopItem>, IEnumerable<OverallEntry>> mapTopItemsToOverallEntries;
         private readonly IMapAggregateTwoEntries<IEnumerable<TopItem>, IEnumerable<OverallEntryEvolution>> mapTopItemsToOverallEntriesEvolution;
         private readonly IMapAggregateFourEntries<IEnumerable<TopItem>, IEnumerable<DayEntryEvolution>> mapTopItemsToDayEntriesEvolution;
 
-        public EntriesService(IRepository<TopItem> repository,
+        public EntriesService(ILogger<EntriesService> logger,IRepository<TopItem> repository,
             IMap<IEnumerable<TopItem>,IEnumerable<DatedEntry>> mapTopItemsToDatedEntries,
             IMap<IEnumerable<TopItem>,IEnumerable<OverallEntry>> mapTopItemsToOverallEntries,
             IMapAggregateTwoEntries<IEnumerable<TopItem>,IEnumerable<OverallEntryEvolution>> mapTopItemsToOverallEntriesEvolution,
             IMapAggregateFourEntries<IEnumerable<TopItem>,IEnumerable<DayEntryEvolution>> mapTopItemsToDayEntriesEvolution)
         {
+            this.logger = logger;
             this.repository = repository;
             this.mapTopItemsToDatedEntries = mapTopItemsToDatedEntries;
             this.mapTopItemsToOverallEntries = mapTopItemsToOverallEntries;
@@ -32,26 +35,63 @@ namespace Sciendo.Topper.Service
         }
         public DayEntryEvolution[] GetEntriesByDate(DateTime date)
         {
-            return mapTopItemsToDayEntriesEvolution.Map(repository.GetItemsAsync((i) => i.Date == date).Result,
-                AggregateTopItems(GetTopItemsByYear(date.Year, date)),
-                repository.GetItemsAsync(i => i.Date == date.AddDays(-1)).Result,
-                AggregateTopItems(GetTopItemsByYear(date.Year, date.AddDays(-1)))).ToArray();
+            logger.LogInformation("Starting Get Entries by Date...");
+            try
+            {
+                return mapTopItemsToDayEntriesEvolution.Map(repository.GetItemsAsync((i) => i.Date == date).Result,
+                    AggregateTopItems(GetTopItemsByYear(date.Year, date)),
+                    repository.GetItemsAsync(i => i.Date == date.AddDays(-1)).Result,
+                    AggregateTopItems(GetTopItemsByYear(date.Year, date.AddDays(-1)))).ToArray();
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex, "");
+                throw ex;
+            }
         }
 
         public DatedEntry[] GetEntriesByIds(string[] ids)
         {
-            return mapTopItemsToDatedEntries.Map(repository.GetItemsAsync((t) => ids.Contains(t.Name)).Result).ToArray();
+            logger.LogInformation("Started Get Entries by Ids");
+            try
+            {
+                return mapTopItemsToDatedEntries.Map(repository.GetItemsAsync((t) => ids.Contains(t.Name)).Result).ToArray();
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex, "");
+                throw ex;
+            }
         }
 
         public OverallEntry[] GetEntriesByYear(int year)
         {
-            return mapTopItemsToOverallEntries.Map(AggregateTopItems(GetTopItemsByYear(year,DateTime.Now))).ToArray();
+            logger.LogInformation("Started Get Entries by Year.");
+            try
+            {
+                return mapTopItemsToOverallEntries.Map(AggregateTopItems(GetTopItemsByYear(year, DateTime.Now))).ToArray();
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex, "");
+                throw ex;
+            }
         }
 
         public OverallEntryEvolution[] GetEntriesWithEvolutionByYear(int year)
         {
-            return mapTopItemsToOverallEntriesEvolution.Map(AggregateTopItems(GetTopItemsByYear(year,DateTime.Now)), 
-                AggregateTopItems(GetTopItemsByYear(year,DateTime.Now.AddDays(-1)))).ToArray();
+            logger.LogInformation("Started Get Entries with Evolution by Year.");
+            try
+            {
+                return mapTopItemsToOverallEntriesEvolution.Map(AggregateTopItems(GetTopItemsByYear(year, DateTime.Now)),
+                    AggregateTopItems(GetTopItemsByYear(year, DateTime.Now.AddDays(-1)))).ToArray();
+
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex, "");
+                throw ex;
+            }
         }
 
         private IEnumerable<TopItem> AggregateTopItems(IEnumerable<TopItem> rawTopItems)
@@ -70,7 +110,15 @@ namespace Sciendo.Topper.Service
         }
         private IEnumerable<TopItem> GetTopItemsByYear(int year, DateTime toDate)
         {
-            return repository.GetItemsAsync((i) => i.Year == year.ToString() && i.Date<=toDate).Result;
+            try
+            {
+                return repository.GetItemsAsync((i) => i.Year == year.ToString() && i.Date <= toDate).Result;
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex, "");
+                throw ex;
+            }
         }
     }
 }

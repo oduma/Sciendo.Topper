@@ -1,0 +1,25 @@
+2019-12-02 08:41:37.131 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-12-02 08:41:39.558 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/values  
+2019-12-02 08:41:39.690 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.ValuesController.Get (Sciendo.Topper.Api)'
+2019-12-02 08:41:39.768 +00:00 [INF] Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller Sciendo.Topper.Api.Controllers.ValuesController (Sciendo.Topper.Api).
+2019-12-02 08:41:39.800 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.ValuesController.Get (Sciendo.Topper.Api) - Validation state: "Valid"
+2019-12-02 08:41:39.822 +00:00 [INF] Executed action method Sciendo.Topper.Api.Controllers.ValuesController.Get (Sciendo.Topper.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.6997ms.
+2019-12-02 08:41:39.850 +00:00 [INF] Executing ObjectResult, writing value of type 'System.String[]'.
+2019-12-02 08:41:40.508 +00:00 [INF] Executed action Sciendo.Topper.Api.Controllers.ValuesController.Get (Sciendo.Topper.Api) in 670.5438ms
+2019-12-02 08:41:40.537 +00:00 [INF] Executed endpoint 'Sciendo.Topper.Api.Controllers.ValuesController.Get (Sciendo.Topper.Api)'
+2019-12-02 08:41:40.661 +00:00 [INF] Request finished in 995.0081ms 200 application/json; charset=utf-8
+2019-12-02 08:41:40.871 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/favicon.ico  
+2019-12-02 08:41:41.048 +00:00 [INF] Request finished in 106.6479ms 404 
+2019-12-02 08:42:31.063 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-12-02 08:42:31.851 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entry  
+2019-12-02 08:42:31.933 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntryController.Get (Sciendo.Topper.Api)'
+2019-12-02 08:42:31.969 +00:00 [INF] Route matched with {action = "Get", controller = "Entry"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Get() on controller Sciendo.Topper.Api.Controllers.EntryController (Sciendo.Topper.Api).
+2019-12-02 08:42:31.998 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2019-12-02 08:42:32.543 +00:00 [INF] Repository created.
+2019-12-02 08:43:39.850 +00:00 [INF] Configuration: 
+2019-12-02 08:43:40.556 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntryController.Get (Sciendo.Topper.Api) - Validation state: "Valid"
+2019-12-02 08:43:44.268 +00:00 [INF] Executed action method Sciendo.Topper.Api.Controllers.EntryController.Get (Sciendo.Topper.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 3677.8917ms.
+2019-12-02 08:43:44.294 +00:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2019-12-02 08:43:44.344 +00:00 [INF] Executed action Sciendo.Topper.Api.Controllers.EntryController.Get (Sciendo.Topper.Api) in 72368.4961ms
+2019-12-02 08:43:44.347 +00:00 [INF] Executed endpoint 'Sciendo.Topper.Api.Controllers.EntryController.Get (Sciendo.Topper.Api)'
+2019-12-02 08:43:49.314 +00:00 [INF] Request finished in 77467.0757ms 200 text/plain; charset=utf-8
