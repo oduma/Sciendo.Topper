@@ -523,46 +523,48 @@ namespace Sciendo.Topper.Tests.Unit
         }
 
         [TestMethod]
-        public void MapTopItemToDatedEntry_Ok()
+        public void MapTopItemToEntryTimeLine_Ok()
         {
-            var mapTopItemToDatedEntry = new MapTopItemToDatedEntry(new MapTopItemToPosition());
-            var datedEntry = mapTopItemToDatedEntry.Map(new TopItem { Date = DateTime.Now.Date, 
-                Name = "abc", DayRanking = 1, Hits = 14, Loved = 1, Score = 70, Year=DateTime.Now.Year.ToString() });
-            Assert.AreEqual("abc", datedEntry.Name);
-            Assert.AreEqual(DateTime.Now.Date, datedEntry.Date.Date);
-            Assert.AreEqual(DateTime.Now.Year, datedEntry.Date.Year);
-            Assert.AreEqual(1, datedEntry.CurrentOverallPosition.Rank);
-            Assert.AreEqual(14, datedEntry.CurrentOverallPosition.Hits);
-            Assert.AreEqual(1, datedEntry.CurrentOverallPosition.NoOfLovedTracks);
-            Assert.AreEqual(70, datedEntry.CurrentOverallPosition.Score);
+            var mapTopItemToDatedEntry = new MapTopItemToEntryTimeLine();
+            var entryTimeLine = mapTopItemToDatedEntry.Map(new[] {new TopItem { Date = DateTime.Now.Date,
+                Name = "abc", DayRanking = 1, Hits = 14, Loved = 1, Score = 70, Year=DateTime.Now.Year.ToString() },
+            new TopItem { Date = DateTime.Now.Date.AddDays(-1),
+                Name = "abc", DayRanking = 2, Hits = 13, Loved = 0, Score = 60, Year=DateTime.Now.Year.ToString() }});
+            Assert.AreEqual("abc", entryTimeLine.Name);
+            Assert.AreEqual(2, entryTimeLine.PositionAtDates.Length);
+            Assert.IsTrue(entryTimeLine.PositionAtDates.Any(p => p.Date == DateTime.Now.Date));
+            Assert.IsTrue(entryTimeLine.PositionAtDates.Any(p => p.Date == DateTime.Now.Date.AddDays(-1)));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void MapTopItemToDatedEntry_TopItem_Null()
+        public void MapTopItemToEntryTimeLine_TopItem_Null()
         {
-            var mapTopItemToDatedEntry = new MapTopItemToDatedEntry(new MapTopItemToPosition());
-            var datedEntry = mapTopItemToDatedEntry.Map(null);
+            var mapTopItemToEntryTimeLine = new MapTopItemToEntryTimeLine();
+            var entryTimeLine = mapTopItemToEntryTimeLine.Map(null);
         }
 
         [TestMethod]
-        public void MapTopItemsToDatedEntries()
+        public void MapTopItemsToEntryTimeLines()
         {
-            var mapTopItemsToDatedEntries = new MapTopItemsToDatedEntries(new MapTopItemToDatedEntry(new MapTopItemToPosition()));
-            var datedEntries = mapTopItemsToDatedEntries.Map(new[]
+            var mapTopItemsToEntryToTimeLines = new MapTopItemsToEntryTimeLines(new MapTopItemToEntryTimeLine());
+            var entryTimeLines = mapTopItemsToEntryToTimeLines.Map(new[]
                 {
                     new TopItem { Date= DateTime.Now.AddDays(-1).Date, Name = "abc", DayRanking = 1, Hits = 14, Loved = 1, Score = 70 },
-                    new TopItem { Date= DateTime.Now.Date, Name = "abc", DayRanking = 2, Hits = 10, Loved = 0, Score = 44 }
+                    new TopItem { Date= DateTime.Now.Date, Name = "abc", DayRanking = 2, Hits = 10, Loved = 0, Score = 44 },
+                    new TopItem { Date= DateTime.Now.AddDays(-1).Date, Name = "abcd", DayRanking = 3, Hits = 14, Loved = 1, Score = 70 }
                 });
-            Assert.AreEqual(2, datedEntries.Count());
-            Assert.AreEqual(2, datedEntries.Count(d => d.Name == "abc"));
-            
+            Assert.AreEqual(2, entryTimeLines.Count());
+            Assert.AreEqual(1, entryTimeLines.Count(d => d.Name == "abc"));
+            Assert.AreEqual(1, entryTimeLines.Count(d => d.Name == "abcd"));
+            Assert.AreEqual(2, entryTimeLines.FirstOrDefault(d => d.Name == "abc").PositionAtDates.Length);
+
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void MapTopItemsToDatedEntries_NoTopItems()
         {
-            var mapTopItemsToDatedEntries = new MapTopItemsToDatedEntries(new MapTopItemToDatedEntry(new MapTopItemToPosition()));
+            var mapTopItemsToDatedEntries = new MapTopItemsToEntryTimeLines(new MapTopItemToEntryTimeLine());
             var datedEntries = mapTopItemsToDatedEntries.Map(null).ToArray();
 
         }

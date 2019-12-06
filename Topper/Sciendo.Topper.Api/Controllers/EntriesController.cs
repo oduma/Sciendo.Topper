@@ -114,16 +114,16 @@ namespace Sciendo.Topper.Api.Controllers
         }
 
         [HttpGet("[action]")]
-        public ActionResult GetByIds([FromQuery(Name ="id")]string[] ids)
+        public ActionResult GetEntriesTimeLines([FromQuery(Name ="name")]string[] names)
         {
-            if(ids==null || ids.Length==0)
+            if(names==null || names.Length==0)
             {
-                logger.LogError("No selected ids.");
-                return StatusCode(500, "No selected ids.");
+                logger.LogError("No selected names.");
+                return StatusCode(500, "No selected names.");
             }
             try
             {
-                var results = this.service.GetEntriesByIds(ids);
+                var results = this.service.GetEntriesTimeLines(names);
 
                 return Ok(results);
             }

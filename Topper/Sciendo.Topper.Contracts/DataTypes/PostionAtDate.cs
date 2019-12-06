@@ -2,8 +2,10 @@
 
 namespace Sciendo.Topper.Contracts.DataTypes
 {
-    public class DatedEntry: OverallEntry
+    public class PostionAtDate
     {
+        public Position Position { get; set; }
         public DateTime Date { get; set; }
+
     }
 }

@@ -15,20 +15,20 @@ namespace Sciendo.Topper.Service
     {
         private readonly ILogger<EntriesService> logger;
         private readonly IRepository<TopItem> repository;
-        private readonly IMap<IEnumerable<TopItem>, IEnumerable<DatedEntry>> mapTopItemsToDatedEntries;
+        private readonly IMap<IEnumerable<TopItem>, IEnumerable<EntryTimeLine>> mapTopItemsToEntryTimeLines;
         private readonly IMap<IEnumerable<TopItem>, IEnumerable<OverallEntry>> mapTopItemsToOverallEntries;
         private readonly IMapAggregateTwoEntries<IEnumerable<TopItem>, IEnumerable<OverallEntryEvolution>> mapTopItemsToOverallEntriesEvolution;
         private readonly IMapAggregateFourEntries<IEnumerable<TopItem>, IEnumerable<DayEntryEvolution>> mapTopItemsToDayEntriesEvolution;
 
         public EntriesService(ILogger<EntriesService> logger,IRepository<TopItem> repository,
-            IMap<IEnumerable<TopItem>,IEnumerable<DatedEntry>> mapTopItemsToDatedEntries,
+            IMap<IEnumerable<TopItem>,IEnumerable<EntryTimeLine>> mapTopItemsToEntryTimeLines,
             IMap<IEnumerable<TopItem>,IEnumerable<OverallEntry>> mapTopItemsToOverallEntries,
             IMapAggregateTwoEntries<IEnumerable<TopItem>,IEnumerable<OverallEntryEvolution>> mapTopItemsToOverallEntriesEvolution,
             IMapAggregateFourEntries<IEnumerable<TopItem>,IEnumerable<DayEntryEvolution>> mapTopItemsToDayEntriesEvolution)
         {
             this.logger = logger;
             this.repository = repository;
-            this.mapTopItemsToDatedEntries = mapTopItemsToDatedEntries;
+            this.mapTopItemsToEntryTimeLines = mapTopItemsToEntryTimeLines;
             this.mapTopItemsToOverallEntries = mapTopItemsToOverallEntries;
             this.mapTopItemsToOverallEntriesEvolution = mapTopItemsToOverallEntriesEvolution;
             this.mapTopItemsToDayEntriesEvolution = mapTopItemsToDayEntriesEvolution;
@@ -50,12 +50,12 @@ namespace Sciendo.Topper.Service
             }
         }
 
-        public DatedEntry[] GetEntriesByIds(string[] ids)
+        public EntryTimeLine[] GetEntriesTimeLines(string[] names)
         {
-            logger.LogInformation("Started Get Entries by Ids");
+            logger.LogInformation("Started Get Entries by Names");
             try
             {
-                return mapTopItemsToDatedEntries.Map(repository.GetItemsAsync((t) => ids.Contains(t.Name)).Result).ToArray();
+                return mapTopItemsToEntryTimeLines.Map(repository.GetItemsAsync((t) => names.Contains(t.Name)).Result).ToArray();
             }
             catch(Exception ex)
             {

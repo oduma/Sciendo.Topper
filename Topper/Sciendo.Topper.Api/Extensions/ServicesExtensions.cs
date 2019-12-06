@@ -56,8 +56,8 @@ namespace Sciendo.Topper.Api.Extensions
             services.AddScoped<IMap<TopItem, Position>, MapTopItemToPosition>();
             services.AddScoped<IMap<TopItem, EntryBase>, MapTopItemToBaseEntry>();
             services.AddScoped<IMap<TopItem, OverallEntry>, MapTopItemToOverallEntry>();
-            services.AddScoped<IMap<TopItem, DatedEntry>, MapTopItemToDatedEntry>();
-            services.AddScoped<IMap<IEnumerable<TopItem>, IEnumerable<DatedEntry>>, MapTopItemsToDatedEntries>();
+            services.AddScoped<IMap<IEnumerable<TopItem>, EntryTimeLine>, MapTopItemToEntryTimeLine>();
+            services.AddScoped<IMap<IEnumerable<TopItem>, IEnumerable<EntryTimeLine>>, MapTopItemsToEntryTimeLines>();
             services.AddScoped<IMap<IEnumerable<TopItem>, IEnumerable<OverallEntry>>, MapTopItemsToOverallEntries>();
             services.AddScoped<IMapAggregateTwoEntries<TopItem, OverallEntryEvolution>, MapTopItemToOverallEntryEvolution>();
             services.AddScoped<IMapAggregateTwoEntries<IEnumerable<TopItem>, IEnumerable<OverallEntryEvolution>>, MapTopItemsToOverallEntriesEvolution>();

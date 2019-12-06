@@ -1,13 +1,11 @@
 ﻿using Sciendo.Topper.Contracts.DataTypes;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Sciendo.Topper.Contracts
 {
     public interface IEntriesService
     {
-        DatedEntry[] GetEntriesByIds(string[] ids);
+        EntryTimeLine[] GetEntriesTimeLines(string[] names);
 
         DayEntryEvolution[] GetEntriesByDate(DateTime date);
 
