@@ -114,7 +114,7 @@ namespace Sciendo.Topper.Api.Controllers
         }
 
         [HttpGet("[action]")]
-        public ActionResult GetEntriesTimeLines([FromQuery(Name ="name")]string[] names)
+        public ActionResult GetTimeLines([FromQuery(Name ="name")]string[] names)
         {
             if(names==null || names.Length==0)
             {

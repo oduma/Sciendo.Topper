@@ -41,7 +41,7 @@ namespace Sciendo.Topper.Service
                 return mapTopItemsToDayEntriesEvolution.Map(repository.GetItemsAsync((i) => i.Date == date).Result,
                     AggregateTopItems(GetTopItemsByYear(date.Year, date)),
                     repository.GetItemsAsync(i => i.Date == date.AddDays(-1)).Result,
-                    AggregateTopItems(GetTopItemsByYear(date.Year, date.AddDays(-1)))).ToArray();
+                    AggregateTopItems(GetTopItemsByYear(date.Year, date.AddDays(-1)))).OrderBy(s=>s.CurrentDayPosition.Rank).ToArray();
             }
             catch(Exception ex)
             {
@@ -102,7 +102,7 @@ namespace Sciendo.Topper.Service
             int index = 1;
             foreach (var topItem in topItems)
             {
-                topItem.DayRanking = index;
+                topItem.DayRanking = index++;
                 yield return topItem;
             }
 

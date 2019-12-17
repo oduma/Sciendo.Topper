@@ -5,7 +5,7 @@ namespace Sciendo.Topper.Contracts.DataTypes
     public class PostionAtDate
     {
         public Position Position { get; set; }
-        public DateTime Date { get; set; }
+        public String Date { get; set; }
 
     }
 }

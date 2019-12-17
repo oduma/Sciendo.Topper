@@ -1,0 +1,41 @@
+2019-12-09 07:57:50.866 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:35799/api/entries/getbydate/2019-3-3  
+2019-12-09 07:57:50.936 +00:00 [WRN] The CORS protocol does not allow specifying a wildcard (any) origin and credentials at the same time. Configure the policy by listing individual origins if credentials needs to be supported.
+2019-12-09 07:57:50.940 +00:00 [INF] CORS policy execution successful.
+2019-12-09 07:57:50.950 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2019-12-09 07:57:50.968 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2019-12-09 07:57:50.999 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2019-12-09 07:57:51.031 +00:00 [INF] Repository created.
+2019-12-09 07:57:51.033 +00:00 [INF] Configuration: 
+2019-12-09 07:57:51.043 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2019-12-09 08:20:27.294 +00:00 [INF] Starting Get Entries by Date...
+2019-12-09 08:20:27.393 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:35799/api/entries/getbydate/2019-0-3  
+2019-12-09 08:20:27.407 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:35799/api/entries/getbydate/2019-3-3  
+2019-12-09 08:20:27.412 +00:00 [WRN] The CORS protocol does not allow specifying a wildcard (any) origin and credentials at the same time. Configure the policy by listing individual origins if credentials needs to be supported.
+2019-12-09 08:20:27.423 +00:00 [WRN] The CORS protocol does not allow specifying a wildcard (any) origin and credentials at the same time. Configure the policy by listing individual origins if credentials needs to be supported.
+2019-12-09 08:20:27.427 +00:00 [INF] CORS policy execution successful.
+2019-12-09 08:20:27.432 +00:00 [INF] CORS policy execution successful.
+2019-12-09 08:20:27.435 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2019-12-09 08:20:27.437 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2019-12-09 08:20:27.442 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2019-12-09 08:20:27.445 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:35799/api/entries/getbydate/2019-0-3  
+2019-12-09 08:20:27.446 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2019-12-09 08:20:27.449 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2019-12-09 08:20:27.452 +00:00 [WRN] The CORS protocol does not allow specifying a wildcard (any) origin and credentials at the same time. Configure the policy by listing individual origins if credentials needs to be supported.
+2019-12-09 08:20:27.454 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2019-12-09 08:20:27.457 +00:00 [INF] CORS policy execution successful.
+2019-12-09 08:20:27.462 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2019-12-09 08:20:27.469 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2019-12-09 08:20:27.471 +00:00 [INF] Repository created.
+2019-12-09 08:20:27.477 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2019-12-09 08:20:27.478 +00:00 [INF] Configuration: 
+2019-12-09 08:20:27.481 +00:00 [INF] Repository created.
+2019-12-09 08:20:27.485 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2019-12-09 18:23:04.877 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-12-09 18:23:06.819 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2019-12-09 18:23:07.032 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2019-12-09 18:23:07.134 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2019-12-09 18:23:07.168 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2019-12-09 18:23:07.845 +00:00 [INF] Repository created.
+2019-12-09 18:23:07.851 +00:00 [INF] Configuration: 
+2019-12-09 18:23:07.942 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2019-12-09 18:23:12.926 +00:00 [INF] Starting Get Entries by Date...

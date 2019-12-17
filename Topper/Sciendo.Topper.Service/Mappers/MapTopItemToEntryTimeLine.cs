@@ -14,7 +14,7 @@ namespace Sciendo.Topper.Service.Mappers
         {
             if (fromItem == null)
                 throw new ArgumentNullException(nameof(fromItem));
-            return fromItem.GroupBy(t => t.Name).Select(g => new EntryTimeLine { Name = g.Key, PositionAtDates = g.Select(p => new PostionAtDate { Date = p.Date, Position = new Position { Hits = p.Hits, NoOfLovedTracks = p.Loved, Rank = p.DayRanking, Score = p.Score } }).ToArray() }).FirstOrDefault();
+            return fromItem.GroupBy(t => t.Name).Select(g => new EntryTimeLine { Name = g.Key, PositionAtDates = g.Select(p => new PostionAtDate { Date = p.Date.ToString("yyyy-MM-dd"), Position = new Position { Hits = p.Hits, NoOfLovedTracks = p.Loved, Rank = p.DayRanking, Score = p.Score } }).ToArray() }).FirstOrDefault();
         }
     }
 }
