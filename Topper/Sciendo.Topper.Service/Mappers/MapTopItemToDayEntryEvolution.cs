@@ -30,6 +30,8 @@ namespace Sciendo.Topper.Service.Mappers
                 PreviousDayPosition = dailyEntryEvolution.PreviousDayOverallPosition, 
                 CurrentOverallPosition = overallEntryEvolution.CurrentOverallPosition, 
                 PreviousDayOverallPosition = overallEntryEvolution.PreviousDayOverallPosition };
+            dayEntryEvolution.CurrentDayPosition.Rank = 
+                (dayEntryEvolution.CurrentDayPosition.Rank == 0) ? 9999 : dayEntryEvolution.CurrentDayPosition.Rank;
 
             return dayEntryEvolution;
         }
