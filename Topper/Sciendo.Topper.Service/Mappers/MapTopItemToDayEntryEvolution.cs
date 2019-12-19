@@ -29,7 +29,8 @@ namespace Sciendo.Topper.Service.Mappers
                 CurrentDayPosition = dailyEntryEvolution.CurrentOverallPosition, 
                 PreviousDayPosition = dailyEntryEvolution.PreviousDayOverallPosition, 
                 CurrentOverallPosition = overallEntryEvolution.CurrentOverallPosition, 
-                PreviousDayOverallPosition = overallEntryEvolution.PreviousDayOverallPosition };
+                PreviousDayOverallPosition = overallEntryEvolution.PreviousDayOverallPosition,
+                Date= currentDailyItem.Date.Date.ToString("yyyy-MM-dd")};
             dayEntryEvolution.CurrentDayPosition.Rank = 
                 (dayEntryEvolution.CurrentDayPosition.Rank == 0) ? 9999 : dayEntryEvolution.CurrentDayPosition.Rank;
 

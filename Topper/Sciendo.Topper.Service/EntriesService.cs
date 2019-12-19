@@ -38,16 +38,29 @@ namespace Sciendo.Topper.Service
             logger.LogInformation("Starting Get Entries by Date...");
             try
             {
-                return mapTopItemsToDayEntriesEvolution.Map(repository.GetItemsAsync((i) => i.Date == date).Result,
-                    AggregateTopItems(GetTopItemsByYear(date.Year, date)),
-                    repository.GetItemsAsync(i => i.Date == date.AddDays(-1)).Result,
-                    AggregateTopItems(GetTopItemsByYear(date.Year, date.AddDays(-1)))).OrderBy(s=>s.CurrentDayPosition.Rank).ToArray();
+                DateTime queryDate = date;
+                var itemsForDate = repository.GetItemsAsync((i) => i.Date == queryDate).Result;
+                if (!itemsForDate.Any())
+                {
+                    queryDate = FindAlternateDate();
+                    itemsForDate= repository.GetItemsAsync((i) => i.Date == queryDate).Result;
+                }
+                return mapTopItemsToDayEntriesEvolution.Map(itemsForDate,
+                    AggregateTopItems(GetTopItemsByYear(queryDate.Year, queryDate)),
+                    repository.GetItemsAsync(i => i.Date == queryDate.AddDays(-1)).Result,
+                    AggregateTopItems(GetTopItemsByYear(queryDate.Year, queryDate.AddDays(-1)))).OrderBy(s => s.CurrentDayPosition.Rank).ToArray();
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex, "");
                 throw ex;
             }
+        }
+
+        private DateTime FindAlternateDate()
+        {
+            return repository.GetAllItemsAsync().Result.OrderByDescending(d => d.Date).FirstOrDefault().Date;
         }
 
         public EntryTimeLine[] GetEntriesTimeLines(string[] names)
