@@ -31,6 +31,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Domain", "Sc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Service", "Sciendo.Topper.Service\Sciendo.Topper.Service.csproj", "{19D80477-0615-460F-9D91-C72B57B4709D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sciendo.MusicStory", "Sciendo.MusicStory\Sciendo.MusicStory.csproj", "{476B4319-9480-4E14-8840-C5721A949C52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sciendo.OAuth1_0", "Sciendo.OAuth1_0\Sciendo.OAuth1_0.csproj", "{BBACC956-AB5A-4E43-9668-2AC960DE5845}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +97,14 @@ Global
 		{19D80477-0615-460F-9D91-C72B57B4709D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19D80477-0615-460F-9D91-C72B57B4709D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19D80477-0615-460F-9D91-C72B57B4709D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{476B4319-9480-4E14-8840-C5721A949C52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{476B4319-9480-4E14-8840-C5721A949C52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{476B4319-9480-4E14-8840-C5721A949C52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{476B4319-9480-4E14-8840-C5721A949C52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBACC956-AB5A-4E43-9668-2AC960DE5845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBACC956-AB5A-4E43-9668-2AC960DE5845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBACC956-AB5A-4E43-9668-2AC960DE5845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBACC956-AB5A-4E43-9668-2AC960DE5845}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

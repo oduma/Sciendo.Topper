@@ -8,5 +8,7 @@ namespace Sciendo.Topper.Contracts.DataTypes
     {
         public string Name { get; set; }
 
+        public string PictureUrl { get; set; }
+
     }
 }

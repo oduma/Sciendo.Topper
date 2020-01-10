@@ -8,7 +8,7 @@ namespace Sciendo.Topper.Service.Mappers
     {
         private readonly IMap<TopItem, Position> mapTopItemToPosition;
 
-        public MapTopItemToOverallEntry(IMap<TopItem, Position> mapTopItemToPosition)
+        public MapTopItemToOverallEntry(IMap<TopItem, Position> mapTopItemToPosition, IEntryArtistImageProvider entryArtistImageProvider):base(entryArtistImageProvider)
         {
             this.mapTopItemToPosition = mapTopItemToPosition;
         }
@@ -18,7 +18,8 @@ namespace Sciendo.Topper.Service.Mappers
                 throw new Exception("No position mapper");
             if (fromItem == null)
                 throw new ArgumentNullException(nameof(fromItem));
-            OverallEntry overallEntry = new OverallEntry { Name = base.Map(fromItem).Name };
+            var baseEntry = base.Map(fromItem);
+            OverallEntry overallEntry = new OverallEntry { Name = baseEntry.Name, PictureUrl=baseEntry.PictureUrl };
             overallEntry.CurrentOverallPosition = mapTopItemToPosition.Map(fromItem);
             return overallEntry;
         }

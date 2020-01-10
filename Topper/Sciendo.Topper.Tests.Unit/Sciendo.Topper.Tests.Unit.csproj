@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sciendo.Last.Fm\Sciendo.Last.Fm.csproj" />
+    <ProjectReference Include="..\Sciendo.MusicStory\Sciendo.MusicStory.csproj" />
+    <ProjectReference Include="..\Sciendo.OAuth1_0\Sciendo.OAuth1_0.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Contracts\Sciendo.Topper.Contracts.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Notifier\Sciendo.Topper.Notifier.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Service\Sciendo.Topper.Service.csproj" />

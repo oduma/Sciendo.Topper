@@ -1,14 +1,13 @@
 ﻿using Sciendo.Topper.Contracts.DataTypes;
 using Sciendo.Topper.Domain;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Sciendo.Topper.Service.Mappers
 {
     public class MapTopItemToDayEntryEvolution : MapTopItemToOverallEntryEvolution, IMapAggregateFourEntries<TopItem, DayEntryEvolution>
     {
-        public MapTopItemToDayEntryEvolution(IMap<TopItem, Position> mapToOverallPosition) : base(mapToOverallPosition)
+        public MapTopItemToDayEntryEvolution(IMap<TopItem, Position> mapToOverallPosition,IEntryArtistImageProvider entryArtistImageProvider) 
+            : base(mapToOverallPosition, entryArtistImageProvider)
         {
         }
 
@@ -25,7 +24,8 @@ namespace Sciendo.Topper.Service.Mappers
                 throw new Exception("Cross Items Evolution not supported!");
 
             var dayEntryEvolution = new DayEntryEvolution { 
-                Name = dailyEntryEvolution.Name, 
+                Name = dailyEntryEvolution.Name,
+                PictureUrl=dailyEntryEvolution.PictureUrl,
                 CurrentDayPosition = dailyEntryEvolution.CurrentOverallPosition, 
                 PreviousDayPosition = dailyEntryEvolution.PreviousDayOverallPosition, 
                 CurrentOverallPosition = overallEntryEvolution.CurrentOverallPosition, 

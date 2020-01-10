@@ -8,7 +8,8 @@ namespace Sciendo.Topper.Service.Mappers
 {
     public class MapTopItemToOverallEntryEvolution : MapTopItemToOverallEntry, IMapAggregateTwoEntries<TopItem, OverallEntryEvolution>
     {
-        public MapTopItemToOverallEntryEvolution(IMap<TopItem,Position> mapToOverallPosition):base(mapToOverallPosition)
+        public MapTopItemToOverallEntryEvolution(IMap<TopItem,Position> mapToOverallPosition,IEntryArtistImageProvider entryArtistImageProvider)
+            :base(mapToOverallPosition, entryArtistImageProvider)
         {
         }
         public OverallEntryEvolution Map(TopItem currentItem, TopItem previousItem)
@@ -19,7 +20,7 @@ namespace Sciendo.Topper.Service.Mappers
             if (currentItem == null)
             {
                 var overallEntry = base.Map(previousItem);
-                overallEntryEvolution = new OverallEntryEvolution { Name = overallEntry.Name, PreviousDayOverallPosition = overallEntry.CurrentOverallPosition };
+                overallEntryEvolution = new OverallEntryEvolution { Name = overallEntry.Name, PictureUrl = overallEntry.PictureUrl, PreviousDayOverallPosition = overallEntry.CurrentOverallPosition };
                 overallEntryEvolution.CurrentOverallPosition = null;
                 return overallEntryEvolution;
 
@@ -27,7 +28,7 @@ namespace Sciendo.Topper.Service.Mappers
             else if (previousItem == null)
             {
                 var overallEntry = base.Map(currentItem);
-                overallEntryEvolution = new OverallEntryEvolution { Name=overallEntry.Name,CurrentOverallPosition=overallEntry.CurrentOverallPosition};
+                overallEntryEvolution = new OverallEntryEvolution { Name=overallEntry.Name,PictureUrl=overallEntry.PictureUrl, CurrentOverallPosition=overallEntry.CurrentOverallPosition};
                 overallEntryEvolution.PreviousDayOverallPosition = null;
                 return overallEntryEvolution;
             }
@@ -38,7 +39,7 @@ namespace Sciendo.Topper.Service.Mappers
             else
             {
                 var overallEntry = base.Map(currentItem);
-                overallEntryEvolution = new OverallEntryEvolution { Name = overallEntry.Name, CurrentOverallPosition = overallEntry.CurrentOverallPosition };
+                overallEntryEvolution = new OverallEntryEvolution { Name = overallEntry.Name, PictureUrl=overallEntry.PictureUrl, CurrentOverallPosition = overallEntry.CurrentOverallPosition };
                 overallEntryEvolution.PreviousDayOverallPosition = base.Map(previousItem).CurrentOverallPosition;
                 return overallEntryEvolution;
             }
