@@ -58,6 +58,7 @@ namespace Sciendo.Topper.Api.Extensions
             services.AddSingleton(configuration.GetSection("cosmosDb").Get<CosmosDbConfig>());
             services.AddSingleton(configuration.GetSection("fileStore").Get<FileStoreConfig>());
             services.AddSingleton(configuration.GetSection("ms").Get<MSConfig>());
+            services.AddSingleton(configuration.GetSection("pathToUrlConverter").Get<PathToUrlConverterConfig>());
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IRepository<TopItem>, Repository<TopItem>>();
             services.AddScoped<IFileRepository<NamedPicture>, PictureRepository>();
