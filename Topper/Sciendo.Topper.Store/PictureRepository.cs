@@ -24,9 +24,9 @@ namespace Sciendo.Topper.Store
         public string CreateItem(NamedPicture item)
         {
             var fileName = SanitizeNameForPath(item.Name);
-            var theLetter = fileName.Replace("the ", "").Trim()[0];
-            Directory.CreateDirectory($"{fileStoreConfig.Root}{Path.DirectorySeparatorChar}{theLetter}");
-            string fullPath = $"{fileStoreConfig.Root}{Path.DirectorySeparatorChar}{theLetter}{Path.DirectorySeparatorChar}{fileName}.{item.Extension}";
+            var path = EstablishPath(item.Name);
+            Directory.CreateDirectory(path);
+            string fullPath = $"{path}{Path.DirectorySeparatorChar}{fileName}.{item.Extension}";
             using(var fs = File.Create(fullPath))
             {
                 fs.Write(item.Picture, 0, item.Picture.Length);
@@ -36,6 +36,12 @@ namespace Sciendo.Topper.Store
             return fullPath;
         }
 
+        private string EstablishPath(string name)
+        {
+            var theLetter = name.ToLower().Replace("the ", "").Trim()[0];
+            return $"{fileStoreConfig.Root}{Path.DirectorySeparatorChar}{theLetter}";
+
+        }
         private static string SanitizeNameForPath(string inputString)
         {
             var invalidPathCharacters = Path.GetInvalidPathChars();
@@ -53,7 +59,7 @@ namespace Sciendo.Topper.Store
         public string GetItem(string artistName)
         {
             var fileName = SanitizeNameForPath(artistName);
-            string path = $"{fileStoreConfig.Root}{Path.DirectorySeparatorChar}{fileName[0]}";
+            string path = EstablishPath(artistName);
             try
             {
                 var fullPath = Directory.GetFiles(path, $"{fileName}.*").FirstOrDefault();
