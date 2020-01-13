@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Sciendo.MusicStory;
+using Sciendo.OAuth1_0;
 using Sciendo.Topper.Source.DataTypes.MusicStory;
 
 namespace Sciendo.Topper.Source
@@ -21,7 +22,7 @@ namespace Sciendo.Topper.Source
         public ArtistsSummary Get(string artistName)
         {
             logger.LogDebug("Getting artist {artistName} from musicstory.", artistName);
-            return contentProvider.GetContent(Subject, ActionType, $"name={artistName}");
+            return contentProvider.GetContent(Subject, ActionType, $"name={OAuthHttpUtility.UrlEncode(artistName)}");
         }
     }
 }

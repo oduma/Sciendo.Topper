@@ -34,7 +34,7 @@ namespace Sciendo.MusicStory
             if (string.IsNullOrEmpty(rawData))
             {
                 logger.LogWarning("No content or empty content returned from music story.");
-                return new T();
+                return null;
             }
             logger.LogInformation("Content retrieved Ok from musicStory.");
             var xmlSerialzer = new XmlSerializer(typeof(T));

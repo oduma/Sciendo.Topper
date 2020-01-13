@@ -1,40 +1,44 @@
 ﻿using Sciendo.Topper.Contracts.DataTypes;
 using Sciendo.Topper.Domain;
+using Sciendo.Topper.Domain.Entities;
 using System;
 
 namespace Sciendo.Topper.Service.Mappers
 {
-    public class MapTopItemToDayEntryEvolution : MapTopItemToOverallEntryEvolution, IMapAggregateFourEntries<TopItem, DayEntryEvolution>
+    public class MapTopItemToDayEntryEvolution : IMapAggregateFourEntries<TopItemWithPictureUrl, TopItem, DayEntryEvolution>
     {
-        public MapTopItemToDayEntryEvolution(IMap<TopItem, Position> mapToOverallPosition,IEntryArtistImageProvider entryArtistImageProvider) 
-            : base(mapToOverallPosition, entryArtistImageProvider)
+        private readonly IMap<TopItem, Position> mapToPosition;
+
+        public MapTopItemToDayEntryEvolution(IMap<TopItem, Position> mapToPosition) 
         {
+            this.mapToPosition = mapToPosition;
         }
 
-        public new DayEntryEvolution Map(TopItem currentDailyItem, TopItem currentOverallItem, TopItem previousDailyItem, TopItem previouslyOverallItem)
+        public new DayEntryEvolution Map(TopItemWithPictureUrl currentDailyItem, TopItem currentOverallItem, TopItem previousDailyItem, TopItem previouslyOverallItem)
         {
-
-            var overallEntryEvolution = base.Map(currentOverallItem, previouslyOverallItem);
-            var dailyEntryEvolution = base.Map(currentDailyItem, previousDailyItem);
-            if (overallEntryEvolution != null
-                && currentDailyItem != null
-                && !string.IsNullOrEmpty(overallEntryEvolution.Name)
-                && !string.IsNullOrEmpty(dailyEntryEvolution.Name)
-                && overallEntryEvolution.Name != dailyEntryEvolution.Name)
+            if (currentDailyItem == null || string.IsNullOrEmpty(currentDailyItem.Name))
+                throw new ArgumentNullException(nameof(currentDailyItem));
+            if (currentOverallItem == null || string.IsNullOrEmpty(currentOverallItem.Name))
+                throw new ArgumentNullException(nameof(currentOverallItem));
+            if(currentDailyItem.Name != currentOverallItem.Name)
                 throw new Exception("Cross Items Evolution not supported!");
-
-            var dayEntryEvolution = new DayEntryEvolution { 
-                Name = dailyEntryEvolution.Name,
-                PictureUrl=dailyEntryEvolution.PictureUrl,
-                CurrentDayPosition = dailyEntryEvolution.CurrentOverallPosition, 
-                PreviousDayPosition = dailyEntryEvolution.PreviousDayOverallPosition, 
-                CurrentOverallPosition = overallEntryEvolution.CurrentOverallPosition, 
-                PreviousDayOverallPosition = overallEntryEvolution.PreviousDayOverallPosition,
-                Date= currentDailyItem.Date.Date.ToString("yyyy-MM-dd")};
-            dayEntryEvolution.CurrentDayPosition.Rank = 
-                (dayEntryEvolution.CurrentDayPosition.Rank == 0) ? 9999 : dayEntryEvolution.CurrentDayPosition.Rank;
-
-            return dayEntryEvolution;
+            if (previouslyOverallItem != null 
+                && (string.IsNullOrEmpty(previouslyOverallItem.Name) 
+                || previouslyOverallItem.Name!=currentDailyItem.Name))
+                throw new Exception("Cross Items Evolution not supported!");
+            if (previousDailyItem != null 
+                && (string.IsNullOrEmpty(previousDailyItem.Name) 
+                || previousDailyItem.Name!=currentDailyItem.Name))
+                throw new Exception("Cross Items Evolution not supported!");
+            var currentDayPosition = mapToPosition.Map(currentDailyItem);
+            currentDayPosition.Rank = (currentDayPosition.Rank == 0) ? 9999 : currentDayPosition.Rank;
+            return new DayEntryEvolution(currentDayPosition,
+                (previousDailyItem!=null)?mapToPosition.Map(previousDailyItem):null,
+                currentDailyItem.Date.Date.ToString("yyyy-MM-dd"),
+                (previouslyOverallItem!=null)?mapToPosition.Map(previouslyOverallItem):null,
+                mapToPosition.Map(currentOverallItem),
+                currentDailyItem.Name,
+                currentDailyItem.PictureUrl);
         }
 
     }

@@ -24,7 +24,9 @@ namespace Sciendo.Topper.Store
         public string CreateItem(NamedPicture item)
         {
             var fileName = SanitizeNameForPath(item.Name);
-            string fullPath = $"{fileStoreConfig.Root}{Path.DirectorySeparatorChar}{fileName[0]}{Path.DirectorySeparatorChar}{fileName}.{item.Extension}";
+            var theLetter = fileName.Replace("the ", "").Trim()[0];
+            Directory.CreateDirectory($"{fileStoreConfig.Root}{Path.DirectorySeparatorChar}{theLetter}");
+            string fullPath = $"{fileStoreConfig.Root}{Path.DirectorySeparatorChar}{theLetter}{Path.DirectorySeparatorChar}{fileName}.{item.Extension}";
             using(var fs = File.Create(fullPath))
             {
                 fs.Write(item.Picture, 0, item.Picture.Length);
@@ -52,10 +54,18 @@ namespace Sciendo.Topper.Store
         {
             var fileName = SanitizeNameForPath(artistName);
             string path = $"{fileStoreConfig.Root}{Path.DirectorySeparatorChar}{fileName[0]}";
-            var fullPath=Directory.GetFiles(path, $"{fileName}.*").FirstOrDefault();
-            if (fullPath == null)
+            try
+            {
+                var fullPath = Directory.GetFiles(path, $"{fileName}.*").FirstOrDefault();
+                if (fullPath == null)
+                    return null;
+                return fullPath;
+            }
+            catch(Exception ex)
+            {
+                logger.LogWarning(ex.Message);
                 return null;
-            return fullPath;
+            }
         }
     }
 }

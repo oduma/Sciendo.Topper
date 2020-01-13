@@ -1,5 +1,6 @@
 ﻿using Sciendo.Topper.Contracts.DataTypes;
 using Sciendo.Topper.Domain;
+using Sciendo.Topper.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +8,15 @@ using System.Text;
 
 namespace Sciendo.Topper.Service.Mappers
 {
-    public class MapTopItemsToEntryTimeLines : IMap<IEnumerable<TopItem>, IEnumerable<EntryTimeLine>>
+    public class MapTopItemsToEntryTimeLines : IMap<IEnumerable<TopItemWithPictureUrl>, IEnumerable<EntryTimeLine>>
     {
-        private readonly IMap<IEnumerable<TopItem>, EntryTimeLine> mapTopItemToEntryTileLine;
+        private readonly IMap<IEnumerable<TopItemWithPictureUrl>, EntryTimeLine> mapTopItemToEntryTileLine;
 
-        public MapTopItemsToEntryTimeLines(IMap<IEnumerable<TopItem>, EntryTimeLine> mapTopItemToDatedEntry)
+        public MapTopItemsToEntryTimeLines(IMap<IEnumerable<TopItemWithPictureUrl>, EntryTimeLine> mapTopItemToDatedEntry)
         {
             this.mapTopItemToEntryTileLine = mapTopItemToDatedEntry;
         }
-        public IEnumerable<EntryTimeLine> Map(IEnumerable<TopItem> fromItem)
+        public IEnumerable<EntryTimeLine> Map(IEnumerable<TopItemWithPictureUrl> fromItem)
         {
             if (fromItem == null)
                 throw new ArgumentNullException(nameof(fromItem));

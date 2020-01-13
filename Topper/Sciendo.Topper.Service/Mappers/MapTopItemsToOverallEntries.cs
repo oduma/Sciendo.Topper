@@ -1,21 +1,22 @@
 ﻿using Sciendo.Topper.Contracts.DataTypes;
 using Sciendo.Topper.Domain;
+using Sciendo.Topper.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Sciendo.Topper.Service.Mappers
 {
-    public class MapTopItemsToOverallEntries : IMap<IEnumerable<TopItem>, IEnumerable<OverallEntry>>
+    public class MapTopItemsToOverallEntries : IMap<IEnumerable<TopItemWithPictureUrl>, IEnumerable<OverallEntry>>
     {
-        private readonly IMap<TopItem, OverallEntry> mapTopItemToOverallEntry;
+        private readonly IMap<TopItemWithPictureUrl, OverallEntry> mapTopItemToOverallEntry;
 
-        public MapTopItemsToOverallEntries(IMap<TopItem,OverallEntry> mapTopItemToOverallEntry)
+        public MapTopItemsToOverallEntries(IMap<TopItemWithPictureUrl,OverallEntry> mapTopItemToOverallEntry)
         {
             this.mapTopItemToOverallEntry = mapTopItemToOverallEntry;
         }
 
-        public IEnumerable<OverallEntry> Map(IEnumerable<TopItem> fromItem)
+        public IEnumerable<OverallEntry> Map(IEnumerable<TopItemWithPictureUrl> fromItem)
         {
             foreach(var topItem in fromItem)
             {

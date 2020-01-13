@@ -1,0 +1,1065 @@
+2020-01-10 08:40:25.279 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 08:40:28.021 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 08:40:28.287 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 08:40:28.503 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 08:40:28.538 +00:00 [INF] Executed action Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) in 19.913600000000002ms
+2020-01-10 08:40:28.570 +00:00 [INF] Executed endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 08:40:28.840 +00:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'Sciendo.MusicStory.IContentProvider`1[Sciendo.Topper.Source.DataTypes.MusicStory.PictureUrlsSummary]' while attempting to activate 'Sciendo.Topper.Source.PictureUrlsSummaryProvider'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.CreateServiceAccessor(Type serviceType)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass4_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass5_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-01-10 08:40:29.102 +00:00 [INF] Request finished in 1071.0949ms 500 text/html; charset=utf-8
+2020-01-10 08:40:29.484 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/favicon.ico  
+2020-01-10 08:40:29.496 +00:00 [INF] Request finished in 12.389ms 404 
+2020-01-10 08:42:04.125 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 08:42:04.834 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 08:42:04.946 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 08:42:04.996 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 08:42:05.020 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 08:42:05.570 +00:00 [INF] Repository created.
+2020-01-10 08:42:05.580 +00:00 [INF] Configuration: 
+2020-01-10 08:42:05.675 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 08:42:23.153 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 08:47:41.359 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 08:47:42.063 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 08:47:42.185 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 08:47:42.227 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 08:47:42.249 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 08:47:42.523 +00:00 [INF] Repository created.
+2020-01-10 08:47:42.529 +00:00 [INF] Configuration: 
+2020-01-10 08:47:42.570 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 08:47:50.529 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 08:48:23.322 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 08:49:07.744 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 08:49:29.649 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 08:50:10.720 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 08:50:39.228 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 08:50:39.419 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 08:51:15.917 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 08:52:25.725 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 08:52:26.436 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 08:52:26.573 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 08:52:26.620 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 08:52:26.653 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 08:52:27.118 +00:00 [INF] Repository created.
+2020-01-10 08:52:27.130 +00:00 [INF] Configuration: 
+2020-01-10 08:52:27.183 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 08:52:27.197 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 08:52:42.401 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 08:52:42.420 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 08:52:42.424 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 08:52:42.426 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 08:52:57.329 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 08:53:38.485 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 08:53:45.403 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 08:56:44.919 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 08:56:45.626 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 08:56:45.751 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 08:56:45.788 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 08:56:45.819 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 08:56:46.136 +00:00 [INF] Repository created.
+2020-01-10 08:56:46.144 +00:00 [INF] Configuration: 
+2020-01-10 08:56:46.219 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 08:56:46.234 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 08:56:55.007 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 08:56:55.027 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 08:56:55.031 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 08:56:55.033 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 08:57:01.209 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 08:57:09.428 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 08:58:14.131 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 08:58:15.214 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 08:58:15.449 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 08:58:15.513 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 08:58:15.554 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 08:58:16.046 +00:00 [INF] Repository created.
+2020-01-10 08:58:16.062 +00:00 [INF] Configuration: 
+2020-01-10 08:58:16.108 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 08:58:16.125 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 08:58:28.611 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 08:58:28.633 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 08:58:28.637 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 08:58:28.640 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 08:58:35.910 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 08:58:36.099 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 08:58:36.103 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 08:59:41.494 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 08:59:42.443 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 08:59:42.653 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 08:59:42.715 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 08:59:42.754 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 08:59:43.118 +00:00 [INF] Repository created.
+2020-01-10 08:59:43.126 +00:00 [INF] Configuration: 
+2020-01-10 08:59:43.164 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 08:59:43.176 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 08:59:52.510 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 08:59:52.531 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 08:59:52.535 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 08:59:52.538 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 08:59:58.196 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 08:59:58.317 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 08:59:58.320 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:01:21.974 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 09:01:21.980 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:01:21.982 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:01:21.985 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 09:01:22.892 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:01:22.970 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:01:22.973 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:01:25.572 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 09:01:25.580 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:01:25.583 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:01:25.585 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 09:01:26.605 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:01:26.706 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:01:26.715 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:01:29.205 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 09:01:29.212 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:01:29.215 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:01:29.217 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 09:01:30.203 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:01:30.288 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:01:30.293 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:01:33.482 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\p'.
+2020-01-10 09:01:33.489 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:01:33.491 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:01:33.494 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Pet Shop Boys feat. Years & Years
+2020-01-10 09:01:34.525 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:01:34.605 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:01:34.609 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:01:37.456 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\p'.
+2020-01-10 09:01:37.462 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:01:37.465 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:01:37.467 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Pet Shop Boys feat. Years & Years
+2020-01-10 09:01:38.442 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:01:38.511 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:01:38.515 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:01:41.205 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\t'.
+2020-01-10 09:01:41.213 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:01:41.216 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:01:41.219 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=The Roots
+2020-01-10 09:01:42.216 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:01:42.289 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:01:42.292 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:01:45.007 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\t'.
+2020-01-10 09:01:45.015 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:01:45.018 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:01:45.021 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=The Roots
+2020-01-10 09:01:45.921 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:01:46.007 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:01:46.010 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:01:49.049 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\t'.
+2020-01-10 09:01:49.056 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:01:49.059 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:01:49.061 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=The Roots
+2020-01-10 09:01:49.933 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:01:50.000 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:01:50.003 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:01:52.745 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\t'.
+2020-01-10 09:01:52.753 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:01:52.756 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:01:52.758 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=The Roots
+2020-01-10 09:01:53.751 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:01:53.826 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:01:53.832 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:01:56.418 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\c'.
+2020-01-10 09:01:56.427 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:01:56.434 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:01:56.439 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Cigarettes After Sex
+2020-01-10 09:01:57.385 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:01:57.450 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:01:57.456 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:02:00.079 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\c'.
+2020-01-10 09:02:00.087 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:02:00.089 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:02:00.092 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Cigarettes After Sex
+2020-01-10 09:02:01.070 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:02:01.138 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:02:01.143 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:02:03.763 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\c'.
+2020-01-10 09:02:03.773 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:02:03.775 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:02:03.778 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Cigarettes After Sex
+2020-01-10 09:02:06.861 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:02:06.938 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:02:06.942 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:02:10.435 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\c'.
+2020-01-10 09:02:10.442 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 09:02:10.444 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 09:02:10.447 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Cigarettes After Sex
+2020-01-10 09:02:11.576 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 09:02:11.651 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (No such host is known) ---> System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 09:02:11.656 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-10 09:02:16.439 +00:00 [INF] Executed action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 153258.31530000002ms.
+2020-01-10 09:02:16.452 +00:00 [INF] Executing ObjectResult, writing value of type 'Sciendo.Topper.Contracts.DataTypes.DayEntryEvolution[]'.
+2020-01-10 09:02:16.512 +00:00 [INF] Executed action Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) in 153789.4118ms
+2020-01-10 09:02:16.515 +00:00 [INF] Executed endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 09:02:16.527 +00:00 [INF] Request finished in 154091.5631ms 200 application/json; charset=utf-8
+2020-01-10 18:47:33.768 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 18:47:36.031 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 18:47:36.274 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 18:47:36.370 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 18:47:36.407 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 18:47:37.071 +00:00 [INF] Repository created.
+2020-01-10 18:47:37.088 +00:00 [INF] Configuration: 
+2020-01-10 18:47:37.183 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 18:47:37.201 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 18:47:56.615 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 18:48:31.536 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 18:48:35.048 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 18:48:35.051 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 18:48:50.729 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 18:52:57.987 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 18:52:58.743 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 18:52:58.882 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 18:52:58.927 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 18:52:58.954 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 18:52:59.278 +00:00 [INF] Repository created.
+2020-01-10 18:52:59.286 +00:00 [INF] Configuration: 
+2020-01-10 18:52:59.326 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 18:52:59.338 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 18:53:06.833 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 18:53:06.853 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 18:53:06.856 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 18:53:06.859 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 18:53:18.491 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 18:55:10.742 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (Response status code does not indicate success: 403 ().) ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 18:56:21.614 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (Response status code does not indicate success: 403 ().) ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-10 19:22:45.891 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 19:22:46.487 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 19:22:46.577 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 19:22:46.613 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 19:22:46.634 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 19:22:46.887 +00:00 [INF] Repository created.
+2020-01-10 19:22:46.893 +00:00 [INF] Configuration: 
+2020-01-10 19:22:46.926 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 19:22:46.935 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 22:06:00.817 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 22:06:02.181 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 22:06:02.342 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 22:06:02.412 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 22:06:02.434 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 22:06:02.850 +00:00 [INF] Repository created.
+2020-01-10 22:06:02.857 +00:00 [INF] Configuration: 
+2020-01-10 22:06:02.903 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 22:06:02.913 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 22:06:11.353 +00:00 [ERR] 
+System.AggregateException: One or more errors occurred. (No connection could be made because the target machine actively refused it) ---> System.Net.Http.HttpRequestException: No connection could be made because the target machine actively refused it ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Azure.Documents.Client.DocumentClient.HttpRequestMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Microsoft.Azure.Documents.Client.GatewayServiceConfigurationReader.GetDatabaseAccountAsync(Uri serviceEndpoint)
+   at Microsoft.Azure.Documents.Routing.GlobalEndpointManager.GetDatabaseAccountFromAnyLocationsAsync(Uri defaultEndpoint, IList`1 locations, Func`2 getDatabaseAccountFn)
+   at Microsoft.Azure.Documents.Client.GatewayServiceConfigurationReader.InitializeReaderAsync()
+   at Microsoft.Azure.Documents.Client.DocumentClient.InitializeGatewayConfigurationReader()
+   at Microsoft.Azure.Documents.Client.DocumentClient.GetInitializationTask()
+   at Microsoft.Azure.Documents.Client.DocumentClient.EnsureValidClientAsync()
+   at Microsoft.Azure.Documents.Client.DocumentClient.GetCollectionCacheAsync()
+   at Microsoft.Azure.Documents.Query.DocumentQueryClient.Microsoft.Azure.Documents.Query.IDocumentQueryClient.GetCollectionCacheAsync()
+   at Microsoft.Azure.Documents.Query.DocumentQueryExecutionContextFactory.CreateDocumentQueryExecutionContextAsync(IDocumentQueryClient client, ResourceType resourceTypeEnum, Type resourceType, Expression expression, FeedOptions feedOptions, String resourceLink, Boolean isContinuationExpected, CancellationToken token, Guid correlatedActivityId)
+   at Microsoft.Azure.Documents.Linq.DocumentQuery`1.CreateDocumentQueryExecutionContextAsync(Boolean isContinuationExpected, CancellationToken cancellationToken)
+   at Microsoft.Azure.Documents.Linq.DocumentQuery`1.ExecuteNextPrivateAsync[TResponse](CancellationToken cancellationToken)
+   at Sciendo.Topper.Store.Repository`1.GetItemsAsync(Expression`1 predicate) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Store\Repository.cs:line 97
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.Topper.Service.EntriesService.GetEntriesByDate(DateTime date) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\EntriesService.cs:line 42
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No connection could be made because the target machine actively refused it ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Azure.Documents.Client.DocumentClient.HttpRequestMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Microsoft.Azure.Documents.Client.GatewayServiceConfigurationReader.GetDatabaseAccountAsync(Uri serviceEndpoint)
+   at Microsoft.Azure.Documents.Routing.GlobalEndpointManager.GetDatabaseAccountFromAnyLocationsAsync(Uri defaultEndpoint, IList`1 locations, Func`2 getDatabaseAccountFn)
+   at Microsoft.Azure.Documents.Client.GatewayServiceConfigurationReader.InitializeReaderAsync()
+   at Microsoft.Azure.Documents.Client.DocumentClient.InitializeGatewayConfigurationReader()
+   at Microsoft.Azure.Documents.Client.DocumentClient.GetInitializationTask()
+   at Microsoft.Azure.Documents.Client.DocumentClient.EnsureValidClientAsync()
+   at Microsoft.Azure.Documents.Client.DocumentClient.GetCollectionCacheAsync()
+   at Microsoft.Azure.Documents.Query.DocumentQueryClient.Microsoft.Azure.Documents.Query.IDocumentQueryClient.GetCollectionCacheAsync()
+   at Microsoft.Azure.Documents.Query.DocumentQueryExecutionContextFactory.CreateDocumentQueryExecutionContextAsync(IDocumentQueryClient client, ResourceType resourceTypeEnum, Type resourceType, Expression expression, FeedOptions feedOptions, String resourceLink, Boolean isContinuationExpected, CancellationToken token, Guid correlatedActivityId)
+   at Microsoft.Azure.Documents.Linq.DocumentQuery`1.CreateDocumentQueryExecutionContextAsync(Boolean isContinuationExpected, CancellationToken cancellationToken)
+   at Microsoft.Azure.Documents.Linq.DocumentQuery`1.ExecuteNextPrivateAsync[TResponse](CancellationToken cancellationToken)
+   at Sciendo.Topper.Store.Repository`1.GetItemsAsync(Expression`1 predicate) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Store\Repository.cs:line 97<---
+
+2020-01-10 22:06:11.421 +00:00 [ERR] 
+System.AggregateException: One or more errors occurred. (No connection could be made because the target machine actively refused it) ---> System.Net.Http.HttpRequestException: No connection could be made because the target machine actively refused it ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Azure.Documents.Client.DocumentClient.HttpRequestMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Microsoft.Azure.Documents.Client.GatewayServiceConfigurationReader.GetDatabaseAccountAsync(Uri serviceEndpoint)
+   at Microsoft.Azure.Documents.Routing.GlobalEndpointManager.GetDatabaseAccountFromAnyLocationsAsync(Uri defaultEndpoint, IList`1 locations, Func`2 getDatabaseAccountFn)
+   at Microsoft.Azure.Documents.Client.GatewayServiceConfigurationReader.InitializeReaderAsync()
+   at Microsoft.Azure.Documents.Client.DocumentClient.InitializeGatewayConfigurationReader()
+   at Microsoft.Azure.Documents.Client.DocumentClient.GetInitializationTask()
+   at Microsoft.Azure.Documents.Client.DocumentClient.EnsureValidClientAsync()
+   at Microsoft.Azure.Documents.Client.DocumentClient.GetCollectionCacheAsync()
+   at Microsoft.Azure.Documents.Query.DocumentQueryClient.Microsoft.Azure.Documents.Query.IDocumentQueryClient.GetCollectionCacheAsync()
+   at Microsoft.Azure.Documents.Query.DocumentQueryExecutionContextFactory.CreateDocumentQueryExecutionContextAsync(IDocumentQueryClient client, ResourceType resourceTypeEnum, Type resourceType, Expression expression, FeedOptions feedOptions, String resourceLink, Boolean isContinuationExpected, CancellationToken token, Guid correlatedActivityId)
+   at Microsoft.Azure.Documents.Linq.DocumentQuery`1.CreateDocumentQueryExecutionContextAsync(Boolean isContinuationExpected, CancellationToken cancellationToken)
+   at Microsoft.Azure.Documents.Linq.DocumentQuery`1.ExecuteNextPrivateAsync[TResponse](CancellationToken cancellationToken)
+   at Sciendo.Topper.Store.Repository`1.GetItemsAsync(Expression`1 predicate) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Store\Repository.cs:line 97
+   --- End of inner exception stack trace ---
+   at Sciendo.Topper.Service.EntriesService.GetEntriesByDate(DateTime date) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\EntriesService.cs:line 57
+   at Sciendo.Topper.Api.Controllers.EntriesController.GetByDate(String date) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Api\Controllers\EntriesController.cs:line 48
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: No connection could be made because the target machine actively refused it ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Azure.Documents.Client.DocumentClient.HttpRequestMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Microsoft.Azure.Documents.Client.GatewayServiceConfigurationReader.GetDatabaseAccountAsync(Uri serviceEndpoint)
+   at Microsoft.Azure.Documents.Routing.GlobalEndpointManager.GetDatabaseAccountFromAnyLocationsAsync(Uri defaultEndpoint, IList`1 locations, Func`2 getDatabaseAccountFn)
+   at Microsoft.Azure.Documents.Client.GatewayServiceConfigurationReader.InitializeReaderAsync()
+   at Microsoft.Azure.Documents.Client.DocumentClient.InitializeGatewayConfigurationReader()
+   at Microsoft.Azure.Documents.Client.DocumentClient.GetInitializationTask()
+   at Microsoft.Azure.Documents.Client.DocumentClient.EnsureValidClientAsync()
+   at Microsoft.Azure.Documents.Client.DocumentClient.GetCollectionCacheAsync()
+   at Microsoft.Azure.Documents.Query.DocumentQueryClient.Microsoft.Azure.Documents.Query.IDocumentQueryClient.GetCollectionCacheAsync()
+   at Microsoft.Azure.Documents.Query.DocumentQueryExecutionContextFactory.CreateDocumentQueryExecutionContextAsync(IDocumentQueryClient client, ResourceType resourceTypeEnum, Type resourceType, Expression expression, FeedOptions feedOptions, String resourceLink, Boolean isContinuationExpected, CancellationToken token, Guid correlatedActivityId)
+   at Microsoft.Azure.Documents.Linq.DocumentQuery`1.CreateDocumentQueryExecutionContextAsync(Boolean isContinuationExpected, CancellationToken cancellationToken)
+   at Microsoft.Azure.Documents.Linq.DocumentQuery`1.ExecuteNextPrivateAsync[TResponse](CancellationToken cancellationToken)
+   at Sciendo.Topper.Store.Repository`1.GetItemsAsync(Expression`1 predicate) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Store\Repository.cs:line 97<---
+
+2020-01-10 22:07:03.671 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 22:07:04.331 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 22:07:04.422 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 22:07:04.451 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 22:07:04.468 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 22:07:04.711 +00:00 [INF] Repository created.
+2020-01-10 22:07:04.716 +00:00 [INF] Configuration: 
+2020-01-10 22:07:04.753 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 22:07:04.761 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 22:07:19.784 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 22:07:26.390 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 22:07:26.393 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 22:07:26.395 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 22:07:31.220 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 22:07:39.081 +00:00 [INF] Content retrieved Ok from MusicStory
+2020-01-10 22:07:51.198 +00:00 [INF] Content retrieved Ok from musicStory.
+2020-01-10 22:09:33.495 +00:00 [ERR] 
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at Sciendo.Topper.Source.ArtistImageProvider.GetArtistId(ArtistsSummary artistsSummary) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Source\ArtistImageProvider.cs:line 82
+   at Sciendo.Topper.Source.ArtistImageProvider.GetImage(String artistName) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Source\ArtistImageProvider.cs:line 38
+   at Sciendo.Topper.Service.EntryArtistImageProvider.GetPicturePath(String name) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\EntryArtistImageProvider.cs:line 40
+   at Sciendo.Topper.Service.EntryArtistImageProvider.GetPictureUrl(String name) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\EntryArtistImageProvider.cs:line 27
+   at Sciendo.Topper.Service.Mappers.MapTopItemToBaseEntry.Map(TopItem fromItem) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\Mappers\MapTopItemToBaseEntry.cs:line 22
+   at Sciendo.Topper.Service.Mappers.MapTopItemToOverallEntry.Map(TopItem fromItem) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\Mappers\MapTopItemToOverallEntry.cs:line 21
+   at Sciendo.Topper.Service.Mappers.MapTopItemToOverallEntryEvolution.Map(TopItem currentItem, TopItem previousItem) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\Mappers\MapTopItemToOverallEntryEvolution.cs:line 41
+   at Sciendo.Topper.Service.Mappers.MapTopItemToDayEntryEvolution.Map(TopItem currentDailyItem, TopItem currentOverallItem, TopItem previousDailyItem, TopItem previouslyOverallItem) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\Mappers\MapTopItemToDayEntryEvolution.cs:line 17
+   at Sciendo.Topper.Service.Mappers.MapTopItemsToDayEntriesEvolution.Map(IEnumerable`1 currentDailyItem, IEnumerable`1 currentOverallItem, IEnumerable`1 previousDailyItem, IEnumerable`1 previouslyOverallItem)+MoveNext() in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\Mappers\MapTopItemsToDayEntriesEvolution.cs:line 22
+   at System.Collections.Generic.EnumerableHelpers.ToArray[T](IEnumerable`1 source, Int32& length)
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.OrderedEnumerable`1.ToArray()
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at Sciendo.Topper.Service.EntriesService.GetEntriesByDate(DateTime date) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\EntriesService.cs:line 48
+2020-01-10 22:09:33.544 +00:00 [ERR] 
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at Sciendo.Topper.Service.EntriesService.GetEntriesByDate(DateTime date) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\EntriesService.cs:line 57
+   at Sciendo.Topper.Api.Controllers.EntriesController.GetByDate(String date) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Api\Controllers\EntriesController.cs:line 48
+2020-01-10 22:09:35.279 +00:00 [INF] Executed action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 150516.6546ms.
+2020-01-10 22:09:35.290 +00:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2020-01-10 22:09:35.317 +00:00 [INF] Executed action Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) in 150858.4243ms
+2020-01-10 22:09:35.320 +00:00 [INF] Executed endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 22:09:35.329 +00:00 [INF] Request finished in 151000.4699ms 500 text/plain; charset=utf-8
+2020-01-10 22:09:35.486 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/favicon.ico  
+2020-01-10 22:09:35.494 +00:00 [INF] Request finished in 15.0332ms 404 
+2020-01-10 22:09:40.721 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 22:09:40.727 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 22:09:40.732 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 22:09:40.736 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 22:09:40.744 +00:00 [INF] Repository created.
+2020-01-10 22:09:40.747 +00:00 [INF] Configuration: 
+2020-01-10 22:09:40.751 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 22:09:40.754 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 22:09:45.864 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 22:09:45.872 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 22:09:45.875 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 22:09:45.877 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 22:09:49.661 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 22:09:50.239 +00:00 [INF] Content retrieved Ok from MusicStory
+2020-01-10 22:09:50.242 +00:00 [INF] Content retrieved Ok from musicStory.
+2020-01-10 22:11:18.163 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-10 22:11:18.832 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-03  
+2020-01-10 22:11:18.958 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-10 22:11:19.012 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-10 22:11:19.035 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-10 22:11:19.297 +00:00 [INF] Repository created.
+2020-01-10 22:11:19.303 +00:00 [INF] Configuration: 
+2020-01-10 22:11:19.334 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-10 22:11:19.345 +00:00 [INF] Starting Get Entries by Date...
+2020-01-10 22:11:29.433 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 22:11:29.454 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 22:11:29.458 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 22:11:29.460 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 22:12:05.245 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 22:12:05.855 +00:00 [INF] Content retrieved Ok from MusicStory
+2020-01-10 22:12:05.859 +00:00 [INF] Content retrieved Ok from musicStory.
+2020-01-10 22:13:09.203 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 22:13:09.210 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 22:13:09.213 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 22:13:09.215 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 22:13:16.653 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 22:13:17.277 +00:00 [INF] Content retrieved Ok from MusicStory
+2020-01-10 22:13:17.279 +00:00 [INF] Content retrieved Ok from musicStory.
+2020-01-10 22:13:26.662 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 22:13:26.670 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 22:13:26.672 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 22:13:26.675 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 22:13:27.909 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 22:13:28.494 +00:00 [INF] Content retrieved Ok from MusicStory
+2020-01-10 22:13:28.497 +00:00 [INF] Content retrieved Ok from musicStory.
+2020-01-10 22:13:44.548 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\a'.
+2020-01-10 22:13:44.556 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 22:13:44.559 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 22:13:44.561 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Anna Wise
+2020-01-10 22:13:50.516 +00:00 [INF] Getting content from MusicStory...
+2020-01-10 22:13:51.092 +00:00 [INF] Content retrieved Ok from MusicStory
+2020-01-10 22:13:51.095 +00:00 [INF] Content retrieved Ok from musicStory.
+2020-01-10 22:15:11.247 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\p'.
+2020-01-10 22:15:11.256 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-10 22:15:11.258 +00:00 [INF] Building the url for artist and "Search"
+2020-01-10 22:15:11.261 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Pet Shop Boys feat. Years & Years
+2020-01-10 22:15:19.750 +00:00 [INF] Getting content from MusicStory...

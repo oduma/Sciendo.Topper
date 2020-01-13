@@ -6,9 +6,14 @@ namespace Sciendo.Topper.Contracts.DataTypes
 {
     public class EntryBase
     {
-        public string Name { get; set; }
+        public EntryBase(string name, string pictureUrl)
+        {
+            Name = name;
+            PictureUrl = pictureUrl;
+        }
+        public string Name { get; private set; }
 
-        public string PictureUrl { get; set; }
+        public string PictureUrl { get; private set; }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Sciendo.Topper.Contracts.DataTypes;
 using Sciendo.Topper.Domain;
+using Sciendo.Topper.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;

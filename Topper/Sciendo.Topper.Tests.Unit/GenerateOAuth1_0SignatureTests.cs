@@ -15,7 +15,7 @@ namespace Sciendo.Topper.Tests.Unit
         {
             OAuthUrlGenerator signatureGenerator = new OAuthUrlGenerator();
             var uri = new Uri("http://api.music-story.com/en/artist/search?name=Pumarosa");
-            var musicStoryConfig = new MSConfig();
+            var musicStoryConfig = new MSConfig { AccessToken = "a", ConsumerKey = "b", CosumerSecret = "d", TokenSecret = "e" };
             var signature = signatureGenerator.GenerateAuthenticatedUrl(uri, musicStoryConfig.ConsumerKey, musicStoryConfig.CosumerSecret, musicStoryConfig.AccessToken, musicStoryConfig.TokenSecret, "GET", SignatureTypes.HMACSHA1);
             Assert.IsNotNull(signature);
 

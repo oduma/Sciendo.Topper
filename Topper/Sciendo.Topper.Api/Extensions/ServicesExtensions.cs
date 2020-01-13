@@ -67,21 +67,22 @@ namespace Sciendo.Topper.Api.Extensions
             services.AddScoped<IMusicStoryProvider<string>, MusicStoryStringProvider>();
             services.AddScoped<IOAuthUrlGenerator, OAuthUrlGenerator>();
             services.AddScoped<IUrlProvider, UrlProvider>();
-            services.AddScoped<IContentProvider<PictureUrlSummary>, ContentProvider<PictureUrlSummary>>();
+            services.AddScoped<IContentProvider<PictureUrlsSummary>, ContentProvider<PictureUrlsSummary>>();
             services.AddScoped<IPictureUrlsSummaryProvider, PictureUrlsSummaryProvider>();
             services.AddScoped<IMusicStoryProvider<byte[]>, MusicStoryByteArrayProvider>();
             services.AddScoped<IArtistImageProvider, ArtistImageProvider>();
             services.AddScoped<IEntryArtistImageProvider, EntryArtistImageProvider>();
             services.AddScoped<IMap<TopItem, Position>, MapTopItemToPosition>();
-            services.AddScoped<IMap<TopItem, EntryBase>, MapTopItemToBaseEntry>();
-            services.AddScoped<IMap<TopItem, OverallEntry>, MapTopItemToOverallEntry>();
-            services.AddScoped<IMap<IEnumerable<TopItem>, EntryTimeLine>, MapTopItemToEntryTimeLine>();
-            services.AddScoped<IMap<IEnumerable<TopItem>, IEnumerable<EntryTimeLine>>, MapTopItemsToEntryTimeLines>();
-            services.AddScoped<IMap<IEnumerable<TopItem>, IEnumerable<OverallEntry>>, MapTopItemsToOverallEntries>();
-            services.AddScoped<IMapAggregateTwoEntries<TopItem, OverallEntryEvolution>, MapTopItemToOverallEntryEvolution>();
-            services.AddScoped<IMapAggregateTwoEntries<IEnumerable<TopItem>, IEnumerable<OverallEntryEvolution>>, MapTopItemsToOverallEntriesEvolution>();
-            services.AddScoped<IMapAggregateFourEntries<TopItem, DayEntryEvolution>, MapTopItemToDayEntryEvolution>();
-            services.AddScoped<IMapAggregateFourEntries<IEnumerable<TopItem>, IEnumerable<DayEntryEvolution>>, MapTopItemsToDayEntriesEvolution>();
+            services.AddScoped<IMap<TopItem, TopItemWithPictureUrl>, MapTopItemToTopItemWithPictureUrl>();
+            services.AddScoped<IMap<IEnumerable<TopItem>, IEnumerable<TopItemWithPictureUrl>>, MapTopItemsToTopItemsWithPictureUrl>();
+            services.AddScoped<IMap<TopItemWithPictureUrl, OverallEntry>, MapTopItemToOverallEntry>();
+            services.AddScoped<IMap<IEnumerable<TopItemWithPictureUrl>, EntryTimeLine>, MapTopItemToEntryTimeLine>();
+            services.AddScoped<IMap<IEnumerable<TopItemWithPictureUrl>, IEnumerable<EntryTimeLine>>, MapTopItemsToEntryTimeLines>();
+            services.AddScoped<IMap<IEnumerable<TopItemWithPictureUrl>, IEnumerable<OverallEntry>>, MapTopItemsToOverallEntries>();
+            services.AddScoped<IMapAggregateTwoEntries<TopItemWithPictureUrl,TopItem, OverallEntryEvolution>, MapTopItemToOverallEntryEvolution>();
+            services.AddScoped<IMapAggregateTwoEntries<IEnumerable<TopItemWithPictureUrl>,IEnumerable<TopItem>, IEnumerable<OverallEntryEvolution>>, MapTopItemsToOverallEntriesEvolution>();
+            services.AddScoped<IMapAggregateFourEntries<TopItemWithPictureUrl,TopItem, DayEntryEvolution>, MapTopItemToDayEntryEvolution>();
+            services.AddScoped<IMapAggregateFourEntries<IEnumerable<TopItemWithPictureUrl>, IEnumerable<TopItem>, IEnumerable<DayEntryEvolution>>, MapTopItemsToDayEntriesEvolution>();
             services.AddScoped<IEntriesService, EntriesService>();
         }
     }

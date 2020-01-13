@@ -1,48 +1,30 @@
 ﻿using Sciendo.Topper.Contracts.DataTypes;
 using Sciendo.Topper.Domain;
+using Sciendo.Topper.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Sciendo.Topper.Service.Mappers
 {
-    public class MapTopItemToOverallEntryEvolution : MapTopItemToOverallEntry, IMapAggregateTwoEntries<TopItem, OverallEntryEvolution>
+    public class MapTopItemToOverallEntryEvolution : IMapAggregateTwoEntries<TopItemWithPictureUrl, TopItem, OverallEntryEvolution>
     {
-        public MapTopItemToOverallEntryEvolution(IMap<TopItem,Position> mapToOverallPosition,IEntryArtistImageProvider entryArtistImageProvider)
-            :base(mapToOverallPosition, entryArtistImageProvider)
-        {
-        }
-        public OverallEntryEvolution Map(TopItem currentItem, TopItem previousItem)
-        {
-            if (currentItem == null && previousItem == null)
-                throw new ArgumentNullException("both topitems cannot be null");
-            OverallEntryEvolution overallEntryEvolution;
-            if (currentItem == null)
-            {
-                var overallEntry = base.Map(previousItem);
-                overallEntryEvolution = new OverallEntryEvolution { Name = overallEntry.Name, PictureUrl = overallEntry.PictureUrl, PreviousDayOverallPosition = overallEntry.CurrentOverallPosition };
-                overallEntryEvolution.CurrentOverallPosition = null;
-                return overallEntryEvolution;
+        private readonly IMap<TopItem, Position> mapToPosition;
 
-            }
-            else if (previousItem == null)
-            {
-                var overallEntry = base.Map(currentItem);
-                overallEntryEvolution = new OverallEntryEvolution { Name=overallEntry.Name,PictureUrl=overallEntry.PictureUrl, CurrentOverallPosition=overallEntry.CurrentOverallPosition};
-                overallEntryEvolution.PreviousDayOverallPosition = null;
-                return overallEntryEvolution;
-            }
+        public MapTopItemToOverallEntryEvolution(IMap<TopItem,Position> mapToPosition)
+        {
+            this.mapToPosition = mapToPosition;
+        }
+        public OverallEntryEvolution Map(TopItemWithPictureUrl currentItem, TopItem previousItem)
+        {
+            if (currentItem == null)
+                throw new ArgumentNullException(nameof(currentItem), "current item cannot be null");
+            if (previousItem == null)
+                return new OverallEntryEvolution(null,mapToPosition.Map(currentItem),currentItem.Name,currentItem.PictureUrl);
             else if (!string.IsNullOrEmpty(currentItem.Name) && !string.IsNullOrEmpty(previousItem.Name) && currentItem.Name != previousItem.Name)
-            {
                 throw new Exception("Evolution between different items not supported.");
-            }
             else
-            {
-                var overallEntry = base.Map(currentItem);
-                overallEntryEvolution = new OverallEntryEvolution { Name = overallEntry.Name, PictureUrl=overallEntry.PictureUrl, CurrentOverallPosition = overallEntry.CurrentOverallPosition };
-                overallEntryEvolution.PreviousDayOverallPosition = base.Map(previousItem).CurrentOverallPosition;
-                return overallEntryEvolution;
-            }
+                return new OverallEntryEvolution(mapToPosition.Map(previousItem), mapToPosition.Map(currentItem), currentItem.Name, currentItem.PictureUrl);
         }
     }
 }

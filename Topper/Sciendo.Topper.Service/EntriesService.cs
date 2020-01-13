@@ -2,6 +2,7 @@
 using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Contracts.DataTypes;
 using Sciendo.Topper.Domain;
+using Sciendo.Topper.Domain.Entities;
 using Sciendo.Topper.Service.Mappers;
 using Sciendo.Topper.Store;
 using System;
@@ -15,19 +16,22 @@ namespace Sciendo.Topper.Service
     {
         private readonly ILogger<EntriesService> logger;
         private readonly IRepository<TopItem> repository;
-        private readonly IMap<IEnumerable<TopItem>, IEnumerable<EntryTimeLine>> mapTopItemsToEntryTimeLines;
-        private readonly IMap<IEnumerable<TopItem>, IEnumerable<OverallEntry>> mapTopItemsToOverallEntries;
-        private readonly IMapAggregateTwoEntries<IEnumerable<TopItem>, IEnumerable<OverallEntryEvolution>> mapTopItemsToOverallEntriesEvolution;
-        private readonly IMapAggregateFourEntries<IEnumerable<TopItem>, IEnumerable<DayEntryEvolution>> mapTopItemsToDayEntriesEvolution;
+        private readonly IMap<IEnumerable<TopItem>, IEnumerable<TopItemWithPictureUrl>> mapTopItemsToTopItemsWithPictureUrl;
+        private readonly IMap<IEnumerable<TopItemWithPictureUrl>, IEnumerable<EntryTimeLine>> mapTopItemsToEntryTimeLines;
+        private readonly IMap<IEnumerable<TopItemWithPictureUrl>, IEnumerable<OverallEntry>> mapTopItemsToOverallEntries;
+        private readonly IMapAggregateTwoEntries<IEnumerable<TopItemWithPictureUrl>, IEnumerable<TopItem>, IEnumerable<OverallEntryEvolution>> mapTopItemsToOverallEntriesEvolution;
+        private readonly IMapAggregateFourEntries<IEnumerable<TopItemWithPictureUrl>, IEnumerable<TopItem>,IEnumerable<DayEntryEvolution>> mapTopItemsToDayEntriesEvolution;
 
         public EntriesService(ILogger<EntriesService> logger,IRepository<TopItem> repository,
-            IMap<IEnumerable<TopItem>,IEnumerable<EntryTimeLine>> mapTopItemsToEntryTimeLines,
-            IMap<IEnumerable<TopItem>,IEnumerable<OverallEntry>> mapTopItemsToOverallEntries,
-            IMapAggregateTwoEntries<IEnumerable<TopItem>,IEnumerable<OverallEntryEvolution>> mapTopItemsToOverallEntriesEvolution,
-            IMapAggregateFourEntries<IEnumerable<TopItem>,IEnumerable<DayEntryEvolution>> mapTopItemsToDayEntriesEvolution)
+            IMap<IEnumerable<TopItem>,IEnumerable<TopItemWithPictureUrl>> mapTopItemsToTopItemsWithPictureUrl,
+            IMap<IEnumerable<TopItemWithPictureUrl>,IEnumerable<EntryTimeLine>> mapTopItemsToEntryTimeLines,
+            IMap<IEnumerable<TopItemWithPictureUrl>,IEnumerable<OverallEntry>> mapTopItemsToOverallEntries,
+            IMapAggregateTwoEntries<IEnumerable<TopItemWithPictureUrl>,IEnumerable<TopItem>, IEnumerable<OverallEntryEvolution>> mapTopItemsToOverallEntriesEvolution,
+            IMapAggregateFourEntries<IEnumerable<TopItemWithPictureUrl>, IEnumerable<TopItem>, IEnumerable<DayEntryEvolution>> mapTopItemsToDayEntriesEvolution)
         {
             this.logger = logger;
             this.repository = repository;
+            this.mapTopItemsToTopItemsWithPictureUrl = mapTopItemsToTopItemsWithPictureUrl;
             this.mapTopItemsToEntryTimeLines = mapTopItemsToEntryTimeLines;
             this.mapTopItemsToOverallEntries = mapTopItemsToOverallEntries;
             this.mapTopItemsToOverallEntriesEvolution = mapTopItemsToOverallEntriesEvolution;
@@ -45,7 +49,7 @@ namespace Sciendo.Topper.Service
                     queryDate = FindAlternateDate();
                     itemsForDate= repository.GetItemsAsync((i) => i.Date == queryDate).Result;
                 }
-                return mapTopItemsToDayEntriesEvolution.Map(itemsForDate,
+                return mapTopItemsToDayEntriesEvolution.Map(mapTopItemsToTopItemsWithPictureUrl.Map(itemsForDate),
                     AggregateTopItems(GetTopItemsByYear(queryDate.Year, queryDate)),
                     repository.GetItemsAsync(i => i.Date == queryDate.AddDays(-1)).Result,
                     AggregateTopItems(GetTopItemsByYear(queryDate.Year, queryDate.AddDays(-1)))).OrderBy(s => s.CurrentDayPosition.Rank).ToArray();
@@ -68,7 +72,7 @@ namespace Sciendo.Topper.Service
             logger.LogInformation("Started Get Entries by Names");
             try
             {
-                return mapTopItemsToEntryTimeLines.Map(repository.GetItemsAsync((t) => names.Contains(t.Name)).Result).ToArray();
+                return mapTopItemsToEntryTimeLines.Map(mapTopItemsToTopItemsWithPictureUrl.Map(repository.GetItemsAsync((t) => names.Contains(t.Name)).Result)).ToArray();
             }
             catch(Exception ex)
             {
@@ -82,7 +86,7 @@ namespace Sciendo.Topper.Service
             logger.LogInformation("Started Get Entries by Year.");
             try
             {
-                return mapTopItemsToOverallEntries.Map(AggregateTopItems(GetTopItemsByYear(year, DateTime.Now))).ToArray();
+                return mapTopItemsToOverallEntries.Map(mapTopItemsToTopItemsWithPictureUrl.Map(AggregateTopItems(GetTopItemsByYear(year, DateTime.Now)))).ToArray();
             }
             catch(Exception ex)
             {
@@ -96,7 +100,7 @@ namespace Sciendo.Topper.Service
             logger.LogInformation("Started Get Entries with Evolution by Year.");
             try
             {
-                return mapTopItemsToOverallEntriesEvolution.Map(AggregateTopItems(GetTopItemsByYear(year, DateTime.Now)),
+                return mapTopItemsToOverallEntriesEvolution.Map(mapTopItemsToTopItemsWithPictureUrl.Map(AggregateTopItems(GetTopItemsByYear(year, DateTime.Now))),
                     AggregateTopItems(GetTopItemsByYear(year, DateTime.Now.AddDays(-1)))).ToArray();
 
             }

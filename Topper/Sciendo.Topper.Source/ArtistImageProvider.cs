@@ -33,6 +33,8 @@ namespace Sciendo.Topper.Source
         {
             logger.LogDebug("Trying to get image for {artistName}", artistName);
             var artistsSummary = artistsSummaryProvider.Get(artistName);
+            if (artistsSummary == null)
+                return null;
             long? artistId = GetArtistId(artistsSummary);
             if(artistId.HasValue)
             {
@@ -65,14 +67,14 @@ namespace Sciendo.Topper.Source
                 logger.LogDebug("No picture url found for artist.");
                 return null;
             }
-            var selectedPictureUrl = pictureUrlsSummary.PictureUrlsSummaryCollection.OrderBy((p) => p.Height * p.Width).LastOrDefault();
+            var selectedPictureUrl = pictureUrlsSummary.PictureUrlsSummaryCollection.OrderBy((p) => p.Height * p.Width).FirstOrDefault();
             logger.LogDebug("Picture Url found.");
             return selectedPictureUrl.Url400;
         }
 
         private long? GetArtistId(ArtistsSummary artistsSummary)
         {
-            if (artistsSummary.Code == -1)
+            if (artistsSummary.Code == -1 || artistsSummary.ArtistsSummaryCollection.Length==0)
             {
                 logger.LogDebug("No artists found");
                 return null;

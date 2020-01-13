@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Sciendo.Topper.Service.Mappers
 {
-    public interface IMapAggregateTwoEntries<TFrom, TTo>
+    public interface IMapAggregateTwoEntries<TFromMain, TFrom, TTo>
     {
-        TTo Map(TFrom currentItem, TFrom previousItem);
+        TTo Map(TFromMain currentItem, TFrom previousItem);
     }
 }
