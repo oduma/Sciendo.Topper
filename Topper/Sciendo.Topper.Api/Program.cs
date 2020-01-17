@@ -19,6 +19,7 @@ namespace Sciendo.Topper.Api
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            .ConfigureAppConfiguration(ConfigurationHelper.ConfigureEnvironments)
+            .UseStartup<Startup>();
     }
 }

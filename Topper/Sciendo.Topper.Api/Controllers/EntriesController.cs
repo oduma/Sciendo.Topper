@@ -133,5 +133,22 @@ namespace Sciendo.Topper.Api.Controllers
                 return StatusCode(500, "Service Exception.");
             }
         }
+
+        [HttpGet("[action]")]
+        public ActionResult GetTimeInterval()
+        {
+            try
+            {
+                var results = this.service.GetTimeInterval();
+
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "");
+                return StatusCode(500, "Service Exception.");
+            }
+
+        }
     }
 }

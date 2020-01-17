@@ -31,6 +31,11 @@ namespace Sciendo.Topper.Source
         }
         public NamedPicture GetImage(string artistName)
         {
+            if (!this.musicStoryConfig.UseMS)
+            {
+                logger.LogDebug("Music Story disabled through Configuration!");
+                return null;
+            }
             logger.LogDebug("Trying to get image for {artistName}", artistName);
             var artistsSummary = artistsSummaryProvider.Get(artistName);
             if (artistsSummary == null)

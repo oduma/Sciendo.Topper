@@ -1,0 +1,189 @@
+2020-01-16 22:16:55.232 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-16 22:17:04.788 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-28  
+2020-01-16 22:17:04.891 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-16 22:17:04.935 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-16 22:17:04.953 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-16 22:17:05.319 +00:00 [INF] Repository created.
+2020-01-16 22:17:05.327 +00:00 [INF] Configuration: 
+2020-01-16 22:17:05.374 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-16 22:17:05.382 +00:00 [INF] Starting Get Entries by Date...
+2020-01-16 22:17:08.978 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\d'.
+2020-01-16 22:17:09.009 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-16 22:17:09.012 +00:00 [INF] Building the url for artist and "Search"
+2020-01-16 22:17:09.015 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Deaf%20Radio
+2020-01-16 22:17:09.045 +00:00 [INF] Getting content from MusicStory...
+2020-01-16 22:17:09.808 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (Response status code does not indicate success: 403 ().) ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-16 22:17:09.811 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-16 22:17:09.880 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\p'.
+2020-01-16 22:17:09.887 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-16 22:17:09.890 +00:00 [INF] Building the url for artist and "Search"
+2020-01-16 22:17:09.892 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Pumarosa
+2020-01-16 22:17:09.894 +00:00 [INF] Getting content from MusicStory...
+2020-01-16 22:17:10.487 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (Response status code does not indicate success: 403 ().) ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-16 22:17:10.491 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-16 22:17:10.550 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\d'.
+2020-01-16 22:17:10.558 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-16 22:17:10.561 +00:00 [INF] Building the url for artist and "Search"
+2020-01-16 22:17:10.564 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=dvyn
+2020-01-16 22:17:10.567 +00:00 [INF] Getting content from MusicStory...
+2020-01-16 22:17:11.125 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (Response status code does not indicate success: 403 ().) ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-16 22:17:11.129 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-16 22:17:11.189 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\m'.
+2020-01-16 22:17:11.198 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-16 22:17:11.201 +00:00 [INF] Building the url for artist and "Search"
+2020-01-16 22:17:11.204 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Marie%20Spaemann
+2020-01-16 22:17:11.207 +00:00 [INF] Getting content from MusicStory...
+2020-01-16 22:17:11.789 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (Response status code does not indicate success: 403 ().) ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-16 22:17:11.792 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-16 22:17:11.849 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\i'.
+2020-01-16 22:17:11.859 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-16 22:17:11.861 +00:00 [INF] Building the url for artist and "Search"
+2020-01-16 22:17:11.864 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Ill%20Camille
+2020-01-16 22:17:11.866 +00:00 [INF] Getting content from MusicStory...
+2020-01-16 22:17:12.433 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (Response status code does not indicate success: 403 ().) ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-16 22:17:12.437 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-16 22:17:12.496 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\b'.
+2020-01-16 22:17:12.503 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-16 22:17:12.506 +00:00 [INF] Building the url for artist and "Search"
+2020-01-16 22:17:12.509 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Bishop%20Briggs
+2020-01-16 22:17:12.512 +00:00 [INF] Getting content from MusicStory...
+2020-01-16 22:17:13.088 +00:00 [ERR] Cannot retrieve content from MusicStory.
+System.AggregateException: One or more errors occurred. (Response status code does not indicate success: 403 ().) ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.MusicStory.MusicStoryStringProvider.GetMusicStoryContent(Uri musicStroyUri) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.MusicStory\MusicStoryStringProvider.cs:line 27
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 ().
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)<---
+
+2020-01-16 22:17:13.092 +00:00 [WRN] No content or empty content returned from music story.
+2020-01-16 22:17:13.102 +00:00 [INF] Executed action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 7717.4136000000008ms.
+2020-01-16 22:17:13.126 +00:00 [INF] Executing ObjectResult, writing value of type 'Sciendo.Topper.Contracts.DataTypes.DayEntryEvolution[]'.
+2020-01-16 22:17:13.178 +00:00 [INF] Executed action Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) in 8236.8497ms
+2020-01-16 22:17:13.181 +00:00 [INF] Executed endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-16 22:17:13.195 +00:00 [INF] Request finished in 8407.4551ms 200 application/json; charset=utf-8
+2020-01-16 22:17:13.375 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/favicon.ico  
+2020-01-16 22:17:13.384 +00:00 [INF] Request finished in 8.7777ms 404 
+2020-01-16 22:18:09.384 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-28  
+2020-01-16 22:18:09.396 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-16 22:18:09.399 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-16 22:18:09.404 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-16 22:18:09.418 +00:00 [INF] Repository created.
+2020-01-16 22:18:09.422 +00:00 [INF] Configuration: 
+2020-01-16 22:18:09.426 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-16 22:18:09.451 +00:00 [INF] Starting Get Entries by Date...
+2020-01-16 22:18:57.717 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\d'.
+2020-01-16 22:19:59.025 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-16 22:20:13.893 +00:00 [INF] Building the url for artist and "Search"
+2020-01-16 22:20:13.896 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Deaf%20Radio
+2020-01-16 22:34:02.170 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-16 22:34:02.791 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-28  
+2020-01-16 22:34:02.888 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-16 22:34:02.922 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-16 22:34:02.940 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-16 22:34:03.170 +00:00 [INF] Repository created.
+2020-01-16 22:34:03.175 +00:00 [INF] Configuration: 
+2020-01-16 22:34:03.204 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-16 22:34:03.213 +00:00 [INF] Starting Get Entries by Date...
+2020-01-16 22:34:13.511 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\d'.
+2020-01-16 22:34:51.112 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-16 22:34:51.116 +00:00 [INF] Building the url for artist and "Search"
+2020-01-16 22:34:51.118 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Deaf%20Radio
+2020-01-16 22:39:48.768 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-16 22:39:49.375 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-28  
+2020-01-16 22:39:49.468 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-16 22:39:49.498 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-16 22:39:49.515 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-16 22:39:49.745 +00:00 [INF] Repository created.
+2020-01-16 22:39:49.750 +00:00 [INF] Configuration: 
+2020-01-16 22:39:49.778 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-16 22:39:49.789 +00:00 [INF] Starting Get Entries by Date...
+2020-01-16 22:39:55.074 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\d'.
+2020-01-16 22:39:57.464 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-16 22:39:57.467 +00:00 [INF] Building the url for artist and "Search"
+2020-01-16 22:39:57.470 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Deaf%20Radio
+2020-01-16 22:44:59.397 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-16 22:44:59.975 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-28  
+2020-01-16 22:45:00.080 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-16 22:45:00.117 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-16 22:45:00.137 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-16 22:45:00.407 +00:00 [INF] Repository created.
+2020-01-16 22:45:00.414 +00:00 [INF] Configuration: 
+2020-01-16 22:45:00.443 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-16 22:45:00.450 +00:00 [INF] Starting Get Entries by Date...
+2020-01-16 22:45:05.819 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\d'.
+2020-01-16 22:45:11.178 +00:00 [INF] Getting content from music.story using artist and "Search"
+2020-01-16 22:45:11.181 +00:00 [INF] Building the url for artist and "Search"
+2020-01-16 22:45:11.183 +00:00 [INF] Non Authenticated url built: http://api.music-story.com/en/artist/search?name=Deaf%20Radio
+2020-01-16 22:52:02.779 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-16 22:52:03.520 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-28  
+2020-01-16 22:52:03.664 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-16 22:52:03.701 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-16 22:52:03.724 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-16 22:52:03.953 +00:00 [INF] Repository created.
+2020-01-16 22:52:03.958 +00:00 [INF] Configuration: 
+2020-01-16 22:52:03.983 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-16 22:52:03.990 +00:00 [INF] Starting Get Entries by Date...
+2020-01-16 22:52:10.537 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\d'.
+2020-01-16 22:52:29.399 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\p'.
+2020-01-16 22:52:29.457 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\d'.
+2020-01-16 22:52:29.523 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\m'.
+2020-01-16 22:52:29.587 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\i'.
+2020-01-16 22:52:29.641 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\b'.
+2020-01-16 22:52:29.651 +00:00 [INF] Executed action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 25658.980600000003ms.
+2020-01-16 22:52:29.662 +00:00 [INF] Executing ObjectResult, writing value of type 'Sciendo.Topper.Contracts.DataTypes.DayEntryEvolution[]'.
+2020-01-16 22:52:29.713 +00:00 [INF] Executed action Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) in 26003.390300000003ms
+2020-01-16 22:52:29.715 +00:00 [INF] Executed endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-16 22:52:29.729 +00:00 [INF] Request finished in 26211.5656ms 200 application/json; charset=utf-8

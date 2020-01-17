@@ -12,5 +12,6 @@ namespace Sciendo.Topper.Contracts
         OverallEntry[] GetEntriesByYear(int year);
 
         OverallEntryEvolution[] GetEntriesWithEvolutionByYear(int year);
+        TimeInterval GetTimeInterval();
     }
 }

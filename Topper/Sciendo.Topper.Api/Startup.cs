@@ -20,7 +20,6 @@ namespace Sciendo.Topper.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            
         }
 
         public IConfiguration Configuration { get; }
@@ -28,6 +27,7 @@ namespace Sciendo.Topper.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.ConfigureCors();
             services.ConfigureLogger();
             services.ConfigureIISIntegration();

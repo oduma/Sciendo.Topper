@@ -9,5 +9,7 @@
         public string AccessToken { get; set; }
 
         public string TokenSecret { get; set; }
+
+        public bool UseMS { get; set; }
     }
 }

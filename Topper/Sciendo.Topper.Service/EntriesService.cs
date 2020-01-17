@@ -22,7 +22,8 @@ namespace Sciendo.Topper.Service
         private readonly IMapAggregateTwoEntries<IEnumerable<TopItemWithPictureUrl>, IEnumerable<TopItem>, IEnumerable<OverallEntryEvolution>> mapTopItemsToOverallEntriesEvolution;
         private readonly IMapAggregateFourEntries<IEnumerable<TopItemWithPictureUrl>, IEnumerable<TopItem>,IEnumerable<DayEntryEvolution>> mapTopItemsToDayEntriesEvolution;
 
-        public EntriesService(ILogger<EntriesService> logger,IRepository<TopItem> repository,
+        public EntriesService(ILogger<EntriesService> logger,
+            IRepository<TopItem> repository,
             IMap<IEnumerable<TopItem>,IEnumerable<TopItemWithPictureUrl>> mapTopItemsToTopItemsWithPictureUrl,
             IMap<IEnumerable<TopItemWithPictureUrl>,IEnumerable<EntryTimeLine>> mapTopItemsToEntryTimeLines,
             IMap<IEnumerable<TopItemWithPictureUrl>,IEnumerable<OverallEntry>> mapTopItemsToOverallEntries,
@@ -44,11 +45,6 @@ namespace Sciendo.Topper.Service
             {
                 DateTime queryDate = date;
                 var itemsForDate = repository.GetItemsAsync((i) => i.Date == queryDate).Result;
-                if (!itemsForDate.Any())
-                {
-                    queryDate = FindAlternateDate();
-                    itemsForDate= repository.GetItemsAsync((i) => i.Date == queryDate).Result;
-                }
                 return mapTopItemsToDayEntriesEvolution.Map(mapTopItemsToTopItemsWithPictureUrl.Map(itemsForDate),
                     AggregateTopItems(GetTopItemsByYear(queryDate.Year, queryDate)),
                     repository.GetItemsAsync(i => i.Date == queryDate.AddDays(-1)).Result,
@@ -60,11 +56,6 @@ namespace Sciendo.Topper.Service
                 logger.LogError(ex, "");
                 throw ex;
             }
-        }
-
-        private DateTime FindAlternateDate()
-        {
-            return repository.GetAllItemsAsync().Result.OrderByDescending(d => d.Date).FirstOrDefault().Date;
         }
 
         public EntryTimeLine[] GetEntriesTimeLines(string[] names)
@@ -136,6 +127,25 @@ namespace Sciendo.Topper.Service
                 logger.LogError(ex, "");
                 throw ex;
             }
+        }
+
+        public TimeInterval GetTimeInterval()
+        {
+            try
+            {
+                var firstItem = repository.GetAllItemsAsync().Result.Min(i=>i.Date);
+                var lastItem = repository.GetAllItemsAsync().Result.Max(i => i.Date);
+                return new TimeInterval { 
+                    FromDate = firstItem.ToString("yyyy-MM-dd"),
+                    ToDate = lastItem.ToString("yyyy-MM-dd") };
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "");
+                throw ex;
+            }
+
         }
     }
 }
