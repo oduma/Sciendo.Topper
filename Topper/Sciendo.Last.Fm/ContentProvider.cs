@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Sciendo.Web;
 using System;
 
 namespace Sciendo.Last.Fm
@@ -7,9 +8,9 @@ namespace Sciendo.Last.Fm
     {
         private readonly ILogger<ContentProvider<T>> logger;
         private readonly IUrlProvider _urlProvider;
-        private readonly ILastFmProvider _lastFmProvider;
+        private readonly IWebGet<string> _lastFmProvider;
 
-        public ContentProvider(ILogger<ContentProvider<T>> logger, IUrlProvider urlProvider, ILastFmProvider lastFmProvider)
+        public ContentProvider(ILogger<ContentProvider<T>> logger, IUrlProvider urlProvider, IWebGet<string> lastFmProvider)
         {
             this.logger = logger;
             _urlProvider = urlProvider ?? throw new ArgumentNullException(nameof(urlProvider));
@@ -24,7 +25,7 @@ namespace Sciendo.Last.Fm
             if(string.IsNullOrEmpty(userName))
                 throw new ArgumentNullException(nameof(userName));
             var url = _urlProvider.GetUrl(methodName,userName,currentPage,additionalParameters);
-            var rawData = _lastFmProvider.GetLastFmContent(url);
+            var rawData = _lastFmProvider.Get(url);
             if (string.IsNullOrEmpty(rawData))
             {
                 logger.LogWarning("No content or empty content returned from las.fm.");

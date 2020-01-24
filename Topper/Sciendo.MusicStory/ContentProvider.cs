@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Sciendo.Web;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,9 +12,9 @@ namespace Sciendo.MusicStory
     {
         private readonly ILogger<ContentProvider<T>> logger;
         private readonly IUrlProvider urlProvider;
-        private readonly IMusicStoryProvider<string> musicStoryProvider;
+        private readonly IWebGet<string> musicStoryProvider;
 
-        public ContentProvider(ILogger<ContentProvider<T>> logger, IUrlProvider urlProvider, IMusicStoryProvider<string> musicStoryProvider)
+        public ContentProvider(ILogger<ContentProvider<T>> logger, IUrlProvider urlProvider, IWebGet<string> musicStoryProvider)
         {
             this.logger = logger;
             this.urlProvider = urlProvider??throw new ArgumentNullException(nameof(urlProvider));
@@ -30,7 +31,7 @@ namespace Sciendo.MusicStory
                 throw new ArgumentException(nameof(subjectId));
 
             var url = urlProvider.GetUrl(subject,actionType,additionalParameters,subjectId,attribute);
-            var rawData = musicStoryProvider.GetMusicStoryContent(url);
+            var rawData = musicStoryProvider.Get(url);
             if (string.IsNullOrEmpty(rawData))
             {
                 logger.LogWarning("No content or empty content returned from music story.");

@@ -1,0 +1,84 @@
+2020-01-22 08:49:25.597 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-22 08:49:27.173 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-28  
+2020-01-22 08:49:27.173 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/image/  
+2020-01-22 08:49:27.358 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-22 08:49:27.362 +00:00 [INF] Executing endpoint '405 HTTP Method Not Supported'
+2020-01-22 08:49:27.377 +00:00 [INF] Executed endpoint '405 HTTP Method Not Supported'
+2020-01-22 08:49:27.445 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-22 08:49:27.469 +00:00 [INF] Request finished in 301.9405ms 405 
+2020-01-22 08:49:27.477 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-22 08:49:28.168 +00:00 [INF] Repository created.
+2020-01-22 08:49:28.175 +00:00 [INF] Configuration: 
+2020-01-22 08:49:28.201 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-22 08:49:28.212 +00:00 [INF] Starting Get Entries by Date...
+2020-01-22 08:52:48.694 +00:00 [ERR] 
+System.AggregateException: One or more errors occurred. (A task was canceled.) ---> System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Sciendo.Topper.Service.EntriesService.GetEntriesByDate(DateTime date) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\EntriesService.cs:line 47
+---> (Inner Exception #0) System.Threading.Tasks.TaskCanceledException: A task was canceled.<---
+
+2020-01-22 08:52:48.757 +00:00 [ERR] 
+System.AggregateException: One or more errors occurred. (A task was canceled.) ---> System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   --- End of inner exception stack trace ---
+   at Sciendo.Topper.Service.EntriesService.GetEntriesByDate(DateTime date) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Service\EntriesService.cs:line 57
+   at Sciendo.Topper.Api.Controllers.EntriesController.GetByDate(String date) in C:\Code\Sciendo\Sciendo.Topper\Topper\Sciendo.Topper.Api\Controllers\EntriesController.cs:line 48
+---> (Inner Exception #0) System.Threading.Tasks.TaskCanceledException: A task was canceled.<---
+
+2020-01-22 08:52:48.767 +00:00 [INF] Executed action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 200551.5786ms.
+2020-01-22 08:52:48.785 +00:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2020-01-22 08:52:48.799 +00:00 [INF] Executed action Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) in 201345.4081ms
+2020-01-22 08:52:48.805 +00:00 [INF] Executed endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-22 08:52:48.817 +00:00 [INF] Request finished in 201660.568ms 500 text/plain; charset=utf-8
+2020-01-22 08:59:16.806 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/image/?  
+2020-01-22 08:59:16.811 +00:00 [INF] Executing endpoint '405 HTTP Method Not Supported'
+2020-01-22 08:59:16.815 +00:00 [INF] Executed endpoint '405 HTTP Method Not Supported'
+2020-01-22 08:59:16.819 +00:00 [INF] Request finished in 18.3274ms 405 
+2020-01-22 23:01:08.518 +00:00 [INF] User profile is available. Using 'C:\Users\octo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-01-22 23:01:09.732 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/entries/getbydate/2019-11-28  
+2020-01-22 23:01:09.836 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-22 23:01:09.890 +00:00 [INF] Route matched with {action = "GetByDate", controller = "Entries"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult GetByDate(System.String) on controller Sciendo.Topper.Api.Controllers.EntriesController (Sciendo.Topper.Api).
+2020-01-22 23:01:09.920 +00:00 [INF] Creating a repository for Database:Music Listening and collection: Music Listening 2019
+2020-01-22 23:01:10.304 +00:00 [INF] Repository created.
+2020-01-22 23:01:10.310 +00:00 [INF] Configuration: 
+2020-01-22 23:01:10.355 +00:00 [INF] Executing action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) - Validation state: "Valid"
+2020-01-22 23:01:10.363 +00:00 [INF] Starting Get Entries by Date...
+2020-01-22 23:01:14.019 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\d'.
+2020-01-22 23:01:14.104 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\p'.
+2020-01-22 23:01:14.160 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\d'.
+2020-01-22 23:01:14.218 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\m'.
+2020-01-22 23:01:14.285 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\i'.
+2020-01-22 23:01:14.339 +00:00 [WRN] Could not find a part of the path 'C:\Code\Sciendo\sciendo-topper-ui\src\assets\b'.
+2020-01-22 23:01:14.351 +00:00 [INF] Executed action method Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 3986.0513ms.
+2020-01-22 23:01:14.362 +00:00 [INF] Executing ObjectResult, writing value of type 'Sciendo.Topper.Contracts.DataTypes.DayEntryEvolution[]'.
+2020-01-22 23:01:14.428 +00:00 [INF] Executed action Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api) in 4529.7959ms
+2020-01-22 23:01:14.432 +00:00 [INF] Executed endpoint 'Sciendo.Topper.Api.Controllers.EntriesController.GetByDate (Sciendo.Topper.Api)'
+2020-01-22 23:01:14.448 +00:00 [INF] Request finished in 4715.6104ms 200 application/json; charset=utf-8
+2020-01-22 23:01:49.056 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/image/?  
+2020-01-22 23:01:49.064 +00:00 [INF] Executing endpoint '405 HTTP Method Not Supported'
+2020-01-22 23:01:49.071 +00:00 [INF] Executed endpoint '405 HTTP Method Not Supported'
+2020-01-22 23:01:49.078 +00:00 [INF] Request finished in 22.4193ms 405 
+2020-01-22 23:02:43.938 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/api/image/?  
+2020-01-22 23:02:43.946 +00:00 [INF] Executing endpoint '405 HTTP Method Not Supported'
+2020-01-22 23:02:43.948 +00:00 [INF] Executed endpoint '405 HTTP Method Not Supported'
+2020-01-22 23:02:43.954 +00:00 [INF] Request finished in 16.0752ms 405 
+2020-01-22 23:07:50.400 +00:00 [INF] Request starting HTTP/2.0 POST https://localhost:44347/api/image/ application/x-www-form-urlencoded 0
+2020-01-22 23:07:50.406 +00:00 [WRN] The CORS protocol does not allow specifying a wildcard (any) origin and credentials at the same time. Configure the policy by listing individual origins if credentials needs to be supported.
+2020-01-22 23:07:50.408 +00:00 [INF] CORS policy execution successful.
+2020-01-22 23:07:50.412 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.ImageController.UploadImage (Sciendo.Topper.Api)'
+2020-01-22 23:07:50.417 +00:00 [INF] Route matched with {action = "UploadImage", controller = "Image"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UploadImage(Sciendo.Topper.Contracts.DataTypes.ImageInfo) on controller Sciendo.Topper.Api.Controllers.ImageController (Sciendo.Topper.Api).
+2020-01-22 23:07:50.432 +00:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2020-01-22 23:07:50.457 +00:00 [INF] Executed action Sciendo.Topper.Api.Controllers.ImageController.UploadImage (Sciendo.Topper.Api) in 34.5084ms
+2020-01-22 23:07:50.461 +00:00 [INF] Executed endpoint 'Sciendo.Topper.Api.Controllers.ImageController.UploadImage (Sciendo.Topper.Api)'
+2020-01-22 23:07:50.464 +00:00 [INF] Request finished in 68.2635ms 415 application/problem+json; charset=utf-8
+2020-01-22 23:07:50.656 +00:00 [INF] Request starting HTTP/2.0 GET https://localhost:44347/favicon.ico  
+2020-01-22 23:07:50.662 +00:00 [INF] Request finished in 15.068ms 404 
+2020-01-22 23:08:38.432 +00:00 [INF] Request starting HTTP/2.0 POST https://localhost:44347/api/image/ application/x-www-form-urlencoded 0
+2020-01-22 23:08:38.434 +00:00 [WRN] The CORS protocol does not allow specifying a wildcard (any) origin and credentials at the same time. Configure the policy by listing individual origins if credentials needs to be supported.
+2020-01-22 23:08:38.437 +00:00 [INF] CORS policy execution successful.
+2020-01-22 23:08:38.442 +00:00 [INF] Executing endpoint 'Sciendo.Topper.Api.Controllers.ImageController.UploadImage (Sciendo.Topper.Api)'
+2020-01-22 23:08:38.445 +00:00 [INF] Route matched with {action = "UploadImage", controller = "Image"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UploadImage(Sciendo.Topper.Contracts.DataTypes.ImageInfo) on controller Sciendo.Topper.Api.Controllers.ImageController (Sciendo.Topper.Api).
+2020-01-22 23:08:38.450 +00:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2020-01-22 23:08:38.455 +00:00 [INF] Executed action Sciendo.Topper.Api.Controllers.ImageController.UploadImage (Sciendo.Topper.Api) in 6.1205000000000007ms
+2020-01-22 23:08:38.462 +00:00 [INF] Executed endpoint 'Sciendo.Topper.Api.Controllers.ImageController.UploadImage (Sciendo.Topper.Api)'
+2020-01-22 23:08:38.464 +00:00 [INF] Request finished in 31.4698ms 415 application/problem+json; charset=utf-8

@@ -2,6 +2,7 @@
 using Sciendo.MusicStory;
 using Sciendo.Topper.Domain.Entities;
 using Sciendo.Topper.Source.DataTypes.MusicStory;
+using Sciendo.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +16,13 @@ namespace Sciendo.Topper.Source
         private readonly MSConfig musicStoryConfig;
         private readonly IArtistsSummaryProvider artistsSummaryProvider;
         private readonly IPictureUrlsSummaryProvider pictureUrlsSummaryProvider;
-        private readonly IMusicStoryProvider<byte[]> pictureProvider;
+        private readonly IWebGet<byte[]> pictureProvider;
 
         public ArtistImageProvider(ILogger<ArtistImageProvider> logger, 
             MSConfig musicStoryConfig, 
             IArtistsSummaryProvider artistsSummaryProvider,
             IPictureUrlsSummaryProvider pictureUrlsSummaryProvider,
-            IMusicStoryProvider<byte[]> pictureProvider)
+            IWebGet<byte[]> pictureProvider)
         {
             this.logger = logger;
             this.musicStoryConfig = musicStoryConfig;
@@ -49,7 +50,7 @@ namespace Sciendo.Topper.Source
                 if (!string.IsNullOrEmpty(pictureUrl))
                 {
                     logger.LogDebug("Trying to get image from {pictureUrl}", pictureUrl);
-                    return new NamedPicture { Picture = pictureProvider.GetMusicStoryContent(new Uri(pictureUrl)), 
+                    return new NamedPicture { Picture = pictureProvider.Get(new Uri(pictureUrl)), 
                         Extension = GetExtensionFromUrl(pictureUrl), Name = artistName };
                 }
             }

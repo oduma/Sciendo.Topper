@@ -1,42 +1,45 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Sciendo.MusicStory
+namespace Sciendo.Web
 {
-    public class MusicStoryByteArrayProvider : IMusicStoryProvider<byte[]>
+    public class WebStringGet : IWebGet<string>
     {
-        private readonly ILogger<MusicStoryByteArrayProvider> logger;
+        private readonly ILogger<WebStringGet> logger;
 
-        public MusicStoryByteArrayProvider(ILogger<MusicStoryByteArrayProvider> logger)
+        public WebStringGet(ILogger<WebStringGet> logger)
         {
             this.logger = logger;
         }
-        public byte[] GetMusicStoryContent(Uri musicStroyUri)
+
+        public string Get(Uri url)
         {
-            logger.LogInformation("Getting content from MusicStory...");
-            if (musicStroyUri == null)
-                throw new ArgumentNullException(nameof(musicStroyUri));
+            logger.LogInformation("Getting content from url: {url}", url);
+            if (url == null)
+                throw new ArgumentNullException(nameof(url));
             var httpClient = new HttpClient();
             try
             {
-                using (var getTask = httpClient.GetByteArrayAsync(musicStroyUri)
+                using (var getTask = httpClient.GetStringAsync(url)
                     .ContinueWith(p => p).Result)
                 {
-                    if (getTask.Status == TaskStatus.RanToCompletion || getTask.Result==null)
+                    if (getTask.Status == TaskStatus.RanToCompletion || !string.IsNullOrEmpty(getTask.Result))
                     {
                         logger.LogInformation("Content retrieved Ok from MusicStory");
                         return getTask.Result;
                     }
                     logger.LogWarning("Content not retrieved from MusicStory. Task returned {getTask.Status}", getTask.Status);
-                    return null;
+                    return string.Empty;
                 }
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Cannot retrieve content from MusicStory.");
-                return null;
+                return string.Empty;
             }
 
         }

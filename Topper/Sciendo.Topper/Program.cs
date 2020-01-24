@@ -13,6 +13,7 @@ using Sciendo.Topper.Store;
 using Serilog;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Sciendo.Web;
 
 namespace Sciendo.Topper
 {
@@ -81,7 +82,7 @@ namespace Sciendo.Topper
             serviceCollection.AddSingleton<IEmailSender>(e => new EmailSender(e.GetRequiredService <ILogger<EmailSender>>(), topperConfig.EmailOptions));
             serviceCollection.AddSingleton<INotificationManager>(n => new NotificationManager(n.GetRequiredService<ILogger<NotificationManager>>(), n.GetRequiredService<IEmailSender>(),"mail"));
             serviceCollection.AddSingleton<IUrlProvider>(u => new UrlProvider(u.GetRequiredService<ILogger<UrlProvider>>(), topperConfig.TopperLastFmConfig.ApiKey));
-            serviceCollection.AddSingleton<ILastFmProvider, LastFmProvider>();
+            serviceCollection.AddSingleton<IWebGet<string>, WebStringGet>();
             serviceCollection.AddTransient<IContentProvider<TopArtistsRootObject>, ContentProvider<TopArtistsRootObject>>();
             serviceCollection.AddTransient<LastFmTopArtistsProvider>();
             serviceCollection.AddTransient<IContentProvider<LovedTracksRootObject>, ContentProvider<LovedTracksRootObject>>();
