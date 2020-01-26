@@ -8,17 +8,14 @@ namespace Sciendo.Topper.Service
     public class EntryArtistImageProvider : IEntryArtistImageProvider
     {
         private readonly IFileRepository<NamedPicture> pictureRepository;
-        private readonly IArtistImageProvider artistImageProvider;
         private readonly FileStoreConfig fileStoreConfig;
         private readonly PathToUrlConverterConfig pathToUrlConverterConfig;
 
         public EntryArtistImageProvider(IFileRepository<NamedPicture> pictureRepository,
-            IArtistImageProvider artistImageProvider, 
             FileStoreConfig fileStoreConfig,
             PathToUrlConverterConfig pathToUrlConverterConfig)
         {
             this.pictureRepository = pictureRepository;
-            this.artistImageProvider = artistImageProvider;
             this.fileStoreConfig = fileStoreConfig;
             this.pathToUrlConverterConfig = pathToUrlConverterConfig;
         }
@@ -37,12 +34,7 @@ namespace Sciendo.Topper.Service
             var fullPath = pictureRepository.GetItem(name);
             if (string.IsNullOrEmpty(fullPath))
             {
-                var namedPicture = artistImageProvider.GetImage(name);
-                if (namedPicture == null)
-                {
-                    return fileStoreConfig.DefaultPlaceholderPicture;
-                }
-                return pictureRepository.CreateItem(namedPicture);
+                return fileStoreConfig.DefaultPlaceholderPicture;
             }
             return fullPath;
         }

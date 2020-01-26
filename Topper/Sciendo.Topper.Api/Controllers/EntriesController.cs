@@ -19,7 +19,8 @@ namespace Sciendo.Topper.Api.Controllers
         private readonly IEntriesService service;
         private readonly CosmosDbConfig cosmosDbConfig;
 
-        public EntriesController(ILogger<EntriesController> logger, IEntriesService service, CosmosDbConfig cosmosDbConfig)
+        public EntriesController(ILogger<EntriesController> logger, 
+            IEntriesService service, CosmosDbConfig cosmosDbConfig)
         {
             this.logger = logger;
             this.service = service;

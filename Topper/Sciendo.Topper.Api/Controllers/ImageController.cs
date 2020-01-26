@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Contracts.DataTypes;
 
 namespace Sciendo.Topper.Api.Controllers
@@ -14,10 +15,12 @@ namespace Sciendo.Topper.Api.Controllers
     public class ImageController : ControllerBase
     {
         private ILogger<ImageController> logger;
+        private readonly IImageService imageService;
 
-        public ImageController(ILogger<ImageController> logger)
+        public ImageController(ILogger<ImageController> logger, IImageService imageService)
         {
             this.logger = logger;
+            this.imageService = imageService;
         }
 
         [HttpPost]
@@ -39,6 +42,7 @@ namespace Sciendo.Topper.Api.Controllers
                 }
 
                 logger.LogInformation("Ok sent from the client: {imageInfo.ArtistName} ====> {imageInfo.ImageData}", imageInfo.ArtistName, imageInfo.ImageData);
+                imageService.SaveImage(imageInfo);
                 return NoContent();
             }
             catch (Exception ex)

@@ -2,23 +2,16 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Sciendo.MusicStory;
-using Sciendo.OAuth1_0;
 using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Contracts.DataTypes;
 using Sciendo.Topper.Domain;
 using Sciendo.Topper.Domain.Entities;
 using Sciendo.Topper.Service;
 using Sciendo.Topper.Service.Mappers;
-using Sciendo.Topper.Source;
-using Sciendo.Topper.Source.DataTypes.MusicStory;
 using Sciendo.Topper.Store;
 using Sciendo.Web;
 using Serilog;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sciendo.Topper.Api.Extensions
 {
@@ -58,20 +51,12 @@ namespace Sciendo.Topper.Api.Extensions
             var logger = services.BuildServiceProvider().GetRequiredService<ILogger<Repository<TopItem>>>();
             services.AddSingleton(configuration.GetSection("cosmosDb").Get<CosmosDbConfig>());
             services.AddSingleton(configuration.GetSection("fileStore").Get<FileStoreConfig>());
-            services.AddSingleton(configuration.GetSection("ms").Get<MSConfig>());
             services.AddSingleton(configuration.GetSection("pathToUrlConverter").Get<PathToUrlConverterConfig>());
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IRepository<TopItem>, Repository<TopItem>>();
             services.AddScoped<IFileRepository<NamedPicture>, PictureRepository>();
-            services.AddScoped<IContentProvider<ArtistsSummary>, ContentProvider<ArtistsSummary>>();
-            services.AddScoped<IArtistsSummaryProvider, ArtistsSummaryProvider>();
             services.AddScoped<IWebGet<string>, WebStringGet>();
-            services.AddScoped<IOAuthUrlGenerator, OAuthUrlGenerator>();
-            services.AddScoped<IUrlProvider, UrlProvider>();
-            services.AddScoped<IContentProvider<PictureUrlsSummary>, ContentProvider<PictureUrlsSummary>>();
-            services.AddScoped<IPictureUrlsSummaryProvider, PictureUrlsSummaryProvider>();
             services.AddScoped<IWebGet<byte[]>, WebBytesGet>();
-            services.AddScoped<IArtistImageProvider, ArtistImageProvider>();
             services.AddScoped<IEntryArtistImageProvider, EntryArtistImageProvider>();
             services.AddScoped<IMap<TopItem, Position>, MapTopItemToPosition>();
             services.AddScoped<IMap<TopItem, TopItemWithPictureUrl>, MapTopItemToTopItemWithPictureUrl>();
@@ -85,6 +70,10 @@ namespace Sciendo.Topper.Api.Extensions
             services.AddScoped<IMapAggregateFourEntries<TopItemWithPictureUrl,TopItem, DayEntryEvolution>, MapTopItemToDayEntryEvolution>();
             services.AddScoped<IMapAggregateFourEntries<IEnumerable<TopItemWithPictureUrl>, IEnumerable<TopItem>, IEnumerable<DayEntryEvolution>>, MapTopItemsToDayEntriesEvolution>();
             services.AddScoped<IEntriesService, EntriesService>();
+            services.AddScoped<IPictureReader, WebPictureReader>();
+            services.AddScoped<IPictureReader, DataPictureReader>();
+            services.AddScoped<IMap<ImageInfo, NamedPicture>, MapImageInfoToNamedPicture>();
+            services.AddScoped<IImageService, ImageService>();
         }
     }
 }

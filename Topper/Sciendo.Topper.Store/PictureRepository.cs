@@ -45,10 +45,12 @@ namespace Sciendo.Topper.Store
         private static string SanitizeNameForPath(string inputString)
         {
             var invalidPathCharacters = Path.GetInvalidPathChars();
+            var moreInvalidPathCharatcters = invalidPathCharacters.ToList();
+            moreInvalidPathCharatcters.AddRange(new char[] { ':', ',', '\\', '\'', '\"' });
             StringBuilder result = new StringBuilder();
             foreach (char pathCharacter in inputString.ToLower())
             {
-                if (invalidPathCharacters.Any((c) => c == pathCharacter))
+                if (moreInvalidPathCharatcters.Any((c) => c == pathCharacter))
                     result.Append("_");
                 else
                     result.Append(pathCharacter);
