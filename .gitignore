@@ -300,3 +300,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Topper Log files
+log*.txt
