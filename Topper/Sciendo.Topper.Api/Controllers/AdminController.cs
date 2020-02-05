@@ -35,5 +35,21 @@ namespace Sciendo.Topper.Api.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
+        [HttpGet("[action]")]
+        public IActionResult ServerConfig()
+        {
+            try
+            {
+                logger.LogInformation("Get Server Config!");
+                var serverConfig = _adminService.GetServerConfig();
+                return Ok(serverConfig);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
     }
 }

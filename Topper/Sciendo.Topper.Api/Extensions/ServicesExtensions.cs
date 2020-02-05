@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Sciendo.Last.Fm;
 using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Contracts.DataTypes;
 using Sciendo.Topper.Domain;
@@ -52,6 +53,7 @@ namespace Sciendo.Topper.Api.Extensions
             services.AddSingleton(configuration.GetSection("cosmosDb").Get<CosmosDbConfig>());
             services.AddSingleton(configuration.GetSection("fileStore").Get<FileStoreConfig>());
             services.AddSingleton(configuration.GetSection("pathToUrlConverter").Get<PathToUrlConverterConfig>());
+            services.AddSingleton(configuration.GetSection("lastFm").Get<LastFmConfig>());
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IRepository<TopItem>, Repository<TopItem>>();
             services.AddScoped<IFileRepository<NamedPicture>, PictureRepository>();
