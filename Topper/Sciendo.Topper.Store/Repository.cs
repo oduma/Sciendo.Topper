@@ -87,10 +87,10 @@ namespace Sciendo.Topper.Store
         {
             IDocumentQuery<T> query = _documentClient.CreateDocumentQuery<T>(
                 UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, _cosmosDbConfig.CollectionId),
-                new FeedOptions { MaxItemCount = -1,EnableCrossPartitionQuery=true })
+                new FeedOptions { MaxItemCount = -1, EnableCrossPartitionQuery = true,MaxDegreeOfParallelism=4,MaxBufferedItemCount=100 })
                 .Where(predicate)
                 .AsDocumentQuery();
-
+               
             List<T> results = new List<T>();
             while (query.HasMoreResults)
             {
@@ -122,12 +122,12 @@ namespace Sciendo.Topper.Store
                 "Opening a connection to the database.");
 
             _documentClient.OpenAsync();
-            if (!CreateDatabaseIfNotExistsAsync().Wait(1000))
+            if (!CreateDatabaseIfNotExistsAsync().Wait(5000))
             {
                 //throw new Exception("Timeout while tring to create the database.");
             }
 
-            if (CreateCollectionIfNotExistsAsync().Wait(1000))
+            if (CreateCollectionIfNotExistsAsync().Wait(5000))
             {
                 //throw new Exception("Timeout while trying to create the collection.");
             }

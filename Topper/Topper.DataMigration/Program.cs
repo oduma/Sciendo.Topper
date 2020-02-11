@@ -28,7 +28,7 @@ namespace Topper.DataMigration
 
         private static ServiceProvider ConfigureServices(ServiceCollection serviceCollection, TopperDataMigrationConfig topperDataMigrationConfig)
         {
-            serviceCollection.AddTransient<IRepository<TopItem>>(r => new Repository<TopItem>(r.GetRequiredService<ILogger<Repository<TopItem>>>(), topperDataMigrationConfig.CosmosDbConfig));
+            serviceCollection.AddSingleton<IRepository<TopItem>>((p)=> { return new Repository<TopItem>(p.GetRequiredService<ILogger<Repository<TopItem>>>(), topperDataMigrationConfig.CosmosDbConfig); });
             serviceCollection.AddTransient<IStoreManager, StoreManager>();
             return serviceCollection.BuildServiceProvider();
 
@@ -64,6 +64,7 @@ namespace Topper.DataMigration
         {
             using (var itemsRepository = serviceProvider.GetService<IRepository<TopItem>>())
             {
+                itemsRepository.OpenConnection();
                 int i = 0;
                 var storeLogic = serviceProvider.GetService<IStoreManager>();
                 storeLogic.Progress += StoreLogic_Progress;

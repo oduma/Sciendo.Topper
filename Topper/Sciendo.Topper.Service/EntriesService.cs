@@ -105,17 +105,16 @@ namespace Sciendo.Topper.Service
         private IEnumerable<TopItem> AggregateTopItems(IEnumerable<TopItem> rawTopItems)
         {
             var topItems = rawTopItems.GroupBy((i) => i.Name)
-    .Select((t) => new TopItem { Name = t.Key, Score = t.Sum((v) => v.Score), Loved = t.Sum((l) => l.Loved) })
-    .OrderByDescending((t) => t.Score);
+                .Select((t) => new TopItem { Name = t.Key, Score = t.Sum((v) => v.Score), Loved = t.Sum((l) => l.Loved) })
+                .OrderByDescending((t) => t.Score);
             int index = 1;
             foreach (var topItem in topItems)
             {
                 topItem.DayRanking = index++;
                 yield return topItem;
             }
-
-
         }
+
         private IEnumerable<TopItem> GetTopItemsByYear(int year, DateTime toDate)
         {
             try

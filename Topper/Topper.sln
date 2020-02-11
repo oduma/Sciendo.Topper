@@ -33,7 +33,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Service", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.OAuth1_0", "Sciendo.OAuth1_0\Sciendo.OAuth1_0.csproj", "{BBACC956-AB5A-4E43-9668-2AC960DE5845}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sciendo.Web", "Sciendo.HttpClient\Sciendo.Web.csproj", "{3F33D151-4F5A-4C51-B692-3F1ADDADC2CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Web", "Sciendo.HttpClient\Sciendo.Web.csproj", "{3F33D151-4F5A-4C51-B692-3F1ADDADC2CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "comos.db", "comos.db", "{E6D23A12-985A-4A4A-95B8-AD2B5E7DE04A}"
+	ProjectSection(SolutionItems) = preProject
+		cosmos.db\indexing-policies.json = cosmos.db\indexing-policies.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
