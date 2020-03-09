@@ -3,6 +3,49 @@
     "Endpoint": "https://localhost:8081",
     "Key": "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
     "DatabaseId": "Music Listening",
-    "CollectionId": "Music Listening 2019"
-  }
+    "CosmosDbCollections": [
+      {
+        "CollectionId": "Music Listening 2020",
+        "TypeOfItem": "TopItem"
+      },
+      {
+        "CollectionId": "Music Listening Overall",
+        "TypeOfItem": "TopItemWithPartitionKey",
+        "PartitionKeyName": "/key"
+      },
+      {
+        "CollectionId": "Music Listening 2020.1",
+        "TypeOfItem": "TopItem"
+      },
+      {
+        "CollectionId": "Music Listening 2020.2",
+        "TypeOfItem": "TopItem"
+      },
+      {
+        "CollectionId": "Music Listening Overall.1",
+        "TypeOfItem": "TopItemWithPartitionKey",
+        "PartitionKeyName": "/key"
+      }
+    ]
+  },
+  "ImportTransformations": [
+    {
+      "TargetPropertyName": "Name",
+      "SourcePropertyNames": [
+        "Artist"
+      ]
+    },
+    {
+      "TargetPropertyName": "Date",
+      "SourcePropertyNames": [
+        "Day"
+      ]
+    },
+    {
+      "TargetPropertyName": "Loved",
+      "SourcePropertyNames": [
+        "NoOfLoved"
+      ]
+    }
+  ]
 }

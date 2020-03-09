@@ -5,40 +5,46 @@ using System;
 
 namespace Sciendo.Topper.Service.Mappers
 {
-    public class MapTopItemToDayEntryEvolution : IMapAggregateFourEntries<TopItemWithPictureUrl, TopItem, DayEntryEvolution>
+    public class MapTopItemToDayEntryEvolution : IMapAggregateTwoEntries<TopItem, TopItem, DayEntryEvolution>
     {
-        private readonly IMap<TopItem, Position> mapToPosition;
+        private readonly IMap<TopItem, Positions> mapToPositions;
+        private readonly IEntryArtistImageProvider entryArtistImageProvider;
 
-        public MapTopItemToDayEntryEvolution(IMap<TopItem, Position> mapToPosition) 
+        public MapTopItemToDayEntryEvolution(IMap<TopItem, Positions> mapToPositions, IEntryArtistImageProvider entryArtistImageProvider) 
         {
-            this.mapToPosition = mapToPosition;
+            this.mapToPositions = mapToPositions;
+            this.entryArtistImageProvider = entryArtistImageProvider;
         }
 
-        public new DayEntryEvolution Map(TopItemWithPictureUrl currentDailyItem, TopItem currentOverallItem, TopItem previousDailyItem, TopItem previouslyOverallItem)
+        public new DayEntryEvolution Map(TopItem currentDailyItem, TopItem previousDailyItem)
         {
+            if (mapToPositions == null)
+                throw new Exception("MapToPositions is mandatory");
+            if (entryArtistImageProvider == null)
+                throw new Exception("ImageProvider is mandatory");
             if (currentDailyItem == null || string.IsNullOrEmpty(currentDailyItem.Name))
                 throw new ArgumentNullException(nameof(currentDailyItem));
-            if (currentOverallItem == null || string.IsNullOrEmpty(currentOverallItem.Name))
-                throw new ArgumentNullException(nameof(currentOverallItem));
-            if(currentDailyItem.Name != currentOverallItem.Name)
-                throw new Exception("Cross Items Evolution not supported!");
-            if (previouslyOverallItem != null 
-                && (string.IsNullOrEmpty(previouslyOverallItem.Name) 
-                || previouslyOverallItem.Name!=currentDailyItem.Name))
-                throw new Exception("Cross Items Evolution not supported!");
             if (previousDailyItem != null 
                 && (string.IsNullOrEmpty(previousDailyItem.Name) 
                 || previousDailyItem.Name!=currentDailyItem.Name))
                 throw new Exception("Cross Items Evolution not supported!");
-            var currentDayPosition = mapToPosition.Map(currentDailyItem);
-            currentDayPosition.Rank = (currentDayPosition.Rank == 0) ? 9999 : currentDayPosition.Rank;
-            return new DayEntryEvolution(currentDayPosition,
-                (previousDailyItem!=null)?mapToPosition.Map(previousDailyItem):null,
+            var currentDailyItemPositions = mapToPositions.Map(currentDailyItem);
+
+            currentDailyItemPositions.DailyPosition.Rank = 
+                (currentDailyItemPositions.DailyPosition.Rank == 0) ? 9999 : currentDailyItemPositions.DailyPosition.Rank;
+
+            var previousDailyItemPositions = (previousDailyItem != null) ? mapToPositions.Map(previousDailyItem) : null;
+            if(previousDailyItemPositions!=null)
+                previousDailyItemPositions.DailyPosition.Rank=
+                                    (previousDailyItemPositions.DailyPosition.Rank == 0) ? 9999 : previousDailyItemPositions.DailyPosition.Rank;
+
+            return new DayEntryEvolution(currentDailyItemPositions.DailyPosition,
+                (previousDailyItemPositions!=null)?previousDailyItemPositions.DailyPosition:null,
                 currentDailyItem.Date.Date.ToString("yyyy-MM-dd"),
-                (previouslyOverallItem!=null)?mapToPosition.Map(previouslyOverallItem):null,
-                mapToPosition.Map(currentOverallItem),
+                (previousDailyItemPositions != null) ? previousDailyItemPositions.OverallPosition : null,
+                currentDailyItemPositions.OverallPosition,
                 currentDailyItem.Name,
-                currentDailyItem.PictureUrl);
+                entryArtistImageProvider.GetPictureUrl(currentDailyItem.Name));
         }
 
     }

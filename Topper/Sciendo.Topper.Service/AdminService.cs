@@ -2,9 +2,11 @@
 using Sciendo.Last.Fm;
 using Sciendo.Topper.Contracts;
 using Sciendo.Topper.Contracts.DataTypes;
+using Sciendo.Topper.Domain;
 using Sciendo.Topper.Store;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Sciendo.Topper.Service
@@ -15,22 +17,32 @@ namespace Sciendo.Topper.Service
         private readonly LastFmConfig lastFmConfig;
         private readonly FileStoreConfig fileStoreConfig;
         private readonly PathToUrlConverterConfig pathToUrlConverterConfig;
+        private readonly IRepository<TopItem> repository;
 
         public AdminService(
             ILogger<AdminService> logger,
             LastFmConfig lastFmConfig, 
             FileStoreConfig fileStoreConfig,
-            PathToUrlConverterConfig pathToUrlConverterConfig)
+            PathToUrlConverterConfig pathToUrlConverterConfig,
+            IRepository<TopItem> repository)
         {
             this.logger = logger;
             this.lastFmConfig = lastFmConfig;
             this.fileStoreConfig = fileStoreConfig;
             this.pathToUrlConverterConfig = pathToUrlConverterConfig;
+            this.repository = repository;
         }
 
-        public int[] GetHistoryYears()
+        public string[] GetHistoryYears()
         {
-            return new[]{ 2018, 2019};
+            return repository
+                .GetAllItemsAsync()
+                .Result
+                .Select(i => i.Year)
+                .Distinct()
+                .OrderByDescending(y => y)
+                .ToArray();
+
         }
 
         public ServerConfig GetServerConfig()

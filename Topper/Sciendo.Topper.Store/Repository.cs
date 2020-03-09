@@ -15,13 +15,24 @@ namespace Sciendo.Topper.Store
         private readonly CosmosDbConfig _cosmosDbConfig;
         private readonly DocumentClient _documentClient;
         private ILogger<Repository<T>> _logger;
+        private string currentCollectionId;
 
-        public Repository (ILogger<Repository<T>> logger, CosmosDbConfig cosmosDbConfig)
+        public Repository (
+            ILogger<Repository<T>> logger, 
+            CosmosDbConfig cosmosDbConfig, 
+            string currentCollectionId)
         {
             _logger = logger;
+
             _logger.LogInformation(
-                "Creating a repository for Database:{0} and collection: {1}",
-                cosmosDbConfig.DatabaseId, cosmosDbConfig.CollectionId);
+                "Creating a repository for Database:{0}",
+                cosmosDbConfig.DatabaseId);
+            this.currentCollectionId = currentCollectionId;
+            _logger.LogInformation(
+                "Current repository will target Collection:{0}",
+                currentCollectionId);
+
+
             _cosmosDbConfig = cosmosDbConfig;
             _documentClient = new DocumentClient(new Uri(_cosmosDbConfig.Endpoint), _cosmosDbConfig.Key,
                 new ConnectionPolicy {EnableEndpointDiscovery = false});
@@ -38,15 +49,23 @@ namespace Sciendo.Topper.Store
             try
             {
                 await _documentClient.ReadDocumentCollectionAsync(
-                    UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, _cosmosDbConfig.CollectionId));
+                    UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, currentCollectionId));
             }
             catch (DocumentClientException e)
             {
                 if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
+                    var documentCollection = new DocumentCollection { Id = currentCollectionId };
+                    var collectionDefinition = _cosmosDbConfig.CosmosDbCollections.FirstOrDefault(c => c.CollectionId == currentCollectionId);
+                    if (!string.IsNullOrEmpty(collectionDefinition.PartitionKeyName))
+                    {
+                        documentCollection.PartitionKey = new PartitionKeyDefinition();
+                        documentCollection.PartitionKey.Paths.Add(collectionDefinition.PartitionKeyName);
+                    }
+
                     await _documentClient.CreateDocumentCollectionAsync(
                         UriFactory.CreateDatabaseUri(_cosmosDbConfig.DatabaseId),
-                        new DocumentCollection { Id = _cosmosDbConfig.CollectionId },
+                        documentCollection,
                         new RequestOptions { OfferThroughput = 1000 });
                 }
                 else
@@ -75,19 +94,30 @@ namespace Sciendo.Topper.Store
             }
         }
 
-        public async Task<Document> CreateItemAsync(T item)
+        public async Task<Document> UpsertItemAsync(T item)
         {
             
             return
-                await _documentClient.CreateDocumentAsync(
-                    UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, _cosmosDbConfig.CollectionId), item);
+                await _documentClient.UpsertDocumentAsync(
+                    UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, currentCollectionId), item);
         }
 
+        public async Task<Document> UpsertItemAsync(T item, string partitionKey)
+        {
+            var requestOptions = new RequestOptions();
+            requestOptions.PartitionKey = new PartitionKey(partitionKey);
+            return
+                await _documentClient.UpsertDocumentAsync(
+                    UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, currentCollectionId),
+                    item,
+                    requestOptions
+                    );
+        }
         public async Task<IEnumerable<T>> GetItemsAsync(Expression<Func<T, bool>> predicate)
         {
             IDocumentQuery<T> query = _documentClient.CreateDocumentQuery<T>(
-                UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, _cosmosDbConfig.CollectionId),
-                new FeedOptions { MaxItemCount = -1, EnableCrossPartitionQuery = true,MaxDegreeOfParallelism=4,MaxBufferedItemCount=100 })
+                UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, currentCollectionId),
+                new FeedOptions { MaxItemCount = -1, EnableCrossPartitionQuery = true})
                 .Where(predicate)
                 .AsDocumentQuery();
                
@@ -103,7 +133,7 @@ namespace Sciendo.Topper.Store
         public async Task<IEnumerable<T>> GetAllItemsAsync()
         {
             IDocumentQuery<T> query = _documentClient.CreateDocumentQuery<T>(
-                    UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, _cosmosDbConfig.CollectionId),
+                    UriFactory.CreateDocumentCollectionUri(_cosmosDbConfig.DatabaseId, currentCollectionId),
                     new FeedOptions { MaxItemCount = -1,EnableCrossPartitionQuery=true })
                 .AsDocumentQuery();
 
@@ -122,18 +152,33 @@ namespace Sciendo.Topper.Store
                 "Opening a connection to the database.");
 
             _documentClient.OpenAsync();
-            if (!CreateDatabaseIfNotExistsAsync().Wait(5000))
-            {
-                //throw new Exception("Timeout while tring to create the database.");
-            }
-
-            if (CreateCollectionIfNotExistsAsync().Wait(5000))
-            {
-                //throw new Exception("Timeout while trying to create the collection.");
-            }
+            CreateDatabaseIfNotExistsAsync().Wait();
+            CreateCollectionIfNotExistsAsync().Wait();
             _logger.LogInformation(
                 "Connection to the database opened Ok.");
 
+        }
+
+        public T GetItem(Expression<Func<T, bool>> predicate)
+        {
+            return GetItemsAsync(predicate).Result.FirstOrDefault();
+        }
+
+        public void DeleteItem(string documentId)
+        {
+           
+            _documentClient.DeleteDocumentAsync(
+        UriFactory.CreateDocumentUri(_cosmosDbConfig.DatabaseId, currentCollectionId, documentId)).Wait();
+
+        }
+
+        public void DeleteItem(string documentId, string partitionKey)
+        {
+            var requestOptions = new RequestOptions();
+            requestOptions.PartitionKey = new PartitionKey(partitionKey);
+
+            _documentClient.DeleteDocumentAsync(
+        UriFactory.CreateDocumentUri(_cosmosDbConfig.DatabaseId, currentCollectionId, documentId), requestOptions).Wait();
         }
     }
 }

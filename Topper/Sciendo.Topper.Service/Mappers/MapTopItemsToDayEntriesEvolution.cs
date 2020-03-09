@@ -8,21 +8,21 @@ using System.Text;
 
 namespace Sciendo.Topper.Service.Mappers
 {
-    public class MapTopItemsToDayEntriesEvolution : IMapAggregateFourEntries<IEnumerable<TopItemWithPictureUrl>, IEnumerable<TopItem>, IEnumerable<DayEntryEvolution>>
+    public class MapTopItemsToDayEntriesEvolution : IMapAggregateTwoEntries<IEnumerable<TopItem>, IEnumerable<TopItem>, IEnumerable<DayEntryEvolution>>
     {
-        private readonly IMapAggregateFourEntries<TopItemWithPictureUrl, TopItem, DayEntryEvolution> mapTopItemToDayEntryEvolution;
+        private readonly IMapAggregateTwoEntries<TopItem, TopItem, DayEntryEvolution> mapTopItemToDayEntryEvolution;
 
-        public MapTopItemsToDayEntriesEvolution(IMapAggregateFourEntries<TopItemWithPictureUrl,TopItem, DayEntryEvolution> mapTopItemToDayEntryEvolution)
+        public MapTopItemsToDayEntriesEvolution(IMapAggregateTwoEntries<TopItem,TopItem, DayEntryEvolution> mapTopItemToDayEntryEvolution)
         {
             this.mapTopItemToDayEntryEvolution = mapTopItemToDayEntryEvolution;
         }
-        public IEnumerable<DayEntryEvolution> Map(IEnumerable<TopItemWithPictureUrl> currentDailyItem, IEnumerable<TopItem> currentOverallItem, IEnumerable<TopItem> previousDailyItem, IEnumerable<TopItem> previouslyOverallItem)
+        public IEnumerable<DayEntryEvolution> Map(IEnumerable<TopItem> currentDailyItem,IEnumerable<TopItem> previousDailyItem)
         {
             if (currentDailyItem == null)
                 throw new ArgumentNullException(nameof(currentDailyItem));
             foreach(var currentDailyTopItem in currentDailyItem)
             {
-                yield return mapTopItemToDayEntryEvolution.Map(currentDailyTopItem, currentOverallItem.FirstOrDefault(o => o.Name == currentDailyTopItem.Name), previousDailyItem.FirstOrDefault(d => d.Name == currentDailyTopItem.Name), previouslyOverallItem.FirstOrDefault(po => po.Name == currentDailyTopItem.Name));
+                yield return mapTopItemToDayEntryEvolution.Map(currentDailyTopItem, previousDailyItem.FirstOrDefault(d => d.Name == currentDailyTopItem.Name));
             }
         }
     }

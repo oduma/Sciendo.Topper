@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sciendo.Config;
 using Sciendo.Topper.Domain;
+using Sciendo.Topper.Domain.Entities;
 using Sciendo.Topper.Store;
 using Serilog;
+using Topper.ImportExport;
+using Topper.ImportExport.Export;
+using Topper.ImportExport.Import;
 
 namespace Topper.Export
 {
@@ -20,24 +25,84 @@ namespace Topper.Export
             var serviceProvider = ConfigureLog(serviceCollection);
             var logger = serviceProvider.GetService<ILogger<Program>>();
 
-            TopperExportConfig topperExportConfig = ReadConfiguration(logger, args);
-            serviceProvider = ConfigureServices(serviceCollection, topperExportConfig);
+            TopperImportExportConfig topperImportExportConfig = ReadConfiguration(logger, args);
 
-            ExportData(logger,serviceProvider,topperExportConfig);
+            serviceProvider = ConfigureServices(serviceCollection, topperImportExportConfig);
+
+            if (topperImportExportConfig.OperationType == OperationType.Export)
+                ExecuteExport(logger,serviceProvider, topperImportExportConfig);
+            else if (topperImportExportConfig.OperationType == OperationType.Import)
+                ExecuteImport(logger,serviceProvider, topperImportExportConfig);
         }
 
-        private static ServiceProvider ConfigureServices(ServiceCollection serviceCollection, TopperExportConfig topperExportConfig)
+        private static void ExecuteImport(ILogger<Program> logger, ServiceProvider serviceProvider, TopperImportExportConfig topperImportExportConfig)
         {
-            serviceCollection.AddTransient<IRepository<TopItem>>(r => new Repository<TopItem>(r.GetRequiredService<ILogger<Repository<TopItem>>>(), topperExportConfig.CosmosDbConfig));
+            int noOfItemsImported = 0;
+
+            if (topperImportExportConfig.CosmosDbConfig.CosmosDbCollections
+                .FirstOrDefault(c => c.CollectionId == topperImportExportConfig.Collection).TypeOfItem == typeof(TopItem).Name)
+            {
+                var repository = serviceProvider.GetService<IRepository<TopItem>>();
+                repository.OpenConnection();
+                noOfItemsImported = new Importer<TopItem>(
+                    serviceProvider.GetService<ILogger<Importer<TopItem>>>(),
+                    repository
+                    )
+                    .Import(topperImportExportConfig.Csv,topperImportExportConfig.ImportTransformations);
+            }
+
+            if (topperImportExportConfig.CosmosDbConfig.CosmosDbCollections
+                .FirstOrDefault(c => c.CollectionId == topperImportExportConfig.Collection).TypeOfItem == typeof(TopItemWithPartitionKey).Name)
+            {
+                var repository = serviceProvider.GetService<IRepository<TopItemWithPartitionKey>>();
+                repository.OpenConnection();
+                noOfItemsImported = new Importer<TopItemWithPartitionKey>(
+                    serviceProvider.GetService<ILogger<Importer<TopItemWithPartitionKey>>>(),
+                    repository)
+                    .Import(topperImportExportConfig.Csv,topperImportExportConfig.ImportTransformations);
+            }
+            logger.LogInformation("Imported: {0} items in collection {1}", noOfItemsImported, topperImportExportConfig.Collection);
+        }
+
+        private static void ExecuteExport(ILogger<Program> logger, ServiceProvider serviceProvider, TopperImportExportConfig topperImportExportConfig)
+        {
+            int noOfItemsExported = 0;
+
+            if (topperImportExportConfig.CosmosDbConfig.CosmosDbCollections
+                .FirstOrDefault(c => c.CollectionId == topperImportExportConfig.Collection).TypeOfItem == typeof(TopItem).Name)
+            {
+                noOfItemsExported = new Exporter<TopItem>(
+                    serviceProvider.GetService<ILogger<Exporter<TopItem>>>(),
+                    serviceProvider.GetService<IRepository<TopItem>>())
+                    .Export(topperImportExportConfig.Csv);
+            }
+
+            if (topperImportExportConfig.CosmosDbConfig.CosmosDbCollections
+                .FirstOrDefault(c => c.CollectionId == topperImportExportConfig.Collection).TypeOfItem == typeof(TopItemWithPartitionKey).Name)
+            {
+                noOfItemsExported = new Exporter<TopItemWithPartitionKey>(
+                    serviceProvider.GetService<ILogger<Exporter<TopItemWithPartitionKey>>>(),
+                    serviceProvider.GetService<IRepository<TopItemWithPartitionKey>>())
+                    .Export(topperImportExportConfig.Csv);
+            }
+            logger.LogInformation("Exported: {0} items from collection {1}", noOfItemsExported, topperImportExportConfig.Collection);
+        }
+
+        private static ServiceProvider ConfigureServices(ServiceCollection serviceCollection, TopperImportExportConfig topperImportExportConfig)
+        {
+
+            serviceCollection.AddSingleton<IRepository<TopItem>>(r => new Repository<TopItem>(r.GetRequiredService<ILogger<Repository<TopItem>>>(), topperImportExportConfig.CosmosDbConfig,topperImportExportConfig.Collection));
+            serviceCollection.AddSingleton<IRepository<TopItemWithPartitionKey>>(r => new Repository<TopItemWithPartitionKey>(r.GetRequiredService<ILogger<Repository<TopItemWithPartitionKey>>>(), topperImportExportConfig.CosmosDbConfig,topperImportExportConfig.Collection));
+
 
             return serviceCollection.BuildServiceProvider();
         }
 
-        private static TopperExportConfig ReadConfiguration(ILogger<Program> logger, string[] args)
+        private static TopperImportExportConfig ReadConfiguration(ILogger<Program> logger, string[] args)
         {
             try
             {
-                    return new ConfigurationManager<TopperExportConfig>().GetConfiguration(new ConfigurationBuilder()
+                    return new ConfigurationManager<TopperImportExportConfig>().GetConfiguration(new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile("topper.export.json")
                         .AddCommandLine(args)
@@ -56,27 +121,6 @@ namespace Topper.Export
                 .WriteTo.Console()
                 .WriteTo.File("log-.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger())).BuildServiceProvider();
-        }
-
-        private static void ExportData(ILogger<Program> logger, ServiceProvider serviceProvider, TopperExportConfig topperExportConfig)
-        {
-            int i = 0;
-            using (var itemsRepository = serviceProvider.GetService<IRepository<TopItem>>())
-            {
-                using (var fs = File.CreateText(topperExportConfig.OutputFile))
-                {
-                    fs.WriteLine("Artist,Day,Hits,NoOfLoved,Score,Year,DayRanking");
-                    foreach (var topItem in itemsRepository.GetAllItemsAsync().Result)
-                    {
-                        fs.WriteLine(
-                            $"{topItem.Name},{topItem.Date.Day}/{topItem.Date.Month}/{topItem.Date.Year},{topItem.Hits},{topItem.Loved},{topItem.Score},{topItem.Year},{topItem.DayRanking}");
-                        logger.LogInformation("Exported {1} - {0} Ok.",topItem.Name,topItem.Date);
-                        i++;
-                    }
-                    fs.Flush();
-                }
-            }
-            logger.LogInformation("Written {0} items in the file {1}", i, topperExportConfig.OutputFile);
         }
     }
 }

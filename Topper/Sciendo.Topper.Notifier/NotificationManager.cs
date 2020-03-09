@@ -6,6 +6,8 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Sciendo.Topper.Domain;
+using Sciendo.Topper.Domain.Entities;
+using Sciendo.Topper.Store;
 
 namespace Sciendo.Topper.Notifier
 {
@@ -24,7 +26,7 @@ namespace Sciendo.Topper.Notifier
         }
 
         public bool ComposeAndSendMessage(List<TopItem> todayItems,
-            List<TopItem> yearAggregateItems,
+            List<TopItemWithPartitionKey> yearAggregateItems,
             string sendTo)
         {
             logger.LogInformation("Composing and Sending email...");
@@ -58,7 +60,7 @@ namespace Sciendo.Topper.Notifier
             logger.LogInformation("Email saved to file {fileName}", fileName);
         }
 
-        private string ComposeMessage(List<TopItem> todayItems, List<TopItem> yearAggregateItems)
+        private string ComposeMessage(List<TopItem> todayItems, List<TopItemWithPartitionKey> yearAggregateItems)
         {
             logger.LogInformation("Composing the body of message...");
             var title = string.Format(Template.Html.TodayItemsTitle, DateTime.Today.Day, DateTime.Today.Month,
@@ -91,7 +93,7 @@ namespace Sciendo.Topper.Notifier
                 foreach (var yearAggregatedItem in yearAggregateItems)
                 {
                     var calculatedStyle = "";
-                    if (todayItems != null && todayItems.Any((t) => t.Name == yearAggregatedItem.Name))
+                    if (todayItems != null && todayItems.Any((t) => t.Name.MakeSuitableForId() == yearAggregatedItem.Id))
                         calculatedStyle = Style.Current;
                     switch (position)
                     {
@@ -108,7 +110,7 @@ namespace Sciendo.Topper.Notifier
 
                     if (!string.IsNullOrEmpty(calculatedStyle))
                         calculatedStyle = $" class='{calculatedStyle}'";
-                    rows.Append(string.Format(Template.Html.YearItemRow, calculatedStyle, position++, yearAggregatedItem.Name, yearAggregatedItem.Score, yearAggregatedItem.Loved));
+                    rows.Append(string.Format(Template.Html.YearItemRow, calculatedStyle, position++, yearAggregatedItem.Id, yearAggregatedItem.Score, yearAggregatedItem.Loved));
                 }
 
                 message.Append(string.Format(Template.Html.YearItemsTable, rows));

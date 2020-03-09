@@ -7,7 +7,7 @@ namespace Sciendo.Topper.Contracts
 {
     public interface IAdminService
     {
-        int[] GetHistoryYears();
+        string[] GetHistoryYears();
 
         ServerConfig GetServerConfig();
     }

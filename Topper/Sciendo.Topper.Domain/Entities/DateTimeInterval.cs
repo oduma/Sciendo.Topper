@@ -4,8 +4,10 @@ using System.Text;
 
 namespace Sciendo.Topper.Domain.Entities
 {
-    public class TopItemWithPictureUrl:TopItem
+    public class DateTimeInterval
     {
-        public string PictureUrl { get; set; }
+        public DateTime FromDate {get;set;}
+
+        public DateTime ToDate { get; set; }
     }
 }

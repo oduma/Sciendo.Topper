@@ -11,6 +11,9 @@ namespace Topper.DataMigration
         [ConfigProperty("InputFile")]
         public string InoutFile { get; set; }
 
+        [ConfigProperty("Collection")]
+        public string Collection { get; set; }
+
 
     }
 }

@@ -3,54 +3,97 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Sciendo.Topper.Domain;
+using Sciendo.Topper.Domain.Entities;
 
 namespace Sciendo.Topper.Store
 {
     public class StoreManager : IStoreManager
     {
-        public event EventHandler<ProgressEventArgs> Progress;
 
         private readonly ILogger<StoreManager> logger;
         private IRepository<TopItem> _itemsRepo;
-        public StoreManager(ILogger<StoreManager> logger, IRepository<TopItem> itemsRepo)
+        public StoreManager(
+            ILogger<StoreManager> logger, 
+            IRepository<TopItem> itemsRepo)
         {
             this.logger = logger;
             _itemsRepo = itemsRepo ?? throw new ArgumentNullException(nameof(itemsRepo));
         }
-        public void StoreItem(TopItem topItem)
+
+        private void StoreItem(TopItem topItem)
         {
             if (topItem == null || topItem.Date == DateTime.MinValue || string.IsNullOrEmpty(topItem.Name) ||
                 (topItem.Hits == 0 && topItem.Loved == 0))
                 throw new ArgumentNullException(nameof(topItem));
-            logger.LogInformation("Persisting item {0}", topItem.Name);
-            Progress?.Invoke(this, new ProgressEventArgs(topItem, Status.Pending));
-            topItem.Date = new DateTime(topItem.Date.Year, topItem.Date.Month, topItem.Date.Day);
+            _itemsRepo.UpsertItemAsync(topItem).Wait();
+            logger.LogInformation("Persisted item {0}", topItem.Name);
+        }
 
-            var existingItem =
-                _itemsRepo.GetItemsAsync(i => i.Name == topItem.Name && i.Date == topItem.Date)
-                    .Result.FirstOrDefault();
-            if (existingItem == null)
+        public IEnumerable<TopItem> GetLatestPreviousVersionOfItems(DateTime queryDate, IEnumerable<TopItem> itemsForDate)
+        {
+            var itemsForYesterday = _itemsRepo.GetItemsAsync(i =>
+            i.Date == queryDate.AddDays(-1)).Result.Where(r=>
+                itemsForDate.Contains(r,new TopItemEqualityComparer()));
+
+            var itemsMissingBetweenTheDays = itemsForDate.Where((i) => !itemsForYesterday.Contains(i, new TopItemEqualityComparer()));
+            if (itemsMissingBetweenTheDays.Any())
             {
-                logger.LogInformation("Item doesn't exist in store.");
-                topItem.Year = topItem.Date.Year.ToString();
-                _itemsRepo.CreateItemAsync(topItem);
-                Progress?.Invoke(this, new ProgressEventArgs(topItem, Status.Created));
-                logger.LogInformation("Item persisted in store.");
+                var olderItems = _itemsRepo.GetItemsAsync(i =>
+                      i.Date < queryDate && i.Year == queryDate.Year.ToString())
+                    .Result
+                    .Where(r=> itemsMissingBetweenTheDays.Contains(r,new TopItemEqualityComparer()))
+                    .GroupBy(n => n.Name).Select((r) =>
+                    {
+                        var latest = r.OrderByDescending(g => g.Date).First();
+                        return new TopItem
+                        {
+                            Name = r.Key,
+                            Date = queryDate.AddDays(-1),
+                            Hits = 0,
+                            DayRanking = 0,
+                            Loved = 0,
+                            OverallDayRanking = latest.OverallDayRanking,
+                            OverallHits = latest.OverallHits,
+                            OverallLoved = latest.OverallLoved,
+                            OverallScore = latest.OverallScore,
+                            Score = 0,
+                            Year = queryDate.Year.ToString()
+                        };
+                    });
+                if (olderItems.Any())
+                    itemsForYesterday = itemsForYesterday.Union(olderItems);
             }
-            else
+
+            return itemsForYesterday;
+        }
+
+        public void UpdateItems(IEnumerable<TopItem> topItems)
+        {
+            foreach(var topItem in topItems)
             {
-                logger.LogWarning("Item exists in store. Do nothing.");
-                Progress?.Invoke(this, new ProgressEventArgs(existingItem, Status.Existing));
+                StoreItem(topItem);
             }
         }
 
-        public IEnumerable<TopItem> GetAggregateHistoryOfScores()
+        public IEnumerable<TopItem> GetItemsByDate(DateTime date)
         {
-            logger.LogInformation("Aggregating scores from the beginning of year...");
-            var result = _itemsRepo.GetItemsAsync((i) => i.Year == DateTime.Today.Year.ToString());
-            return result.Result.GroupBy((i) => i.Name)
-                .Select((t) => new TopItem { Name = t.Key, Score = t.Sum((v) => v.Score), Loved = t.Sum((l) => l.Loved) })
-                .OrderByDescending((t) => t.Score);
+            return _itemsRepo.GetItemsAsync((i) => i.Date == date).Result;
+        }
+
+        public IEnumerable<TopItem> GetItemsForNames(IEnumerable<string> names)
+        {
+            return _itemsRepo.GetAllItemsAsync().Result.Where(r=>names.Contains(r.Name));
+        }
+
+        public DateTimeInterval GetTimeInterval()
+        {
+            var firstItem = _itemsRepo.GetAllItemsAsync().Result.Min(i => i.Date);
+            var lastItem = _itemsRepo.GetAllItemsAsync().Result.Max(i => i.Date);
+            return new DateTimeInterval
+            {
+                FromDate = firstItem,
+                ToDate = lastItem
+            };
         }
     }
 }

@@ -17,15 +17,12 @@ namespace Sciendo.Topper.Api.Controllers
     {
         private readonly ILogger<EntriesController> logger;
         private readonly IEntriesService service;
-        private readonly CosmosDbConfig cosmosDbConfig;
 
         public EntriesController(ILogger<EntriesController> logger, 
-            IEntriesService service, CosmosDbConfig cosmosDbConfig)
+            IEntriesService service)
         {
             this.logger = logger;
             this.service = service;
-            this.cosmosDbConfig = cosmosDbConfig;
-            logger.LogInformation("Configuration: ", cosmosDbConfig);
         }
 
         [HttpGet("[action]/{date}")]

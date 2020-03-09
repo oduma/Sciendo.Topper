@@ -14,6 +14,7 @@ using Serilog;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sciendo.Web;
+using Sciendo.Topper.Domain.Entities;
 
 namespace Sciendo.Topper
 {
@@ -37,23 +38,9 @@ namespace Sciendo.Topper
                 logger.LogInformation("Trying to send new email for today...");
                 var todayTopItems = GetTodayTopItems(logger, serviceProvider, topperConfig.TopperLastFmConfig);
 
+                List<TopItemWithPartitionKey> yearAggregate = new List<TopItemWithPartitionKey>();
 
-                List<TopItem> yearAggregate = new List<TopItem>();
-
-                using (var itemsRepo = serviceProvider.GetService<IRepository<TopItem>>())
-                {
-                    try
-                    {
-                        itemsRepo.OpenConnection();
-                    }
-                    catch (Exception e)
-                    {
-                        logger.LogError(e,"Timeout while creating database and collection.");
-                        throw;
-                    }
-
-                    CalculateTopItemsAndGetAggregateItems(logger, serviceProvider, todayTopItems, yearAggregate);
-                }
+                CalculateTopItemsAndGetAggregateItems(logger, serviceProvider, todayTopItems, yearAggregate);
 
                 if (!yearAggregate.Any() && !todayTopItems.Any())
                 {
@@ -78,7 +65,8 @@ namespace Sciendo.Topper
         public delegate RuleBase RulesResolver(string key);
         private static ServiceProvider ConfigureServices(ServiceCollection serviceCollection, TopperConfig topperConfig)
         {
-            serviceCollection.AddSingleton<IRepository<TopItem>>(r => new Repository<TopItem>(r.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Repository<TopItem>>>(), topperConfig.CosmosDbConfig));
+            serviceCollection.AddSingleton<IRepository<TopItem>>(r => new Repository<TopItem>(r.GetRequiredService<ILogger<Repository<TopItem>>>(), topperConfig.CosmosDbConfig,topperConfig.CosmosDbConfig.CosmosDbCollections.FirstOrDefault(c=>c.TypeOfItem=="TopItem").CollectionId));
+            serviceCollection.AddSingleton<IRepository<TopItemWithPartitionKey>>(r => new Repository<TopItemWithPartitionKey>(r.GetRequiredService<ILogger<Repository<TopItemWithPartitionKey>>>(), topperConfig.CosmosDbConfig, topperConfig.CosmosDbConfig.CosmosDbCollections.FirstOrDefault(c => c.TypeOfItem == "TopItemWithPartitionKey").CollectionId));
             serviceCollection.AddSingleton<IEmailSender>(e => new EmailSender(e.GetRequiredService <ILogger<EmailSender>>(), topperConfig.EmailOptions));
             serviceCollection.AddSingleton<INotificationManager>(n => new NotificationManager(n.GetRequiredService<ILogger<NotificationManager>>(), n.GetRequiredService<IEmailSender>(),"mail"));
             serviceCollection.AddSingleton<IUrlProvider>(u => new UrlProvider(u.GetRequiredService<ILogger<UrlProvider>>(), topperConfig.TopperLastFmConfig.ApiKey));
@@ -101,6 +89,8 @@ namespace Sciendo.Topper
             });
             serviceCollection.AddTransient<ITopItemsAggregator, TopItemsAggregator>();
             serviceCollection.AddTransient<IStoreManager, StoreManager>();
+            serviceCollection.AddTransient<IOverallStoreManager, OverallStoreManager>();
+
             serviceCollection.AddTransient<IRulesEngine, RulesEngine>();
             serviceCollection.AddTransient<ArtistScoreRule>(a=>new ArtistScoreRule(a.GetRequiredService<ILogger<ArtistScoreRule>>(),a.GetRequiredService<IRepository<TopItem>>(),topperConfig.TopperRulesConfig.RankingBonus));
             serviceCollection.AddTransient<LovedRule>(l=> new LovedRule(l.GetRequiredService<ILogger<LovedRule>>(), l.GetRequiredService<IRepository<TopItem>>(), topperConfig.TopperRulesConfig.LovedBonus));
@@ -119,20 +109,21 @@ namespace Sciendo.Topper
             return serviceCollection.BuildServiceProvider();
         }
 
-        private static void CalculateTopItemsAndGetAggregateItems(Microsoft.Extensions.Logging.ILogger<Program> logger, 
-            ServiceProvider serviceProvider, List<TopItem> todayTopItems,
-            List<TopItem> yearAggregate)
+        private static void CalculateTopItemsAndGetAggregateItems(
+            ILogger<Program> logger, 
+            ServiceProvider serviceProvider, 
+            List<TopItem> todayTopItems,
+            List<TopItemWithPartitionKey> yearAggregate)
         {
-            var storeLogic = serviceProvider.GetService<IStoreManager>();
-            storeLogic.Progress += StoreLogic_Progress;
-            if (todayTopItems.Count > 0)
-                CalculateStoreTodayItems(logger, serviceProvider, todayTopItems, storeLogic);
-            else
-            {
-                logger.LogWarning("No top items for today no calculation of scores needed.");
-            }
+            var dailyStoreManager = serviceProvider.GetService<IStoreManager>();
+            var overallStoreManager = serviceProvider.GetService<IOverallStoreManager>();
 
-            yearAggregate.AddRange(storeLogic.GetAggregateHistoryOfScores());
+            if (todayTopItems.Count > 0)
+                CalculateAndStoreTodayItems(logger, serviceProvider, todayTopItems, dailyStoreManager, overallStoreManager);
+            else
+                logger.LogWarning("No top items for today no calculation of scores needed.");
+
+            yearAggregate = overallStoreManager.GetAggregateHistoryOfScores(DateTime.Now.Date).ToList();
             if (!yearAggregate.Any())
             {
                 logger.LogWarning("No year aggregate retrieve.");
@@ -141,7 +132,7 @@ namespace Sciendo.Topper
                 logger.LogInformation("Items scored this year {0}", yearAggregate.Count);
         }
 
-        private static TopperConfig ReadConfiguration(Microsoft.Extensions.Logging.ILogger<Program> logger, string[] args)
+        private static TopperConfig ReadConfiguration(ILogger<Program> logger, string[] args)
         {
             var config =
                 new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
@@ -170,12 +161,30 @@ namespace Sciendo.Topper
                 .CreateLogger())).BuildServiceProvider();
         }
 
-        private static void CalculateStoreTodayItems(Microsoft.Extensions.Logging.ILogger<Program> logger, 
+        private static void CalculateAndStoreTodayItems(
+            ILogger<Program> logger, 
             ServiceProvider serviceProvider, 
             List<TopItem> todayTopItems,
-            IStoreManager storeLogic)
+            IStoreManager dailyStoreManager,
+            IOverallStoreManager overallStoreManager)
         {
             logger.LogInformation("Calculating scores for today's items...");
+            CalculateDailyTopItems(logger, serviceProvider, todayTopItems);
+            var todaysProcessedItems = overallStoreManager.AdvanceOverallItems(todayTopItems.FirstOrDefault().Date, todayTopItems.ToArray(), out int totalRecordsAffectedForTheDay);
+            logger.LogInformation("Items processed: {0}", totalRecordsAffectedForTheDay);
+            try
+            {
+                dailyStoreManager.UpdateItems(todaysProcessedItems);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Cannot persist items in store.");
+                throw;
+            }
+        }
+
+        private static void CalculateDailyTopItems(ILogger<Program> logger, ServiceProvider serviceProvider, List<TopItem> todayTopItems)
+        {
             var rulesEngine = serviceProvider.GetService<IRulesEngine>();
             rulesEngine.AddRule(serviceProvider.GetService<RulesResolver>()("TOPARTIST"));
             rulesEngine.AddRule(serviceProvider.GetService<RulesResolver>()("LOVEDTRACK"));
@@ -183,19 +192,11 @@ namespace Sciendo.Topper
             {
                 logger.LogInformation("Calculating Score for {0}", todayTopItem.Name);
                 rulesEngine.ApplyAllRules(todayTopItem);
-                try
-                {
-                    storeLogic.StoreItem(todayTopItem);
-                }
-                catch (Exception e)
-                {
-                    logger.LogError(e,"Cannot persist item in store.");
-                    throw;
-                }
+                todayTopItem.Year = todayTopItem.Date.Year.ToString();
             }
         }
 
-        private static List<TopItem> GetTodayTopItems(Microsoft.Extensions.Logging.ILogger<Program> logger,  ServiceProvider serviceProvider,
+        private static List<TopItem> GetTodayTopItems(ILogger<Program> logger,  ServiceProvider serviceProvider,
             LastFmConfig topperLastFmConfig)
         {
             logger.LogInformation("Getting new top items from last.fm ...");

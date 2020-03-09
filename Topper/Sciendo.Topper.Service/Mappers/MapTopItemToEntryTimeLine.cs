@@ -8,25 +8,32 @@ using System.Text;
 
 namespace Sciendo.Topper.Service.Mappers
 {
-    public class MapTopItemToEntryTimeLine : IMap<IEnumerable<TopItemWithPictureUrl>, EntryTimeLine>
+    public class MapTopItemToEntryTimeLine : IMap<IEnumerable<TopItem>, EntryTimeLine>
     {
-        private readonly IMap<TopItem, Position> mapToPosition;
+        private readonly IMap<TopItem, Positions> mapToPositions;
+        private readonly IEntryArtistImageProvider entryArtistImageProvider;
 
-        public MapTopItemToEntryTimeLine(IMap<TopItem,Position> mapToPosition)
+        public MapTopItemToEntryTimeLine(IMap<TopItem,Positions> mapToPositions, IEntryArtistImageProvider entryArtistImageProvider)
         {
-            this.mapToPosition = mapToPosition;
+            this.mapToPositions = mapToPositions;
+            this.entryArtistImageProvider = entryArtistImageProvider;
         }
-        public new EntryTimeLine Map(IEnumerable<TopItemWithPictureUrl> fromItem)
+        public new EntryTimeLine Map(IEnumerable<TopItem> fromItem)
         {
+            if (mapToPositions == null)
+                throw new Exception("MapToPositions is mandatory");
+            if (entryArtistImageProvider == null)
+                throw new Exception("ImageProvider is mandatory");
+
             if (fromItem == null)
                 throw new ArgumentNullException(nameof(fromItem));
-            if (mapToPosition == null)
+            if (mapToPositions == null)
                 throw new Exception("No mapper to position defined.");
             return fromItem.GroupBy(t => t.Name).Select(g => new EntryTimeLine(g.Select(p => new PositionAtDate
             {
                 Date = p.Date.ToString("yyyy-MM-dd"),
-                Position = mapToPosition.Map(p)
-            }).ToArray(), g.Key, g.First().PictureUrl)).FirstOrDefault();
+                Position = mapToPositions.Map(p).DailyPosition
+            }).ToArray(), g.Key,  entryArtistImageProvider.GetPictureUrl(g.First().Name))).FirstOrDefault();
         }
     }
 }

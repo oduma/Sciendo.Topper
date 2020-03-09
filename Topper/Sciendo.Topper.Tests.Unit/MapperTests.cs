@@ -16,29 +16,50 @@ namespace Sciendo.Topper.Tests.Unit
     {
 
         [TestMethod]
-        public void MapTopItemToPosition_Ok()
+        public void MapTopItemToPositions_Ok()
         {
-            var mapTopItemToPosition = new MapTopItemToPosition();
-            var position = mapTopItemToPosition.Map(new TopItem { DayRanking = 1, Hits = 12, Loved = 1, Score = 44 });
-            Assert.AreEqual(1, position.Rank);
-            Assert.AreEqual(12, position.Hits);
-            Assert.AreEqual(1, position.NoOfLovedTracks);
-            Assert.AreEqual(44, position.Score);
-        }
-        
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void MapTopItemToPosition_Null_TopItem()
-        {
-            var mapTopItemToPosition = new MapTopItemToPosition();
-            var position = mapTopItemToPosition.Map(null);
+            var mapTopItemToPosition = new MapTopItemToPositions();
+            var positions = mapTopItemToPosition.Map(new TopItem 
+            { 
+                DayRanking = 1, 
+                Hits = 12, 
+                Loved = 1, 
+                Score = 44,
+                OverallDayRanking=2,
+                OverallHits=12,
+                OverallLoved=0,
+                OverallScore=24
+            });
+            Assert.AreEqual(1, positions.DailyPosition.Rank);
+            Assert.AreEqual(12, positions.DailyPosition.Hits);
+            Assert.AreEqual(1, positions.DailyPosition.NoOfLovedTracks);
+            Assert.AreEqual(44, positions.DailyPosition.Score);
+            Assert.AreEqual(2, positions.OverallPosition.Rank);
+            Assert.AreEqual(12, positions.OverallPosition.Hits);
+            Assert.AreEqual(0, positions.OverallPosition.NoOfLovedTracks);
+            Assert.AreEqual(24, positions.OverallPosition.Score);
         }
 
         [TestMethod]
-        public void MapTopItemTOverallEntry_Ok()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void MapTopItemToPositions_Null_TopItem()
         {
-            var mapTopItemToOverallEntry = new MapTopItemToOverallEntry(new MapTopItemToPosition());
-            var overallEntry = mapTopItemToOverallEntry.Map(new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg",DayRanking = 1, Hits = 12, Loved = 1, Score = 44 });
+            var mapTopItemToPositions = new MapTopItemToPositions();
+            var position = mapTopItemToPositions.Map(null);
+        }
+
+        [TestMethod]
+        public void MapTopItemWithPartitionKeyToOverallEntry_Ok()
+        {
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            var mapTopItemToOverallEntry = new MapTopItemWithPartitionKeyToOverallEntry(
+                new MapTopItemWithPartitionKeyToPosition(),entryArtistImageProvider.Object);
+            var overallEntry = mapTopItemToOverallEntry.Map(new TopItemWithPartitionKey 
+            { 
+                Key="date1",
+                Id = "abc", 
+                DayRanking = 1, Hits = 12, Loved = 1, Score = 44 });
             Assert.AreEqual("abc", overallEntry.Name);
             Assert.AreEqual("http://myownrepo/a/abc.jpg", overallEntry.PictureUrl);
             Assert.AreEqual(1, overallEntry.CurrentOverallPosition.Rank);
@@ -49,26 +70,71 @@ namespace Sciendo.Topper.Tests.Unit
         
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void MapTopItemTOverallEntry_PositionMapper_Null()
+        public void MapTopItemWithPartitionKeyToOverallEntry_PositionMapper_Null()
         {
-            var mapTopItemToOverallEntry = new MapTopItemToOverallEntry(null);
-            var overallEntry = mapTopItemToOverallEntry.Map(new TopItemWithPictureUrl { Name = "abc", PictureUrl= "http://myownrepo/a/abc.jpg",DayRanking = 1, Hits = 12, Loved = 1, Score = 44 });
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+
+            var mapTopItemToOverallEntry = new MapTopItemWithPartitionKeyToOverallEntry(null,entryArtistImageProvider.Object);
+            var overallEntry = mapTopItemToOverallEntry.Map(new TopItemWithPartitionKey 
+            { Key="date1",
+                Id = "abc", 
+                DayRanking = 1, Hits = 12, Loved = 1, Score = 44 });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void MapTopItemTOverallEntry_TopItem_Null()
+        [ExpectedException(typeof(Exception))]
+        public void MapTopItemWithPartitionKeyToOverallEntry_ImageProviderNull_Null()
         {
-            var mapTopItemToOverallEntry = new MapTopItemToOverallEntry(new MapTopItemToPosition());
+            var mapTopItemToOverallEntry = new MapTopItemWithPartitionKeyToOverallEntry(new MapTopItemWithPartitionKeyToPosition(), null);
+            var overallEntry = mapTopItemToOverallEntry.Map(new TopItemWithPartitionKey
+            {
+                Key = "date1",
+                Id = "abc",
+                DayRanking = 1,
+                Hits = 12,
+                Loved = 1,
+                Score = 44
+            });
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void MapTopItemWithPartitionKeyToOverallEntry_TopItem_Null()
+        {
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+
+            var mapTopItemToOverallEntry = new MapTopItemWithPartitionKeyToOverallEntry(new MapTopItemWithPartitionKeyToPosition(), entryArtistImageProvider.Object);
             var overallEntry = mapTopItemToOverallEntry.Map(null);
         }
         
         [TestMethod]
-        public void MapTopItemTOverallEntryEvolution_Evolution_Positive()
+        public void MapTopItemWithPartitionKeyTOverallEntryEvolution_Evolution_Positive()
         {
-            var mapTopItemToOverallEntryEvolution = new MapTopItemToOverallEntryEvolution(new MapTopItemToPosition());
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+
+            var mapTopItemToOverallEntryEvolution = new MapTopItemWithPartitionKeyToOverallEntryEvolution(new MapTopItemWithPartitionKeyToPosition(),entryArtistImageProvider.Object);
             var overallEntreyEvolyion = mapTopItemToOverallEntryEvolution.Map
-                (new TopItemWithPictureUrl { Name = "abc", PictureUrl= "http://myownrepo/a/abc.jpg",DayRanking = 1, Hits = 12, Loved = 1, Score = 44 },new TopItem { Name = "abc", DayRanking = 2, Hits = 10, Loved = 1, Score = 30 });
+                (
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date1",
+                    Id = "abc",
+                    DayRanking = 1, 
+                    Hits = 12, 
+                    Loved = 1, 
+                    Score = 44 
+                },
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date2",
+                    Id = "abc", 
+                    DayRanking = 2, 
+                    Hits = 10, 
+                    Loved = 1, 
+                    Score = 30 
+                });
             Assert.AreEqual("abc", overallEntreyEvolyion.Name);
             Assert.AreEqual("http://myownrepo/a/abc.jpg", overallEntreyEvolyion.PictureUrl);
             Assert.AreEqual(1, overallEntreyEvolyion.CurrentOverallPosition.Rank);
@@ -82,11 +148,24 @@ namespace Sciendo.Topper.Tests.Unit
         }
         
         [TestMethod]
-        public void MapTopItemTOverallEntryEvolution_Evolution_NewEntry()
+        public void MapTopItemWithPartitionKeyToOverallEntryEvolution_Evolution_NewEntry()
         {
-            var mapTopItemToOverallEntryEvolution = new MapTopItemToOverallEntryEvolution(new MapTopItemToPosition());
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+
+            var mapTopItemToOverallEntryEvolution = new MapTopItemWithPartitionKeyToOverallEntryEvolution(new MapTopItemWithPartitionKeyToPosition(),entryArtistImageProvider.Object);
             var overallEntreyEvolyion = mapTopItemToOverallEntryEvolution.Map
-                (new TopItemWithPictureUrl { Name = "abc", PictureUrl= "http://myownrepo/a/abc.jpg",DayRanking = 1, Hits = 12, Loved = 1, Score = 44 }, null);
+                (
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date1",
+                    Id = "abc", 
+                    DayRanking = 1, 
+                    Hits = 12, 
+                    Loved = 1, 
+                    Score = 44 
+                }, 
+                null);
             Assert.AreEqual("abc", overallEntreyEvolyion.Name);
             Assert.AreEqual("http://myownrepo/a/abc.jpg", overallEntreyEvolyion.PictureUrl);
             Assert.AreEqual(1, overallEntreyEvolyion.CurrentOverallPosition.Rank);
@@ -98,35 +177,86 @@ namespace Sciendo.Topper.Tests.Unit
         
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void MapTopItemTOverallEntryEvolution_Evolution_Both_TopItems_Null()
+        public void MapTopItemWithPartitionKeyToOverallEntryEvolution_Evolution_Both_TopItems_Null()
         {
-            var mapTopItemToOverallEntryEvolution = new MapTopItemToOverallEntryEvolution(new MapTopItemToPosition());
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+
+            var mapTopItemToOverallEntryEvolution = new MapTopItemWithPartitionKeyToOverallEntryEvolution(new MapTopItemWithPartitionKeyToPosition(),entryArtistImageProvider.Object);
             var overallEntreyEvolyion = mapTopItemToOverallEntryEvolution.Map
                 (null, null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void MapTopItemTOverallEntryEvolution_Evolution_Different()
+        public void MapTopItemWithPartitionKeyToOverallEntryEvolution_Evolution_Different()
         {
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
 
-            var mapTopItemToOverallEntryEvolution = new MapTopItemToOverallEntryEvolution(new MapTopItemToPosition());
+            var mapTopItemToOverallEntryEvolution = new MapTopItemWithPartitionKeyToOverallEntryEvolution(new MapTopItemWithPartitionKeyToPosition(),entryArtistImageProvider.Object);
             var overallEntreyEvolyion = mapTopItemToOverallEntryEvolution.Map
-                (new TopItemWithPictureUrl { Name = "abc", PictureUrl= "http://myownrepo/a/abc.jpg",DayRanking = 1, Hits = 12, Loved = 1, Score = 44 }, 
-                new TopItem { Name = "abcd", DayRanking = 2, Hits = 10, Loved = 1, Score = 30 });
+                (new TopItemWithPartitionKey 
+                { 
+                    Key="date1",
+                    Id = "abc", 
+                    DayRanking = 1, 
+                    Hits = 12, 
+                    Loved = 1, 
+                    Score = 44 }, 
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date1",
+                    Id = "abcd", 
+                    DayRanking = 2, 
+                    Hits = 10, 
+                    Loved = 1, 
+                    Score = 30 });
         }
 
         [TestMethod]
-        public void MapTopItemsToOverallEntriesEvolution_AllMatched()
+        public void MapTopItemsWithPartitionKeyToOverallEntriesEvolution_AllMatched()
         {
-            var mapTopItemsToOverallEntriesEvolution = new MapTopItemsToOverallEntriesEvolution(new MapTopItemToOverallEntryEvolution(new MapTopItemToPosition()));
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
+
+            var mapTopItemsToOverallEntriesEvolution = new MapTopItemsWithPartitionKeyToOverallEntriesEvolution(new MapTopItemWithPartitionKeyToOverallEntryEvolution(new MapTopItemWithPartitionKeyToPosition(),entryArtistImageProvider.Object));
             var overalEntriesEvolution = mapTopItemsToOverallEntriesEvolution.Map(
                 new[] {
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl="http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 1, Score = 70 },
-                new TopItemWithPictureUrl { Name = "abcd", PictureUrl = "http://myownrepo/a/abcd.jpg", DayRanking = 1, Hits = 14, Loved = 2, Score = 56 }},
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date1",
+                    Id = "abc", 
+                    DayRanking = 1, 
+                    Hits = 14, 
+                    Loved = 1, 
+                    Score = 70 },
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date1",
+                    Id = "abcd", 
+                    DayRanking = 1, 
+                    Hits = 14, 
+                    Loved = 2, 
+                    Score = 56 }},
                 new[] {
-                new TopItem { Name = "abc", DayRanking = 1, Hits = 12, Loved = 1, Score = 44 },
-                new TopItem { Name = "abcd", DayRanking = 2, Hits = 10, Loved = 1, Score = 30 }});
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date2",
+                    Id = "abc", 
+                    DayRanking = 1, 
+                    Hits = 12, 
+                    Loved = 1, 
+                    Score = 44 },
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date2",
+                    Id = "abcd", 
+                    DayRanking = 2, 
+                    Hits = 10, 
+                    Loved = 1, 
+                    Score = 30 }});
 
             Assert.AreEqual(2, overalEntriesEvolution.Count());
             var abcEntry = overalEntriesEvolution.FirstOrDefault(o => o.Name == "abc");
@@ -156,16 +286,41 @@ namespace Sciendo.Topper.Tests.Unit
         }
 
         [TestMethod]
-        public void MapTopItemsToOverallEntriesEvolution_NewEntry()
+        public void MapTopItemsWithPartitionKeyToOverallEntriesEvolution_NewEntry()
         {
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
 
-            var mapTopItemsToOverallEntriesEvolution = new MapTopItemsToOverallEntriesEvolution(new MapTopItemToOverallEntryEvolution(new MapTopItemToPosition()));
+            var mapTopItemsToOverallEntriesEvolution = new MapTopItemsWithPartitionKeyToOverallEntriesEvolution(
+                new MapTopItemWithPartitionKeyToOverallEntryEvolution(new MapTopItemWithPartitionKeyToPosition(),entryArtistImageProvider.Object));
             var overalEntriesEvolution = mapTopItemsToOverallEntriesEvolution.Map(
                 new[] {
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 1, Score = 70 },
-                new TopItemWithPictureUrl { Name = "abcd", PictureUrl="http://myownrepo/a/abcd.jpg", DayRanking = 1, Hits = 14, Loved = 2, Score = 56 }},
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date1",
+                    Id = "abc", 
+                    DayRanking = 1, 
+                    Hits = 14, 
+                    Loved = 1, 
+                    Score = 70 },
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date1",
+                    Id = "abcd",
+                    DayRanking = 1, 
+                    Hits = 14, 
+                    Loved = 2, 
+                    Score = 56 }},
                 new[] {
-                new TopItem { Name = "abc", DayRanking = 1, Hits = 12, Loved = 1, Score = 44 }});
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date2",
+                    Id = "abc", 
+                    DayRanking = 1, 
+                    Hits = 12, 
+                    Loved = 1, 
+                    Score = 44 }});
 
             Assert.AreEqual(2, overalEntriesEvolution.Count());
             var abcEntry = overalEntriesEvolution.FirstOrDefault(o => o.Name == "abc");
@@ -193,27 +348,78 @@ namespace Sciendo.Topper.Tests.Unit
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void MapTopItemsToOverallEntriesEvolution_NoOverallMapper()
+        public void MapTopItemsWithPartitionKeyToOverallEntriesEvolution_NoOverallMapper()
         {
-            var mapTopItemsToOverallEntriesEvolution = new MapTopItemsToOverallEntriesEvolution(null);
+
+            var mapTopItemsToOverallEntriesEvolution = new MapTopItemsWithPartitionKeyToOverallEntriesEvolution(null);
             var overalEntriesEvolution = mapTopItemsToOverallEntriesEvolution.Map(
                 new[] {
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 1, Score = 70 },
-                new TopItemWithPictureUrl { Name = "abcd", PictureUrl="http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 2, Score = 56 }},
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date1",
+                    Id = "abc", 
+                    DayRanking = 1, 
+                    Hits = 14, 
+                    Loved = 1, 
+                    Score = 70 },
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date1",
+                    Id = "abcd", 
+                    DayRanking = 1, 
+                    Hits = 14, 
+                    Loved = 2, 
+                    Score = 56 }},
                 new[] {
-                new TopItem { Name = "abc", DayRanking = 1, Hits = 12, Loved = 1, Score = 44 },
-                new TopItem { Name = "abcd", DayRanking = 2, Hits = 10, Loved = 1, Score = 30 }}).ToArray();
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date2",
+                    Id = "abc", 
+                    DayRanking = 1, 
+                    Hits = 12, 
+                    Loved = 1, 
+                    Score = 44 },
+                new TopItemWithPartitionKey 
+                { 
+                    Key="date2",
+                    Id = "abcd", 
+                    DayRanking = 2, 
+                    Hits = 10, 
+                    Loved = 1, 
+                    Score = 30 }}).ToArray();
         }
 
         [TestMethod]
         public void MapTopItemToDayEntryEvolution_Ok()
         {
-            var mapTopItemToDayEntryEvolution = new MapTopItemToDayEntryEvolution(new MapTopItemToPosition());
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
+
+            var mapTopItemToDayEntryEvolution = new MapTopItemToDayEntryEvolution(new MapTopItemToPositions(),entryArtistImageProvider.Object);
             var dayEntryEvolution = mapTopItemToDayEntryEvolution.Map(
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 1, Score = 70 },
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 25, Hits = 140, Loved = 3, Score = 700 },
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 2, Hits = 10, Loved = 0, Score = 44 },
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 35, Hits = 130, Loved = 2, Score = 680 });
+                new TopItem 
+                { 
+                    Name = "abc",
+                    DayRanking = 1, 
+                    Hits = 14, 
+                    Loved = 1, 
+                    Score = 70,
+                    OverallDayRanking = 25, 
+                    OverallHits = 140, 
+                    OverallLoved = 3, 
+                    OverallScore = 700 },
+                new TopItem 
+                { 
+                    Name = "abc", 
+                    DayRanking = 2, 
+                    Hits = 10, 
+                    Loved = 0, 
+                    Score = 44, 
+                    OverallDayRanking = 35, 
+                    OverallHits = 130, 
+                    OverallLoved = 2, 
+                    OverallScore = 680 });
             Assert.AreEqual("abc", dayEntryEvolution.Name);
             Assert.AreEqual("http://myownrepo/a/abc.jpg", dayEntryEvolution.PictureUrl);
             Assert.AreEqual(1, dayEntryEvolution.CurrentDayPosition.Rank);
@@ -237,11 +443,23 @@ namespace Sciendo.Topper.Tests.Unit
         [TestMethod]
         public void MapTopItemToDayEntryEvolution_NewEntry()
         {
-            var mapTopItemToDayEntryEvolution = new MapTopItemToDayEntryEvolution(new MapTopItemToPosition());
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
+
+            var mapTopItemToDayEntryEvolution = new MapTopItemToDayEntryEvolution(new MapTopItemToPositions(),entryArtistImageProvider.Object);
             var dayEntryEvolution = mapTopItemToDayEntryEvolution.Map(
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 1, Score = 70 },
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 25, Hits = 140, Loved = 3, Score = 700 },
-                null,
+                new TopItem 
+                { 
+                    Name = "abc", 
+                    DayRanking = 1, 
+                    Hits = 14, 
+                    Loved = 1, 
+                    Score = 70, 
+                    OverallDayRanking = 25, 
+                    OverallHits = 140, 
+                    OverallLoved = 3, 
+                    OverallScore = 700 },
                 null);
             Assert.AreEqual("abc", dayEntryEvolution.Name);
             Assert.AreEqual("http://myownrepo/a/abc.jpg", dayEntryEvolution.PictureUrl);
@@ -260,19 +478,45 @@ namespace Sciendo.Topper.Tests.Unit
         [TestMethod]
         public void MapTopItemToDayEntryEvolution_ReEntry()
         {
-            var mapTopItemToDayEntryEvolution = new MapTopItemToDayEntryEvolution(new MapTopItemToPosition());
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
+
+            var mapTopItemToDayEntryEvolution = new MapTopItemToDayEntryEvolution(new MapTopItemToPositions(),entryArtistImageProvider.Object);
             var dayEntryEvolution = mapTopItemToDayEntryEvolution.Map(
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 1, Score = 70 },
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 25, Hits = 140, Loved = 3, Score = 700 },
-                null,
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 35, Hits = 130, Loved = 2, Score = 680 });
+                new TopItem 
+                { 
+                    Name = "abc", 
+                    DayRanking = 1, 
+                    Hits = 14, 
+                    Loved = 1, 
+                    Score = 70, 
+                    OverallDayRanking = 25, 
+                    OverallHits = 140, 
+                    OverallLoved = 3, 
+                    OverallScore = 700 },
+                new TopItem
+                { 
+                    Name = "abc",
+                    DayRanking = 0,
+                    Hits = 0,
+                    Loved = 0,
+                    Score = 0,
+                    OverallDayRanking = 35, 
+                    OverallHits = 130, 
+                    OverallLoved = 2, 
+                    OverallScore = 680 });
             Assert.AreEqual("abc", dayEntryEvolution.Name);
             Assert.AreEqual("http://myownrepo/a/abc.jpg", dayEntryEvolution.PictureUrl);
             Assert.AreEqual(1, dayEntryEvolution.CurrentDayPosition.Rank);
             Assert.AreEqual(14, dayEntryEvolution.CurrentDayPosition.Hits);
             Assert.AreEqual(1, dayEntryEvolution.CurrentDayPosition.NoOfLovedTracks);
             Assert.AreEqual(70, dayEntryEvolution.CurrentDayPosition.Score);
-            Assert.IsNull(dayEntryEvolution.PreviousDayPosition);
+            Assert.IsNotNull(dayEntryEvolution.PreviousDayPosition);
+            Assert.AreEqual(0,dayEntryEvolution.PreviousDayPosition.Hits);
+            Assert.AreEqual(0, dayEntryEvolution.PreviousDayPosition.NoOfLovedTracks);
+            Assert.AreEqual(0, dayEntryEvolution.PreviousDayPosition.Score);
+            Assert.AreEqual(9999, dayEntryEvolution.PreviousDayPosition.Rank);
             Assert.AreEqual(25, dayEntryEvolution.CurrentOverallPosition.Rank);
             Assert.AreEqual(140, dayEntryEvolution.CurrentOverallPosition.Hits);
             Assert.AreEqual(3, dayEntryEvolution.CurrentOverallPosition.NoOfLovedTracks);
@@ -287,50 +531,98 @@ namespace Sciendo.Topper.Tests.Unit
         [ExpectedException(typeof(Exception))]
         public void MapTopItemToDayEntryEvolution_UnMatched_OnSame_Level()
         {
-            var mapTopItemToDayEntryEvolution = new MapTopItemToDayEntryEvolution(new MapTopItemToPosition());
-            var dayEntryEvolution = mapTopItemToDayEntryEvolution.Map(
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 1, Score = 70 },
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 25, Hits = 140, Loved = 3, Score = 700 },
-                new TopItemWithPictureUrl { Name = "abcd", PictureUrl = "http://myownrepo/a/abcd.jpg", DayRanking = 2, Hits = 10, Loved = 0, Score = 44 },
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 35, Hits = 130, Loved = 2, Score = 680 });
-        }
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
 
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        public void MapTopItemToDayEntryEvolution_UnMatched_Different_Level()
-        {
-            var mapTopItemToDayEntryEvolution = new MapTopItemToDayEntryEvolution(new MapTopItemToPosition());
+            var mapTopItemToDayEntryEvolution = new MapTopItemToDayEntryEvolution(new MapTopItemToPositions(),entryArtistImageProvider.Object);
             var dayEntryEvolution = mapTopItemToDayEntryEvolution.Map(
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 1, Score = 70 },
-                new TopItemWithPictureUrl { Name = "abcd", PictureUrl = "http://myownrepo/a/abcd.jpg", DayRanking = 25, Hits = 140, Loved = 3, Score = 700 },
-                new TopItemWithPictureUrl { Name = "abc", PictureUrl = "http://myownrepo/a/abc.jpg", DayRanking = 2, Hits = 10, Loved = 0, Score = 44 },
-                new TopItemWithPictureUrl { Name = "abcd", PictureUrl = "http://myownrepo/a/abcd.jpg", DayRanking = 35, Hits = 130, Loved = 2, Score = 680 });
+                new TopItem 
+                { 
+                    Name = "abc", 
+                    DayRanking = 1, 
+                    Hits = 14, 
+                    Loved = 1, 
+                    Score = 70, 
+                    OverallDayRanking = 25, 
+                    OverallHits = 140, 
+                    OverallLoved = 3, 
+                    OverallScore = 700 },
+                new TopItem 
+                { 
+                    Name = "abcd",
+                    DayRanking = 2, 
+                    Hits = 10, 
+                    Loved = 0, 
+                    Score = 44, 
+                    OverallDayRanking = 35, 
+                    OverallHits = 130, 
+                    OverallLoved = 2, 
+                    OverallScore = 680 });
         }
 
         [TestMethod]
         public void MapTopItemsToDayEntriesEvolution_Ok() 
         {
-            var mapTopItemsToDayEntriesEvolution = new MapTopItemsToDayEntriesEvolution(new MapTopItemToDayEntryEvolution(new MapTopItemToPosition()));
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
+
+            var mapTopItemsToDayEntriesEvolution = new MapTopItemsToDayEntriesEvolution(new MapTopItemToDayEntryEvolution(new MapTopItemToPositions(),entryArtistImageProvider.Object));
             var dayEntriesEvolution = mapTopItemsToDayEntriesEvolution.Map(
                 new[] 
                 {
-                    new TopItemWithPictureUrl { Name = "abc", PictureUrl= "http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 1, Score = 70 },
-                    new TopItemWithPictureUrl { Name = "abcd", PictureUrl= "http://myownrepo/a/abcd.jpg", DayRanking = 2, Hits = 10, Loved = 0, Score = 44 }
-                },
-                new []
-                {
-                    new TopItem { Name = "abc", DayRanking = 25, Hits = 140, Loved = 3, Score = 700 },
-                    new TopItem { Name = "abcd", DayRanking = 35, Hits = 130, Loved = 2, Score = 680 }  
+                    new TopItem
+                    { 
+                        Name = "abc", 
+                        DayRanking = 1,
+                        Hits = 14, 
+                        Loved = 1, 
+                        Score = 70,
+                        OverallDayRanking = 25, 
+                        OverallHits = 140, 
+                        OverallLoved = 3, 
+                        OverallScore = 700
+                    },
+                    new TopItem 
+                    { 
+                        Name = "abcd", 
+                        DayRanking = 2, 
+                        Hits = 10, 
+                        Loved = 0, 
+                        Score = 44,
+                        OverallDayRanking = 35, 
+                        OverallHits = 130, 
+                        OverallLoved = 2, 
+                        OverallScore = 680
+                    }
                 },
                 new[]
                 {
-                    new TopItem { Name = "abcd", DayRanking = 1, Hits = 10, Loved = 0, Score = 44 },
-                    new TopItem { Name = "abc", DayRanking = 2, Hits = 9, Loved = 1, Score = 34 }
-                },
-                new[]
-                {
-                    new TopItem { Name = "abc", DayRanking = 35, Hits = 120, Loved = 3, Score = 600 },
-                    new TopItem { Name = "abcd", DayRanking = 38, Hits = 110, Loved = 2, Score = 580 }
+                    new TopItem 
+                    { 
+                        Name = "abcd", 
+                        DayRanking = 1, 
+                        Hits = 10, 
+                        Loved = 0, 
+                        Score = 44,
+                        OverallDayRanking = 38, 
+                        OverallHits = 110, 
+                        OverallLoved = 2, 
+                        OverallScore = 580
+                    },
+                    new TopItem 
+                    { 
+                        Name = "abc", 
+                        DayRanking = 2, 
+                        Hits = 9, 
+                        Loved = 1, 
+                        Score = 34,
+                        OverallDayRanking = 35, 
+                        OverallHits = 120, 
+                        OverallLoved = 3, 
+                        OverallScore = 600
+                    }
                 });
             Assert.AreEqual(2, dayEntriesEvolution.Count());
             var abcdEntry = dayEntriesEvolution.FirstOrDefault(d => d.Name == "abcd");
@@ -379,25 +671,51 @@ namespace Sciendo.Topper.Tests.Unit
         [TestMethod]
         public void MapTopItemsToDayEntriesEvolution_NewEntry()
         {
-            var mapTopItemsToDayEntriesEvolution = new MapTopItemsToDayEntriesEvolution(new MapTopItemToDayEntryEvolution(new MapTopItemToPosition()));
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
+
+            var mapTopItemsToDayEntriesEvolution = new MapTopItemsToDayEntriesEvolution(new MapTopItemToDayEntryEvolution(new MapTopItemToPositions(),entryArtistImageProvider.Object));
             var dayEntriesEvolution = mapTopItemsToDayEntriesEvolution.Map(
                 new[]
                 {
-                    new TopItemWithPictureUrl { Name = "abc", PictureUrl= "http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 1, Score = 70 },
-                    new TopItemWithPictureUrl { Name = "abcd", PictureUrl= "http://myownrepo/a/abcd.jpg", DayRanking = 2, Hits = 10, Loved = 0, Score = 44 }
+                    new TopItem
+                    { 
+                        Name = "abc", 
+                        DayRanking = 1, 
+                        Hits = 14, 
+                        Loved = 1, 
+                        Score = 70,
+                        OverallDayRanking = 25, 
+                        OverallHits = 140, 
+                        OverallLoved = 3, 
+                        OverallScore = 700
+                    },
+                    new TopItem
+                    { 
+                        Name = "abcd", 
+                        DayRanking = 2, 
+                        Hits = 10, 
+                        Loved = 0, 
+                        Score = 44,
+                        OverallDayRanking = 35, 
+                        OverallHits = 130, 
+                        OverallLoved = 2, 
+                        OverallScore = 680
+                    }
                 },
                 new[]
                 {
-                    new TopItem { Name = "abc", DayRanking = 25, Hits = 140, Loved = 3, Score = 700 },
-                    new TopItem { Name = "abcd", DayRanking = 35, Hits = 130, Loved = 2, Score = 680 }
-                },
-                new[]
-                {
-                    new TopItem { Name = "abcd", DayRanking = 1, Hits = 10, Loved = 0, Score = 44 }
-                },
-                new[]
-                {
-                    new TopItem { Name = "abcd", DayRanking = 38, Hits = 110, Loved = 2, Score = 580 }
+                    new TopItem { 
+                        Name = "abcd", 
+                        DayRanking = 1, 
+                        Hits = 10, 
+                        Loved = 0, 
+                        Score = 44,
+                        OverallDayRanking = 38, 
+                        OverallHits = 110, 
+                        OverallLoved = 2, 
+                        OverallScore = 580}
                 });
             Assert.AreEqual(2, dayEntriesEvolution.Count());
             var abcdEntry = dayEntriesEvolution.FirstOrDefault(d => d.Name == "abcd");
@@ -440,11 +758,33 @@ namespace Sciendo.Topper.Tests.Unit
         [TestMethod]
         public void MapTopItemToEntryTimeLine_Ok()
         {
-            var mapTopItemToDatedEntry = new MapTopItemToEntryTimeLine(new MapTopItemToPosition());
-            var entryTimeLine = mapTopItemToDatedEntry.Map(new[] {new TopItemWithPictureUrl { Date = DateTime.Now.Date,
-                Name = "abc", PictureUrl= "http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 1, Score = 70, Year=DateTime.Now.Year.ToString() },
-            new TopItemWithPictureUrl { Date = DateTime.Now.Date.AddDays(-1),
-                Name = "abc", PictureUrl= "http://myownrepo/a/abc.jpg", DayRanking = 2, Hits = 13, Loved = 0, Score = 60, Year=DateTime.Now.Year.ToString() }});
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
+
+            var mapTopItemToDatedEntry = new MapTopItemToEntryTimeLine(new MapTopItemToPositions(), entryArtistImageProvider.Object);
+            var entryTimeLine = mapTopItemToDatedEntry.Map(new[] 
+            {
+                new TopItem 
+                { 
+                    Date = DateTime.Now.Date,
+                    Name = "abc",
+                    DayRanking = 1, 
+                    Hits = 14, 
+                    Loved = 1, 
+                    Score = 70, 
+                    Year=DateTime.Now.Year.ToString() },
+            new TopItem 
+            { 
+                Date = DateTime.Now.Date.AddDays(-1),
+                Name = "abc", 
+                DayRanking = 2, 
+                Hits = 13, 
+                Loved = 0, 
+                Score = 60, 
+                Year=DateTime.Now.Year.ToString() 
+            }
+            });
             Assert.AreEqual("abc", entryTimeLine.Name);
             Assert.AreEqual("http://myownrepo/a/abc.jpg",entryTimeLine.PictureUrl);
             Assert.AreEqual(2, entryTimeLine.PositionAtDates.Length);
@@ -456,7 +796,11 @@ namespace Sciendo.Topper.Tests.Unit
         [ExpectedException(typeof(ArgumentNullException))]
         public void MapTopItemToEntryTimeLine_TopItem_Null()
         {
-            var mapTopItemToDatedEntry = new MapTopItemToEntryTimeLine(new MapTopItemToPosition());
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
+
+            var mapTopItemToDatedEntry = new MapTopItemToEntryTimeLine(new MapTopItemToPositions(), entryArtistImageProvider.Object);
             var entryTimeLine = mapTopItemToDatedEntry.Map(null);
         }
 
@@ -464,23 +808,71 @@ namespace Sciendo.Topper.Tests.Unit
         [ExpectedException(typeof(Exception))]
         public void MapTopItemToEntryTimeLine_MapperToPosition_Null()
         {
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
 
-            var mapTopItemToDatedEntry = new MapTopItemToEntryTimeLine(null);
-            var entryTimeLine = mapTopItemToDatedEntry.Map(new[] {new TopItemWithPictureUrl { Date = DateTime.Now.Date,
-                Name = "abc", DayRanking = 1, Hits = 14, Loved = 1, Score = 70, Year=DateTime.Now.Year.ToString() },
-            new TopItemWithPictureUrl { Date = DateTime.Now.Date.AddDays(-1),
-                Name = "abc", DayRanking = 2, Hits = 13, Loved = 0, Score = 60, Year=DateTime.Now.Year.ToString() }});
+            var mapTopItemToDatedEntry = new MapTopItemToEntryTimeLine(null,entryArtistImageProvider.Object);
+            var entryTimeLine = mapTopItemToDatedEntry.Map(new[] 
+            {
+                new TopItem 
+                { 
+                    Date = DateTime.Now.Date,
+                    Name = "abc", 
+                    DayRanking = 1, 
+                    Hits = 14, 
+                    Loved = 1, 
+                    Score = 70, 
+                    Year=DateTime.Now.Year.ToString() 
+                },
+                new TopItem
+                { 
+                    Date = DateTime.Now.Date.AddDays(-1),
+                    Name = "abc", 
+                    DayRanking = 2, 
+                    Hits = 13, 
+                    Loved = 0, 
+                    Score = 60, 
+                    Year=DateTime.Now.Year.ToString() }});
         }
 
         [TestMethod]
         public void MapTopItemsToEntryTimeLines()
         {
-            var mapTopItemsToEntryToTimeLines = new MapTopItemsToEntryTimeLines(new MapTopItemToEntryTimeLine(new MapTopItemToPosition()));
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
+
+            var mapTopItemsToEntryToTimeLines = new MapTopItemsToEntryTimeLines(new MapTopItemToEntryTimeLine(new MapTopItemToPositions(),entryArtistImageProvider.Object));
             var entryTimeLines = mapTopItemsToEntryToTimeLines.Map(new[]
                 {
-                    new TopItemWithPictureUrl { Date= DateTime.Now.AddDays(-1).Date, Name = "abc", PictureUrl= "http://myownrepo/a/abc.jpg", DayRanking = 1, Hits = 14, Loved = 1, Score = 70 },
-                    new TopItemWithPictureUrl { Date= DateTime.Now.Date, Name = "abc", PictureUrl= "http://myownrepo/a/abc.jpg", DayRanking = 2, Hits = 10, Loved = 0, Score = 44 },
-                    new TopItemWithPictureUrl { Date= DateTime.Now.AddDays(-1).Date, Name = "abcd",PictureUrl= "http://myownrepo/a/abcd.jpg", DayRanking = 3, Hits = 14, Loved = 1, Score = 70 }
+                    new TopItem
+                    { 
+                        Date= DateTime.Now.AddDays(-1).Date, 
+                        Name = "abc", 
+                        DayRanking = 1, 
+                        Hits = 14, 
+                        Loved = 1, 
+                        Score = 70 
+                    },
+                    new TopItem
+                    { 
+                        Date= DateTime.Now.Date, 
+                        Name = "abc", 
+                        DayRanking = 2, 
+                        Hits = 10, 
+                        Loved = 0, 
+                        Score = 44 
+                    },
+                    new TopItem
+                    { 
+                        Date= DateTime.Now.AddDays(-1).Date,
+                        Name = "abcd", 
+                        DayRanking = 3, 
+                        Hits = 14, 
+                        Loved = 1, 
+                        Score = 70 
+                    }
                 });
             Assert.AreEqual(2, entryTimeLines.Count());
             Assert.AreEqual(1, entryTimeLines.Count(d => d.Name == "abc"));
@@ -492,8 +884,11 @@ namespace Sciendo.Topper.Tests.Unit
         [ExpectedException(typeof(ArgumentNullException))]
         public void MapTopItemsToDatedEntries_NoTopItems()
         {
+            var entryArtistImageProvider = new Mock<IEntryArtistImageProvider>();
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abc")).Returns("http://myownrepo/a/abc.jpg");
+            entryArtistImageProvider.Setup(m => m.GetPictureUrl("abcd")).Returns("http://myownrepo/a/abcd.jpg");
 
-            var mapTopItemsToDatedEntries = new MapTopItemsToEntryTimeLines(new MapTopItemToEntryTimeLine(new MapTopItemToPosition()));
+            var mapTopItemsToDatedEntries = new MapTopItemsToEntryTimeLines(new MapTopItemToEntryTimeLine(new MapTopItemToPositions(),entryArtistImageProvider.Object));
             var datedEntries = mapTopItemsToDatedEntries.Map(null).ToArray();
 
         }

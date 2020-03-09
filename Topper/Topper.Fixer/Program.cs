@@ -89,7 +89,7 @@ namespace Topper.Fixer
                 rulesEngine.ApplyAllRules(todayTopItem);
                 try
                 {
-                    storeLogic.StoreItem(todayTopItem);
+                    storeLogic.UpdateItems(new[] { todayTopItem });
                 }
                 catch (Exception e)
                 {

@@ -78,19 +78,7 @@ namespace Topper.DataMigration
                     logger.LogError(e, "");
                     return;
                 }
-                foreach (var topItem in dataToMigrate)
-                {
-                    try
-                    {
-                        storeLogic.StoreItem(topItem);
-                        Console.WriteLine($"Saved {i++} documents {topItem.Name}.");
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        return;
-                    }
-                }
+                storeLogic.UpdateItems(dataToMigrate);
             }
 
         }
