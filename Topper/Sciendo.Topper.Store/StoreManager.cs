@@ -33,10 +33,11 @@ namespace Sciendo.Topper.Store
         {
             var itemsForYesterday = _itemsRepo.GetItemsAsync(i =>
             i.Date == queryDate.AddDays(-1)).Result.Where(r=>
-                itemsForDate.Contains(r,new TopItemEqualityComparer()));
+                itemsForDate.Contains(r,new TopItemEqualityComparer())).ToArray();
 
-            var itemsMissingBetweenTheDays = itemsForDate.Where((i) => !itemsForYesterday.Contains(i, new TopItemEqualityComparer()));
-            if (itemsMissingBetweenTheDays.Any())
+            var itemsMissingBetweenTheDays = itemsForDate.Where((i) => !itemsForYesterday.Contains(i, new TopItemEqualityComparer()))
+                .ToArray();
+            if (itemsMissingBetweenTheDays.Length>0)
             {
                 var olderItems = _itemsRepo.GetItemsAsync(i =>
                       i.Date < queryDate && i.Year == queryDate.Year.ToString())
@@ -61,7 +62,7 @@ namespace Sciendo.Topper.Store
                         };
                     });
                 if (olderItems.Any())
-                    itemsForYesterday = itemsForYesterday.Union(olderItems);
+                    return itemsForYesterday.Union(olderItems);
             }
 
             return itemsForYesterday;

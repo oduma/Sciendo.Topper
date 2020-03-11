@@ -9,6 +9,10 @@
         "TypeOfItem": "TopItem"
       },
       {
+        "CollectionId": "Music Listening 2019",
+        "TypeOfItem": "TopItem"
+      },
+      {
         "CollectionId": "Music Listening Overall",
         "TypeOfItem": "TopItemWithPartitionKey",
         "PartitionKeyName": "/key"

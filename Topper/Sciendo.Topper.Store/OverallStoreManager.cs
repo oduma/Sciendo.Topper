@@ -23,11 +23,21 @@ namespace Sciendo.Topper.Store
             this.mapTopItemToTopItemWithPartitionKey = mapTopItemToTopItemWithPartitionKey;
         }
 
-        public IEnumerable<TopItemWithPartitionKey> GetAggregateHistoryOfScores(DateTime date)
+        public TopItemWithPartitionKey[] GetAggregateHistoryOfScores(string date)
         {
-            return repository.GetItemsAsync((i) => i.Key == date.ToString("yyyy-MM-dd")).Result;
+            return repository.GetItemsAsync((i) => i.Key == date).Result.ToArray();
         }
 
+        public string[] GetDatesForYear(int year)
+        {
+            return repository.GetItemsAsync(d => d.Key.StartsWith(year.ToString()))
+                .Result
+                .Select(k => k.Key)
+                .Distinct()
+                .OrderByDescending(r => r).ToArray();
+
+
+        }
 
         private void StoreItem(TopItemWithPartitionKey topItemWithPartitionKey)
         {

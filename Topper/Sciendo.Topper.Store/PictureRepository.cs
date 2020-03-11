@@ -14,11 +14,13 @@ namespace Sciendo.Topper.Store
     {
         private readonly ILogger<PictureRepository> logger;
         private readonly FileStoreConfig fileStoreConfig;
+        private string[] repositoryContent;
 
         public PictureRepository(ILogger<PictureRepository> logger, FileStoreConfig fileStoreConfig)
         {
             this.logger = logger;
             this.fileStoreConfig = fileStoreConfig;
+            this.repositoryContent= Directory.GetFiles(fileStoreConfig.Root, ".*", SearchOption.AllDirectories);
         }
 
         public string CreateItem(NamedPicture item)
@@ -33,6 +35,7 @@ namespace Sciendo.Topper.Store
                 fs.Flush();
                 fs.Close();
             }
+            this.repositoryContent= Directory.GetFiles(fileStoreConfig.Root, ".*", SearchOption.AllDirectories);
             return fullPath;
         }
 
@@ -64,7 +67,7 @@ namespace Sciendo.Topper.Store
             string path = EstablishPath(artistName);
             try
             {
-                var fullPath = Directory.GetFiles(path, $"{fileName}.*").FirstOrDefault();
+                var fullPath = repositoryContent.FirstOrDefault(f=>f==Path.Combine(path,fileName));
                 if (fullPath == null)
                     return null;
                 return fullPath;

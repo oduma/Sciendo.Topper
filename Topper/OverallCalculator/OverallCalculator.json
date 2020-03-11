@@ -5,7 +5,7 @@
     "DatabaseId": "Music Listening",
     "CosmosDbCollections": [
       {
-        "CollectionId": "Music Listening 2020",
+        "CollectionId": "Music Listening 2019",
         "TypeOfItem": "TopItem"
       },
       {
@@ -13,7 +13,7 @@
         "TypeOfItem": "TopItemWithPartitionKey"
       }
     ]
-  }
-  "CurrentSourceCollectionId": "Music Listening 2020",
+  },
+  "CurrentSourceCollectionId": "Music Listening 2019",
   "CurrentTargetCollectionId": "Music Listening Overall"
 }

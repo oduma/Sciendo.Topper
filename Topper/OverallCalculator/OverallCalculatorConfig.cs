@@ -15,9 +15,9 @@ namespace OverallCalculator
         [ConfigProperty("StartDate")]
         public string StartDate { get; set; }
 
-        [ConfigProperty("CurrentSourceCollection")]
+        [ConfigProperty("CurrentSourceCollectionId")]
         public string CurrentSourceCollectionId { get; set; }
-        [ConfigProperty("CurrentTargetCollection")]
+        [ConfigProperty("CurrentTargetCollectionId")]
         public string CurrentTargetCollectionId { get; set; }
     }
 }

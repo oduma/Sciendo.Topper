@@ -123,7 +123,7 @@ namespace Sciendo.Topper
             else
                 logger.LogWarning("No top items for today no calculation of scores needed.");
 
-            yearAggregate = overallStoreManager.GetAggregateHistoryOfScores(DateTime.Now.Date).ToList();
+            yearAggregate = overallStoreManager.GetAggregateHistoryOfScores(DateTime.Now.ToString("yyyy-MM-dd")).ToList();
             if (!yearAggregate.Any())
             {
                 logger.LogWarning("No year aggregate retrieve.");

@@ -11,10 +11,13 @@ namespace Sciendo.Topper.Store
             TopItem[] lastDayChanges, 
             out int totalRecordsAfterTheDay);
 
-        IEnumerable<TopItemWithPartitionKey> GetAggregateHistoryOfScores(DateTime date);
+        TopItemWithPartitionKey[] GetAggregateHistoryOfScores(string date);
+
+        string[] GetDatesForYear(int year);
 
         IEnumerable<TopItemWithPartitionKey> GetAggregateScoresForYear(int year);
 
         DateTime? NextStartingDate();
+
     }
 }

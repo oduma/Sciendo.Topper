@@ -45,8 +45,8 @@ namespace Sciendo.Topper.Service
             logger.LogInformation("Starting Get Entries by Date...");
             try
             {
-                var itemsForDate = storeManager.GetItemsByDate(date);
-                IEnumerable<TopItem> itemsForYesterday = storeManager.GetLatestPreviousVersionOfItems(date, itemsForDate);
+                var itemsForDate = storeManager.GetItemsByDate(date).ToArray();
+                var itemsForYesterday = storeManager.GetLatestPreviousVersionOfItems(date, itemsForDate).ToArray();
 
                 return mapTopItemsToDayEntriesEvolution.Map(itemsForDate,
                     itemsForYesterday)
@@ -93,12 +93,27 @@ namespace Sciendo.Topper.Service
             logger.LogInformation("Started Get Entries with Evolution by Year.");
             try
             {
-                return mapTopItemsWithPartitionKeyToOverallEntriesEvolution.Map(
-                    overallStoreManager.GetAggregateHistoryOfScores(DateTime.Now),
-                    overallStoreManager.GetAggregateHistoryOfScores(DateTime.Now.AddDays(-1))).ToArray();
+                var lastDaysPerYear = overallStoreManager.GetDatesForYear(year);
+                if (lastDaysPerYear.Length > 2)
+                    throw new Exception("Collection for TopItemWithPartitionKey incorrect.");
+                if(lastDaysPerYear.Length==2)
+                {
+                    var lastDay = overallStoreManager.GetAggregateHistoryOfScores(lastDaysPerYear[0]);
+                    var secondLastDay = overallStoreManager.GetAggregateHistoryOfScores(lastDaysPerYear[1]);
+                    return mapTopItemsWithPartitionKeyToOverallEntriesEvolution.Map(
+                        lastDay,
+                        secondLastDay).ToArray();
+                }
+                if (lastDaysPerYear.Length==1)
+                {
+                    return mapTopItemsWithPartitionKeyToOverallEntriesEvolution.Map(
+                        overallStoreManager.GetAggregateHistoryOfScores(lastDaysPerYear[0]),
+                        null).ToArray();
+                }
+                return null;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex, "");
                 throw ex;
