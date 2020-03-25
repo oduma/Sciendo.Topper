@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
+    <PackageReference Include="Sciendo.Config" Version="1.0.0-Build00001" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
@@ -21,8 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sciendo.Config\Sciendo.Config.csproj" />
-    <ProjectReference Include="..\Sciendo.Last.Fm\Sciendo.Last.Fm.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Contracts\Sciendo.Topper.Contracts.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Notifier\Sciendo.Topper.Notifier.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Source\Sciendo.Topper.Source.csproj" />

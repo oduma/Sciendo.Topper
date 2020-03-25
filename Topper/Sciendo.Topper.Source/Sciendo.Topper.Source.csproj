@@ -6,13 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Sciendo.Last.Fm" Version="1.0.0-Build00001" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sciendo.HttpClient\Sciendo.Web.csproj" />
-    <ProjectReference Include="..\Sciendo.Last.Fm\Sciendo.Last.Fm.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Contracts\Sciendo.Topper.Contracts.csproj" />
     <ProjectReference Include="..\Sciendo.Topper.Domain\Sciendo.Topper.Domain.csproj" />
   </ItemGroup>

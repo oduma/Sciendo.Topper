@@ -13,10 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Contracts", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Store", "Sciendo.Topper.Store\Sciendo.Topper.Store.csproj", "{0829B920-AF08-4F61-8351-03551A921CBE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Last.Fm", "Sciendo.Last.Fm\Sciendo.Last.Fm.csproj", "{ABEE8E33-1D18-410A-B694-10FFEC34025D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Config", "Sciendo.Config\Sciendo.Config.csproj", "{3D61EE25-D8BD-4B24-9AC1-6460AF2F08BE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Tests.Unit", "Sciendo.Topper.Tests.Unit\Sciendo.Topper.Tests.Unit.csproj", "{F7F2B488-D6EC-44A6-91E6-84A404ED3626}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Topper.ImportExport", "Topper.Export\Topper.ImportExport.csproj", "{FA845B9A-7B2F-471C-849C-F71155202205}"
@@ -26,10 +22,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Domain", "Sciendo.Topper.Domain\Sciendo.Topper.Domain.csproj", "{B93FE2A8-1CD6-4DA3-B04B-4AE639A5A0A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Topper.Service", "Sciendo.Topper.Service\Sciendo.Topper.Service.csproj", "{19D80477-0615-460F-9D91-C72B57B4709D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.OAuth1_0", "Sciendo.OAuth1_0\Sciendo.OAuth1_0.csproj", "{BBACC956-AB5A-4E43-9668-2AC960DE5845}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sciendo.Web", "Sciendo.HttpClient\Sciendo.Web.csproj", "{3F33D151-4F5A-4C51-B692-3F1ADDADC2CA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OverallCalculator", "OverallCalculator\OverallCalculator.csproj", "{67C2BD21-32B4-49DE-B47E-33BD32CB3F23}"
 EndProject
@@ -59,14 +51,6 @@ Global
 		{0829B920-AF08-4F61-8351-03551A921CBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0829B920-AF08-4F61-8351-03551A921CBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0829B920-AF08-4F61-8351-03551A921CBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ABEE8E33-1D18-410A-B694-10FFEC34025D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ABEE8E33-1D18-410A-B694-10FFEC34025D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ABEE8E33-1D18-410A-B694-10FFEC34025D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ABEE8E33-1D18-410A-B694-10FFEC34025D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D61EE25-D8BD-4B24-9AC1-6460AF2F08BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D61EE25-D8BD-4B24-9AC1-6460AF2F08BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D61EE25-D8BD-4B24-9AC1-6460AF2F08BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D61EE25-D8BD-4B24-9AC1-6460AF2F08BE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F7F2B488-D6EC-44A6-91E6-84A404ED3626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F7F2B488-D6EC-44A6-91E6-84A404ED3626}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7F2B488-D6EC-44A6-91E6-84A404ED3626}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -87,14 +71,6 @@ Global
 		{19D80477-0615-460F-9D91-C72B57B4709D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19D80477-0615-460F-9D91-C72B57B4709D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19D80477-0615-460F-9D91-C72B57B4709D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BBACC956-AB5A-4E43-9668-2AC960DE5845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BBACC956-AB5A-4E43-9668-2AC960DE5845}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BBACC956-AB5A-4E43-9668-2AC960DE5845}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BBACC956-AB5A-4E43-9668-2AC960DE5845}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F33D151-4F5A-4C51-B692-3F1ADDADC2CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F33D151-4F5A-4C51-B692-3F1ADDADC2CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F33D151-4F5A-4C51-B692-3F1ADDADC2CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F33D151-4F5A-4C51-B692-3F1ADDADC2CA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{67C2BD21-32B4-49DE-B47E-33BD32CB3F23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{67C2BD21-32B4-49DE-B47E-33BD32CB3F23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67C2BD21-32B4-49DE-B47E-33BD32CB3F23}.Release|Any CPU.ActiveCfg = Release|Any CPU
