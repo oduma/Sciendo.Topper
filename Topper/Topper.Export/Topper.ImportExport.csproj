@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Sciendo.Config" Version="1.0.0-Build00001" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
